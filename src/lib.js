@@ -4,8 +4,7 @@ const getNHeadLines = function( text, n ){
 }
 
 const getFirstNCharacters = function( text, n ){
-  let firstNCharacters = text.slice( 0, n );
-  return firstNCharacters;
+  return text.slice( 0, n );
 }
 
 exports.getFirstNCharacters = getFirstNCharacters;
