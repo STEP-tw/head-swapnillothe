@@ -7,5 +7,12 @@ const getFirstNCharacters = function( n, text ){
   return text.slice( 0, n );
 }
 
+const head = function( { action, files, headLineNumbers } ){
+  let headFunc = action.bind( null, headLineNumbers );
+  let requiredHead = files.map( headFunc );
+  return requiredHead.join("\n");
+}
+
 exports.getFirstNCharacters = getFirstNCharacters;
 exports.getNHeadLines = getNHeadLines;
+exports.head = head;
