@@ -1,9 +1,5 @@
 const { deepEqual } = require( 'assert' );
-const { 
-  getNHeadLines,
-  getFirstNCharacters,
-  head
-} = require( '../src/lib.js' );
+const { getNHeadLines, getFirstNCharacters } = require( '../src/lib.js' );
 
 describe("getNHeadLines",function() {
   it("should work for no line",function() {
@@ -30,14 +26,5 @@ describe("getFirstNCharacters",function() {
   });
   it("should return empty string for zero character requirement",function() {
     deepEqual( getFirstNCharacters( 2, "abc" ), "ab" );
-  });
-});
-
-describe("head",function() {
-  it("should work for single file",function() {
-    deepEqual( head( { action : getNHeadLines, files : [ "abc" ], headLineNumbers : 1 } ), "abc" );
-  });
-  it("should work for multiple files",function() {
-    deepEqual( head( { action : getNHeadLines, files : [ "abc\nabc\nabc", "cba" ], headLineNumbers : 1 } ), "abc\ncba" );
   });
 });
