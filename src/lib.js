@@ -32,11 +32,8 @@ const identity = function( data ){
 }
 
 const zipDataSets = function( set1, set2 ){
-  let zippedDataSet = [];
-  for( let index = 0; index < set1.length; index++){
-    zippedDataSet.push( set1[ index ] + set2[ index ] );
-  }
-  return zippedDataSet;
+  let index = 0;
+  return set1.map( element => element + set2[ index++ ] );
 }
 
 const readFile = function( reader, file ){
