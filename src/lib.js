@@ -31,7 +31,7 @@ const identity = function( data ){
   return data;
 }
 
-const readUserInputs = function( inputs, read = identity ){
+const organizeInputs = function( inputs, read = identity ){
   let action = getNHeadLines;
   let actionSign = [ "-", "n", "c" ];
 
@@ -50,5 +50,5 @@ exports.getNHeadLines = getNHeadLines;
 exports.head = head;
 exports.removeCharacter = removeCharacter;
 exports.extractFileContents = extractFileContents;
-exports.readUserInputs = readUserInputs;
+exports.organizeInputs = organizeInputs;
 exports.identity = identity;
