@@ -31,6 +31,14 @@ const identity = function( data ){
   return data;
 }
 
+const zipDataSets = function( set1, set2 ){
+  let zippedDataSet = [];
+  for( let index = 0; index < set1.length; index++){
+    zippedDataSet.push( set1[ index ] + set2[ index ] );
+  }
+  return zippedDataSet;
+}
+
 const readFile = function( reader, file ){
   return reader( file, "utf8" );
 }
@@ -65,3 +73,4 @@ exports.organizeInputs = organizeInputs;
 exports.identity = identity;
 exports.readFile = readFile;
 exports.readUserInputs = readUserInputs;
+exports.zipDataSets = zipDataSets;

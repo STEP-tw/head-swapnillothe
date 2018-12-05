@@ -8,7 +8,8 @@ const {
   organizeInputs,
   identity,
   readFile,
-  readUserInputs
+  readUserInputs,
+  zipDataSets
 } = require( '../src/lib.js' );
 
 describe("getNHeadLines",function() {
@@ -127,4 +128,12 @@ describe("readUserInputs",function() {
   });
 });
 
+describe("zipDataSets",function() {
+  it("should zip DataSets with same arity ",function() {
+    deepEqual( zipDataSets( [ "abc" ], [ "def" ] ), [ "abcdef" ] ); 
+  });
+  it("should resolve DataSets with different arity ",function() {
+    deepEqual( zipDataSets( [ "abc" ], [ "def", "zxy" ] ), [ "abcdef" ] ); 
+  });
+});
 
