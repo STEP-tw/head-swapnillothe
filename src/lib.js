@@ -31,6 +31,17 @@ const identity = function( data ){
   return data;
 }
 
+const readFile = function( reader, file ){
+  return reader( file, "utf8" );
+}
+
+const readUserInputs = function( inputs, read = identity ){
+  let { action, files, headLineNumbers } = organizeInputs( inputs );
+  let filesName = extractFileContents( inputs );
+  files = extractFileContents( inputs ).map( readFile.bind( null, read ) );
+  return { action, headLineNumbers, files, filesName };
+}
+
 const organizeInputs = function( inputs, read = identity ){
   let action = getNHeadLines;
   let actionSign = [ "-", "n", "c" ];
@@ -52,3 +63,5 @@ exports.removeCharacter = removeCharacter;
 exports.extractFileContents = extractFileContents;
 exports.organizeInputs = organizeInputs;
 exports.identity = identity;
+exports.readFile = readFile;
+exports.readUserInputs = readUserInputs;

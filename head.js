@@ -14,5 +14,7 @@
   node ./head.js -c 5 file1 file2
 */
 
+const read = require('fs').readFileSync;
+const { head, readUserInputs } = require('./src/lib.js');
 
-
+console.log( head( readUserInputs( process.argv, read ) ) );
