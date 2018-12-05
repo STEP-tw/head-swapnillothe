@@ -4,7 +4,8 @@ const {
   getFirstNCharacters,
   head,
   removeCharacter,
-  extractFileContents
+  extractFileContents,
+  readUserInputs
 } = require( '../src/lib.js' );
 
 describe("getNHeadLines",function() {
@@ -60,5 +61,29 @@ describe("extractFileContents",function() {
   });
   it("should work for no args before file contents",function() {
     deepEqual( extractFileContents( [ ,, "abc" ]), [ "abc" ]);
+  });
+});
+
+describe("readUserInputs",function() {
+
+  describe( "with getNHeadLines default function", function(){
+    it("should work for two arguments before file contents", function() {
+      deepEqual( readUserInputs( [,,"-n", "3", "abc" ] ), { action : getNHeadLines, headLineNumbers : 3, files : [ "abc" ] } );
+    });
+    it("should work for one arguments before file contents",function() {
+      deepEqual( readUserInputs( [,,"-n3", "abc" ] ), { action : getNHeadLines, headLineNumbers : 3, files : [ "abc" ] } );
+    });
+    it("should work for no argument before file contents",function() {
+      deepEqual( readUserInputs( [,, "abc" ] ), { action : getNHeadLines, headLineNumbers : 10, files : [ "abc" ] } );
+    });
+  });
+
+  describe( "with getFirstNCharacters function", function(){
+    it("should work for two arguments before file contents", function() {
+      deepEqual( readUserInputs( [,,"-c", "3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 3, files : [ "abc" ] } );
+    });
+    it("should work for one arguments before file contents",function() {
+      deepEqual( readUserInputs( [,,"-c3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 3, files : [ "abc" ] } );
+    });
   });
 });

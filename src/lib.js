@@ -27,9 +27,23 @@ const extractFileContents = function( dataContents ){
   return dataContents.slice( 3, dataContents.length );
 }
 
+const readUserInputs = function( inputs ){
+  let action = getNHeadLines;
+  let actionSign = [ "-", "n", "c" ];
+
+  if( inputs.some( x => x.match( "-c" ) ) ){
+    action = getFirstNCharacters;
+  }
+
+  let headLineNumbers = +( actionSign.reduce( removeCharacter, inputs[2] ) );
+  headLineNumbers = headLineNumbers || +inputs[ 3 ] || 10;
+  let files = extractFileContents( inputs );
+  return { action, headLineNumbers, files };
+}
 
 exports.getFirstNCharacters = getFirstNCharacters;
 exports.getNHeadLines = getNHeadLines;
 exports.head = head;
 exports.removeCharacter = removeCharacter;
 exports.extractFileContents = extractFileContents;
+exports.readUserInputs = readUserInputs;
