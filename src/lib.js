@@ -31,6 +31,10 @@ const identity = function( data ){
   return data;
 }
 
+const formatText = function( text ){
+  return `==> ${text} <==\n\n`;
+}
+
 const zipDataSets = function( set1, set2 ){
   let index = 0;
   return set1.map( element => element + set2[ index++ ] );
@@ -71,3 +75,4 @@ exports.identity = identity;
 exports.readFile = readFile;
 exports.readUserInputs = readUserInputs;
 exports.zipDataSets = zipDataSets;
+exports.formatText = formatText;

@@ -9,7 +9,8 @@ const {
   identity,
   readFile,
   readUserInputs,
-  zipDataSets
+  zipDataSets,
+  formatText
 } = require( '../src/lib.js' );
 
 describe("getNHeadLines",function() {
@@ -134,6 +135,12 @@ describe("zipDataSets",function() {
   });
   it("should resolve DataSets with different arity ",function() {
     deepEqual( zipDataSets( [ "abc" ], [ "def", "zxy" ] ), [ "abcdef" ] ); 
+  });
+});
+
+describe("formatText",function() {
+  it("should format text like this ==> text <==\n\n",function() {
+    deepEqual( formatText( "abcd" ),"==> abcd <==\n\n" );
   });
 });
 
