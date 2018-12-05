@@ -5,7 +5,8 @@ const {
   head,
   removeCharacter,
   extractFileContents,
-  readUserInputs
+  readUserInputs,
+  identity
 } = require( '../src/lib.js' );
 
 describe("getNHeadLines",function() {
@@ -85,5 +86,11 @@ describe("readUserInputs",function() {
     it("should work for one arguments before file contents",function() {
       deepEqual( readUserInputs( [,,"-c3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 3, files : [ "abc" ] } );
     });
+  });
+});
+
+describe("identity",function() {
+  it("should work",function() {
+    deepEqual( identity( "x" ), "x" );
   });
 });

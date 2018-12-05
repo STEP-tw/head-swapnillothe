@@ -27,6 +27,10 @@ const extractFileContents = function( dataContents ){
   return dataContents.slice( 3, dataContents.length );
 }
 
+const identity = function( data ){
+  return data;
+}
+
 const readUserInputs = function( inputs ){
   let action = getNHeadLines;
   let actionSign = [ "-", "n", "c" ];
@@ -47,3 +51,4 @@ exports.head = head;
 exports.removeCharacter = removeCharacter;
 exports.extractFileContents = extractFileContents;
 exports.readUserInputs = readUserInputs;
+exports.identity = identity;
