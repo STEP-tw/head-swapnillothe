@@ -31,7 +31,7 @@ const identity = function( data ){
   return data;
 }
 
-const readUserInputs = function( inputs ){
+const readUserInputs = function( inputs, read = identity ){
   let action = getNHeadLines;
   let actionSign = [ "-", "n", "c" ];
 
@@ -41,7 +41,7 @@ const readUserInputs = function( inputs ){
 
   let headLineNumbers = +( actionSign.reduce( removeCharacter, inputs[2] ) );
   headLineNumbers = headLineNumbers || +inputs[ 3 ] || 10;
-  let files = extractFileContents( inputs );
+  let files = read( extractFileContents( inputs ) );
   return { action, headLineNumbers, files };
 }
 
