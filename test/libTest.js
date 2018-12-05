@@ -2,7 +2,8 @@ const { deepEqual } = require( 'assert' );
 const { 
   getNHeadLines,
   getFirstNCharacters,
-  head
+  head,
+  removeCharacter
 } = require( '../src/lib.js' );
 
 describe("getNHeadLines",function() {
@@ -39,5 +40,12 @@ describe("head",function() {
   });
   it("should work for multiple files",function() {
     deepEqual( head( { action : getNHeadLines, files : [ "abc\nabc\nabc", "cba" ], headLineNumbers : 1 } ), "abc\ncba" );
+  });
+});
+
+describe("removeCharacters",function() {
+  it("should work",function() {
+    deepEqual( removeCharacter( "abcdefghi", "a" ), "bcdefghi" );
+    deepEqual( removeCharacter( "abcd\nefghi", "b" ), "acd\nefghi" );
   });
 });

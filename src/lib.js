@@ -13,6 +13,11 @@ const head = function( { action, files, headLineNumbers } ){
   return requiredHead.join("\n");
 }
 
+const removeCharacter = function( text, character ){
+  return text.split('').filter( x => x!=character ).join('');
+}
+
 exports.getFirstNCharacters = getFirstNCharacters;
 exports.getNHeadLines = getNHeadLines;
 exports.head = head;
+exports.removeCharacter = removeCharacter;
