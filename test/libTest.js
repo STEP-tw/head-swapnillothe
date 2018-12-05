@@ -3,7 +3,8 @@ const {
   getNHeadLines,
   getFirstNCharacters,
   head,
-  removeCharacter
+  removeCharacter,
+  extractFileContents
 } = require( '../src/lib.js' );
 
 describe("getNHeadLines",function() {
@@ -47,5 +48,17 @@ describe("removeCharacters",function() {
   it("should work",function() {
     deepEqual( removeCharacter( "abcdefghi", "a" ), "bcdefghi" );
     deepEqual( removeCharacter( "abcd\nefghi", "b" ), "acd\nefghi" );
+  });
+});
+
+describe("extractFileContents",function() {
+  it("should work for two args before file contents",function() {
+    deepEqual( extractFileContents( [ ,, "-n", "3", "abc" ]), [ "abc" ]);
+  });
+  it("should work for one arg before file contents",function() {
+    deepEqual( extractFileContents( [ ,, "-n3", "abc" ]), [ "abc" ]);
+  });
+  it("should work for no args before file contents",function() {
+    deepEqual( extractFileContents( [ ,, "abc" ]), [ "abc" ]);
   });
 });

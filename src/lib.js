@@ -17,7 +17,19 @@ const removeCharacter = function( text, character ){
   return text.split('').filter( x => x!=character ).join('');
 }
 
+const extractFileContents = function( dataContents ){
+  if( dataContents[ 2 ][ 0 ] != "-" ){
+    return dataContents.slice( 2, dataContents.length );
+  }
+  if( +dataContents[ 3 ]){
+    return dataContents.slice( 4, dataContents.length );
+  }
+  return dataContents.slice( 3, dataContents.length );
+}
+
+
 exports.getFirstNCharacters = getFirstNCharacters;
 exports.getNHeadLines = getNHeadLines;
 exports.head = head;
 exports.removeCharacter = removeCharacter;
+exports.extractFileContents = extractFileContents;
