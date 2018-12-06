@@ -37,11 +37,12 @@ const insertHeaders = function( texts, headers ){
 }
 
 const head = function( { action, files, headLineNumbers, filesName } ){
+  let headFunc = action.bind( null, headLineNumbers );
+  let requiredHead = files.map( headFunc );
+
   if( +headLineNumbers < 1 ){
     return `head: illegal line count -- ${ headLineNumbers }`;
   }
-  let headFunc = action.bind( null, headLineNumbers );
-  let requiredHead = files.map( headFunc );
   if( files.length > 1 ){
     requiredHead = insertHeaders( requiredHead, filesName );
   }
@@ -67,17 +68,16 @@ const extractFileContents = function( dataContents ){
 const organizeInputs = function( inputs ){
   let action = getNHeadLines;
   let actionSign = [ "-", "n", "c" ];
-
+  let filesName = files = extractFileContents( inputs );
+  let headLineNumbers = ( actionSign.reduce( removeCharacter, inputs[2] ) );
+  
   if( inputs.some( x => x.match( "-c" ) ) ){
     action = getFirstNCharacters;
   }
-
-  let files = extractFileContents( inputs );
-  let filesName = files;
-  let headLineNumbers = ( actionSign.reduce( removeCharacter, inputs[2] ) );
   if( headLineNumbers < 1 && headLineNumbers != ''){
     return { action, headLineNumbers, files, filesName }
   };
+
   headLineNumbers = +headLineNumbers || +inputs[ 3 ] || 10;
   return { action, headLineNumbers, files, filesName };
 }
