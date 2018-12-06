@@ -40,8 +40,11 @@ const head = function( { action, files, headLineNumbers, filesName } ){
   let headFunc = action.bind( null, headLineNumbers );
   let requiredHead = files.map( headFunc );
 
-  if( +headLineNumbers < 1 || isNaN( +headLineNumbers ) ){
+  if( (+headLineNumbers < 1 || isNaN( +headLineNumbers )) && action==getNHeadLines ){
     return `head: illegal line count -- ${ headLineNumbers }`;
+  }
+  if( ( isNaN( +headLineNumbers )) && action==getFirstNCharacters ){
+    return `head: illegal byte count -- ${ headLineNumbers }`;
   }
   if( files.length > 1 ){
     requiredHead = insertHeaders( requiredHead, filesName );
