@@ -40,7 +40,7 @@ const head = function( { action, files, headLineNumbers, filesName } ){
   let headFunc = action.bind( null, headLineNumbers );
   let requiredHead = files.map( headFunc );
 
-  if( +headLineNumbers < 1 ){
+  if( +headLineNumbers < 1 || isNaN( +headLineNumbers ) ){
     return `head: illegal line count -- ${ headLineNumbers }`;
   }
   if( files.length > 1 ){
@@ -74,6 +74,12 @@ const organizeInputs = function( inputs ){
   if( inputs.some( x => x.match( "-c" ) ) ){
     action = getFirstNCharacters;
   }
+
+  if( (inputs[2].includes('-c') || inputs[2].includes('-n')) && inputs[2].length != 2 ){
+    headLineNumbers = inputs[ 2 ].slice( 2, inputs[ 2 ].length );
+    return { action, headLineNumbers, files, filesName };
+  };
+
   if( headLineNumbers < 1 && headLineNumbers != ''){
     return { action, headLineNumbers, files, filesName }
   };
