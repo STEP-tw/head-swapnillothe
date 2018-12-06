@@ -140,7 +140,7 @@ describe("zipDataSets",function() {
 
 describe("formatText",function() {
   it("should format text like this ==> text <==\n\n",function() {
-    deepEqual( formatText( "abcd" ),"==> abcd <==\n\n" );
+    deepEqual( formatText( "abcd" ),"==> abcd <==\n" );
   });
 });
 
