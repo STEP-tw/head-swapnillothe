@@ -7,6 +7,9 @@ const formatText = function( text ){
 }
 
 const readFile = function( reader, doesFileExist , file ){
+  if( reader != identity && !(doesFileExist(file) ) ){
+    return `head: ${file}: No such file or directory`
+  }
   return reader( file, "utf8" );
 }
 
@@ -34,6 +37,9 @@ const insertHeaders = function( texts, headers ){
 }
 
 const head = function( { action, files, headLineNumbers, filesName } ){
+  if( +headLineNumbers < 1 ){
+    return `head: illegal line count -- ${ headLineNumbers }`;
+  }
   let headFunc = action.bind( null, headLineNumbers );
   let requiredHead = files.map( headFunc );
   if( files.length > 1 ){
@@ -66,10 +72,13 @@ const organizeInputs = function( inputs ){
     action = getFirstNCharacters;
   }
 
-  let headLineNumbers = +( actionSign.reduce( removeCharacter, inputs[2] ) );
-  headLineNumbers = headLineNumbers || +inputs[ 3 ] || 10;
   let files = extractFileContents( inputs );
   let filesName = files;
+  let headLineNumbers = ( actionSign.reduce( removeCharacter, inputs[2] ) );
+  if( headLineNumbers < 1 && headLineNumbers != ''){
+    return { action, headLineNumbers, files, filesName }
+  };
+  headLineNumbers = +headLineNumbers || +inputs[ 3 ] || 10;
   return { action, headLineNumbers, files, filesName };
 }
 
