@@ -102,7 +102,7 @@ describe("identity",function() {
 
 describe("readFile",function() {
   it("should read the text with given reader",function() {
-    deepEqual( readFile( identity, "abc"), "abc" );
+    deepEqual( readFile( identity, undefined, "abc"), "abc" );
   });
 });
 

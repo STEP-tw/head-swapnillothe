@@ -6,7 +6,7 @@ const formatText = function( text ){
   return `==> ${text} <==`;
 }
 
-const readFile = function( reader, file ){
+const readFile = function( reader, doesFileExist , file ){
   return reader( file, "utf8" );
 }
 
@@ -33,7 +33,6 @@ const insertHeaders = function( texts, headers ){
   return zipDataSets( headers.map( formatText ), texts ); 
 }
 
-
 const head = function( { action, files, headLineNumbers, filesName } ){
   let headFunc = action.bind( null, headLineNumbers );
   let requiredHead = files.map( headFunc );
@@ -43,9 +42,9 @@ const head = function( { action, files, headLineNumbers, filesName } ){
   return requiredHead.join("\n\n");
 }
 
-const readUserInputs = function( inputs, read = identity ){
+const readUserInputs = function( inputs, read = identity, fileExistenceChecker ){
   let { action, files, headLineNumbers, filesName } = organizeInputs( inputs );
-  files = filesName.map( readFile.bind( null, read ) );
+  files = filesName.map( readFile.bind( null, read, fileExistenceChecker ) );
   return { action, headLineNumbers, files, filesName };
 }
 
