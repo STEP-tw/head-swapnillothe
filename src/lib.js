@@ -7,10 +7,9 @@ const getFirstNCharacters = function( n, text ){
   return text.slice( 0, n );
 }
 
-const head = function( { action, files, headLineNumbers, filesName } ){
+const head = function( { action, files, headLineNumbers } ){
   let headFunc = action.bind( null, headLineNumbers );
   let requiredHead = files.map( headFunc );
-  if( filesName.length > 1 ){ requiredHead = zipDataSets( filesName.map( formatText ), requiredHead ) };
   return requiredHead.join("\n");
 }
 
@@ -33,7 +32,7 @@ const identity = function( data ){
 }
 
 const formatText = function( text ){
-  return `==> ${text} <==\n`;
+  return `==> ${text} <==\n\n`;
 }
 
 const zipDataSets = function( set1, set2 ){
@@ -55,7 +54,6 @@ const readUserInputs = function( inputs, read = identity ){
 const organizeInputs = function( inputs, read = identity ){
   let action = getNHeadLines;
   let actionSign = [ "-", "n", "c" ];
-  let filesName = extractFileContents( inputs );
 
   if( inputs.some( x => x.match( "-c" ) ) ){
     action = getFirstNCharacters;
@@ -63,7 +61,7 @@ const organizeInputs = function( inputs, read = identity ){
 
   let headLineNumbers = +( actionSign.reduce( removeCharacter, inputs[2] ) );
   headLineNumbers = headLineNumbers || +inputs[ 3 ] || 10;
-  let files = read( filesName );
+  let files = read( extractFileContents( inputs ) );
   return { action, headLineNumbers, files };
 }
 
