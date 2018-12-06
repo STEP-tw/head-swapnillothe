@@ -37,7 +37,7 @@ describe("getFirstNCharacters",function() {
     deepEqual( getFirstNCharacters( 5, "abc\nabc" ), "abc\na" );
   });
   it("should return empty string for zero character requirement",function() {
-    deepEqual( getFirstNCharacters( 2, "abc" ), "ab" );
+    deepEqual( getFirstNCharacters( 0, "abc" ), "" );
   });
 });
 
