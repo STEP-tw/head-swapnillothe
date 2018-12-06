@@ -28,15 +28,16 @@ const zipDataSets = function( set1, set2 ){
   return set1.map( element => element + set2[ index++ ] );
 }
 
-const head = function( { action, files, headLineNumbers } ){
+const head = function( { action, files, headLineNumbers, filesName } ){
   let headFunc = action.bind( null, headLineNumbers );
   let requiredHead = files.map( headFunc );
+  if( requiredHead.length > 1 )
+    files  = zipDataSets( filesName.map( formatText ), filesName );
   return requiredHead.join("\n");
 }
 
 const readUserInputs = function( inputs, read = identity ){
-  let { action, files, headLineNumbers } = organizeInputs( inputs );
-  let filesName = extractFileContents( inputs );
+  let { action, files, headLineNumbers, filesName } = organizeInputs( inputs );
   files = filesName.map( readFile.bind( null, read ) );
   return { action, headLineNumbers, files, filesName };
 }

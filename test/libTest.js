@@ -43,10 +43,10 @@ describe("getFirstNCharacters",function() {
 
 describe("head",function() {
   it("should work for single file",function() {
-    deepEqual( head( { action : getNHeadLines, files : [ "abc" ], headLineNumbers : 1 } ), "abc" );
+    deepEqual( head( { action : getNHeadLines, files : [ "abc" ], headLineNumbers : 1, filesName : [ "abc" ] } ), "abc" );
   });
   it("should work for multiple files",function() {
-    deepEqual( head( { action : getNHeadLines, files : [ "abc\nabc\nabc", "cba" ], headLineNumbers : 1 } ), "abc\ncba" );
+    deepEqual( head( { action : getNHeadLines, files : [ "abc\nabc\nabc", "cba" ], filesName : [ "abc\nabc\nabc", "cba" ], headLineNumbers : 1 } ), "abc\ncba" );
   });
 });
 
