@@ -37,9 +37,10 @@ const insertHeaders = function( texts, headers ){
 const head = function( { action, files, headLineNumbers, filesName } ){
   let headFunc = action.bind( null, headLineNumbers );
   let requiredHead = files.map( headFunc );
-  if( requiredHead.length > 1 )
-    files  = zipDataSets( filesName.map( formatText ), filesName );
-  return requiredHead.join("\n");
+  if( files.length > 1 ){
+    requiredHead = insertHeaders( requiredHead, filesName );
+  }
+  return requiredHead.join("\n\n");
 }
 
 const readUserInputs = function( inputs, read = identity ){
