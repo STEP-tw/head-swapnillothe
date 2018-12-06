@@ -47,11 +47,11 @@ const readFile = function( reader, file ){
 const readUserInputs = function( inputs, read = identity ){
   let { action, files, headLineNumbers } = organizeInputs( inputs );
   let filesName = extractFileContents( inputs );
-  files = extractFileContents( inputs ).map( readFile.bind( null, read ) );
+  files = filesName.map( readFile.bind( null, read ) );
   return { action, headLineNumbers, files, filesName };
 }
 
-const organizeInputs = function( inputs, read = identity ){
+const organizeInputs = function( inputs ){
   let action = getNHeadLines;
   let actionSign = [ "-", "n", "c" ];
 
@@ -61,7 +61,7 @@ const organizeInputs = function( inputs, read = identity ){
 
   let headLineNumbers = +( actionSign.reduce( removeCharacter, inputs[2] ) );
   headLineNumbers = headLineNumbers || +inputs[ 3 ] || 10;
-  let files = read( extractFileContents( inputs ) );
+  let files = extractFileContents( inputs );
   return { action, headLineNumbers, files };
 }
 
