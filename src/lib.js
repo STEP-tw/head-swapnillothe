@@ -28,6 +28,12 @@ const zipDataSets = function( set1, set2 ){
   return set1.map( element => element + set2[ index++ ] );
 }
 
+const insertHeaders = function( texts, headers ){
+  texts = texts.map( text => "\n" + text );
+  return zipDataSets( headers.map( formatText ), texts ); 
+}
+
+
 const head = function( { action, files, headLineNumbers, filesName } ){
   let headFunc = action.bind( null, headLineNumbers );
   let requiredHead = files.map( headFunc );
@@ -78,3 +84,4 @@ exports.readFile = readFile;
 exports.readUserInputs = readUserInputs;
 exports.zipDataSets = zipDataSets;
 exports.formatText = formatText;
+exports.insertHeaders = insertHeaders;

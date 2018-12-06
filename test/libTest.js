@@ -10,7 +10,8 @@ const {
   readFile,
   readUserInputs,
   zipDataSets,
-  formatText
+  formatText,
+  insertHeaders
 } = require( '../src/lib.js' );
 
 describe("getNHeadLines",function() {
@@ -144,3 +145,11 @@ describe("formatText",function() {
   });
 });
 
+describe("insertHeaders",function() {
+  it("should work for single text and header",function() {
+    deepEqual( insertHeaders( [ "text1" ], [ "header1" ] ), [ '==> header1 <==\ntext1' ] );
+  });
+  it("should work for multiple texts and headers",function() {
+    deepEqual( insertHeaders( [ "text1", "text2" ], [ "header1", "header2" ] ), [ '==> header1 <==\ntext1', '==> header2 <==\ntext2' ] );
+  });
+});
