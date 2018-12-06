@@ -3,7 +3,7 @@ const identity = function( data ){
 }
 
 const formatText = function( text ){
-  return `==> ${text} <==\n\n`;
+  return `==> ${text} <==`;
 }
 
 const readFile = function( reader, file ){
