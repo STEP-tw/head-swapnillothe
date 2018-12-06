@@ -1,10 +1,31 @@
+const identity = function( data ){
+  return data;
+}
+
+const formatText = function( text ){
+  return `==> ${text} <==\n\n`;
+}
+
+const readFile = function( reader, file ){
+  return reader( file, "utf8" );
+}
+
+const getFirstNCharacters = function( n, text ){
+  return text.slice( 0, n );
+}
+
+const removeCharacter = function( text, character ){
+  return text.split('').filter( x => x!=character ).join('');
+}
+
 const getNHeadLines = function( n, text ){
   let head = text.split('\n').filter( ( x, y ) => y < n );
   return head.join('\n');
 }
 
-const getFirstNCharacters = function( n, text ){
-  return text.slice( 0, n );
+const zipDataSets = function( set1, set2 ){
+  let index = 0;
+  return set1.map( element => element + set2[ index++ ] );
 }
 
 const head = function( { action, files, headLineNumbers } ){
@@ -13,8 +34,11 @@ const head = function( { action, files, headLineNumbers } ){
   return requiredHead.join("\n");
 }
 
-const removeCharacter = function( text, character ){
-  return text.split('').filter( x => x!=character ).join('');
+const readUserInputs = function( inputs, read = identity ){
+  let { action, files, headLineNumbers } = organizeInputs( inputs );
+  let filesName = extractFileContents( inputs );
+  files = filesName.map( readFile.bind( null, read ) );
+  return { action, headLineNumbers, files, filesName };
 }
 
 const extractFileContents = function( dataContents ){
@@ -25,30 +49,6 @@ const extractFileContents = function( dataContents ){
     return dataContents.slice( 4, dataContents.length );
   }
   return dataContents.slice( 3, dataContents.length );
-}
-
-const identity = function( data ){
-  return data;
-}
-
-const formatText = function( text ){
-  return `==> ${text} <==\n\n`;
-}
-
-const zipDataSets = function( set1, set2 ){
-  let index = 0;
-  return set1.map( element => element + set2[ index++ ] );
-}
-
-const readFile = function( reader, file ){
-  return reader( file, "utf8" );
-}
-
-const readUserInputs = function( inputs, read = identity ){
-  let { action, files, headLineNumbers } = organizeInputs( inputs );
-  let filesName = extractFileContents( inputs );
-  files = filesName.map( readFile.bind( null, read ) );
-  return { action, headLineNumbers, files, filesName };
 }
 
 const organizeInputs = function( inputs ){
@@ -62,7 +62,8 @@ const organizeInputs = function( inputs ){
   let headLineNumbers = +( actionSign.reduce( removeCharacter, inputs[2] ) );
   headLineNumbers = headLineNumbers || +inputs[ 3 ] || 10;
   let files = extractFileContents( inputs );
-  return { action, headLineNumbers, files };
+  let filesName = files;
+  return { action, headLineNumbers, files, filesName };
 }
 
 exports.getFirstNCharacters = getFirstNCharacters;
