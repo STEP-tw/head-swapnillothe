@@ -130,15 +130,6 @@ describe("readUserInputs",function() {
   });
 });
 
-describe("zipDataSets",function() {
-  it("should zip DataSets with same arity ",function() {
-    deepEqual( zipDataSets( [ "abc" ], [ "def" ] ), [ "abcdef" ] ); 
-  });
-  it("should resolve DataSets with different arity ",function() {
-    deepEqual( zipDataSets( [ "abc" ], [ "def", "zxy" ] ), [ "abcdef" ] ); 
-  });
-});
-
 describe("formatText",function() {
   it("should format text like this ==> text <==\n\n",function() {
     deepEqual( formatText( "abcd" ),"==> abcd <==" );
