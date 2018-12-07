@@ -89,7 +89,7 @@ const organizeInputs = function( inputs ){
     action = getFirstNCharacters;
   }
 
-  if( inputs[2]=='-c' ){
+  if( inputs[2]=='-c' && isNaN(inputs[3]) ){
     headLineNumbers = 'error';
     return { action, headLineNumbers, files, filesName };
   }

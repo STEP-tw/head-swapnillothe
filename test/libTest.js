@@ -86,7 +86,7 @@ describe("organizeInputs",function() {
 
   describe( "with getFirstNCharacters function", function(){
     it("should work for two arguments before file contents", function() {
-      deepEqual( organizeInputs( [,,"-c", "3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 'error', files : [ "abc" ], filesName : [ "abc" ] } );
+      deepEqual( organizeInputs( [,,"-c", "3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
     });
     it("should work for one arguments before file contents",function() {
       deepEqual( organizeInputs( [,,"-c3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
@@ -122,7 +122,7 @@ describe("readUserInputs",function() {
 
   describe( "with getFirstNCharacters function", function(){
     it("should work for two arguments before file contents", function() {
-      deepEqual( readUserInputs( [,,"-c", "3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 'error', filesName: [ 'abc'],files : [ "abc" ], fileExistenceChecker: undefined } );
+      deepEqual( readUserInputs( [,,"-c", "3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 3, filesName: [ 'abc'],files : [ "abc" ], fileExistenceChecker: undefined } );
     });
     it("should work for one arguments before file contents",function() {
       deepEqual( readUserInputs( [,,"-c3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 3, filesName: [ 'abc'],files : [ "abc" ], fileExistenceChecker: undefined } );
