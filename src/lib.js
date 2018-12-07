@@ -45,9 +45,10 @@ const insertHeaders = function( texts, headers, isEligible = identity ){
 
 const head = function( { action, files, headLineNumbers, filesName, fileExistenceChecker } ){
   let headFunc = action.bind( null, headLineNumbers );
+  let requiredHead = files.map( headFunc );
   for ( let index = 0; index < files.length; index++){
     if( fileExistenceChecker && fileExistenceChecker( filesName[ index ]) ){
-      files[ index ] = formatText( filesName[ index ] ) + '\n' + headFunc( files[ index ] );
+      files[ index ] = headFunc( files[ index ] );
     }
   }
 
@@ -57,7 +58,10 @@ const head = function( { action, files, headLineNumbers, filesName, fileExistenc
   if( ( isNaN( +headLineNumbers )) && action==getFirstNCharacters ){
     return `head: illegal byte count -- ${ headLineNumbers }`;
   }
-  return files.join("\n");
+  if( files.length > 1 ){
+    requiredHead = insertHeaders( requiredHead, filesName );
+  }
+  return requiredHead.join("\n");
 }
 
 const readUserInputs = function( inputs, read = identity, fileExistenceChecker ){
