@@ -31,9 +31,16 @@ const zipDataSets = function( set1, set2 ){
   return set1.map( element => element + set2[ index++ ] );
 }
 
-const insertHeaders = function( texts, headers ){
-  texts = texts.map( text => "\n" + text );
-  return zipDataSets( headers.map( formatText ), texts ); 
+const insertHeaders = function( texts, headers, isEligible = identity ){
+  let insertedHeaders = [];
+  for( let index = 0; index < texts.length; index++){
+    insertedHeaders[ index ] = texts[ index ];
+    if( isEligible( headers[ index ] )){
+      insertedHeaders[ index ] = formatText( headers[ index ] ) + 
+        '\n' + texts[ index ];
+    }
+  }
+  return insertedHeaders;
 }
 
 const head = function( { action, files, headLineNumbers, filesName } ){
