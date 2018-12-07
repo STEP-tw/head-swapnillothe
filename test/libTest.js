@@ -47,7 +47,7 @@ describe("head",function() {
     deepEqual( head( { action : getNHeadLines, files : [ "abc" ], headLineNumbers : 1, filesName : [ "abc" ] } ), "abc" );
   });
   it("should work for multiple files",function() {
-    deepEqual( head( { action : getNHeadLines, files : [ "abc\nabc\nabc", "cba" ], filesName : [ "abc\nabc\nabc", "cba" ], headLineNumbers : 1 } ), "==> abc\nabc\nabc <==\nabc\n==> cba <==\ncba" );
+    deepEqual( head( { action : getNHeadLines, files : [ "abc\nabc\nabc", "cba" ], filesName : [ "abc\nabc\nabc", "cba" ], headLineNumbers : 1 } ), "abc\nabc\nabc\ncba" );
   });
 });
 
