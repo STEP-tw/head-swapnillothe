@@ -49,7 +49,7 @@ const head = function( { action, files, headLineNumbers, filesName } ){
   if( files.length > 1 ){
     requiredHead = insertHeaders( requiredHead, filesName );
   }
-  return requiredHead.join("\n\n");
+  return requiredHead.join("\n");
 }
 
 const readUserInputs = function( inputs, read = identity, fileExistenceChecker ){
