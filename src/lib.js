@@ -40,20 +40,25 @@ const insertHeaders = function( texts, headers, isEligible = identity ){
 
 const head = function( { action, files, headLineNumbers, filesName, fileExistenceChecker } ){
   let headFunc = action.bind( null, headLineNumbers );
-  let requiredHead = files.map( headFunc );
   for ( let index = 0; index < files.length; index++){
     const doesFileExist = () => fileExistenceChecker && fileExistenceChecker( filesName[ index ]); 
     if( doesFileExist() ){
       files[ index ] = headFunc( files[ index ] );
     }
   }
-  requiredHead = files;
-
+  let requiredHead = files;
   if( (+headLineNumbers < 1 || isNaN( +headLineNumbers )) && action==getNHeadLines ){
     return `head: illegal line count -- ${ headLineNumbers }`;
   }
-  if( ( isNaN( +headLineNumbers )) && action==getFirstNCharacters ){
+  if( headLineNumbers=='error' && action == getFirstNCharacters ){
+    return `head: illegal byte count -- ${ filesName[0] }`;
+  }
+
+  if( ( isNaN( +headLineNumbers )) && action == getFirstNCharacters ){
     return `head: illegal byte count -- ${ headLineNumbers }`;
+  }
+  if( files.length > 1 ){
+    requiredHead = insertHeaders( requiredHead, filesName, fileExistenceChecker );
   }
   return requiredHead.join("\n");
 }
@@ -82,6 +87,11 @@ const organizeInputs = function( inputs ){
   
   if( inputs.some( x => x.match( "-c" ) ) ){
     action = getFirstNCharacters;
+  }
+
+  if( inputs[2]=='-c' ){
+    headLineNumbers = 'error';
+    return { action, headLineNumbers, files, filesName };
   }
 
   if( (inputs[2].includes('-c') || inputs[2].includes('-n')) && inputs[2].length != 2 ){
