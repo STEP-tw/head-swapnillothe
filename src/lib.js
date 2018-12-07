@@ -26,6 +26,11 @@ const getNHeadLines = function( n, text ){
   return head.join('\n');
 }
 
+const zipDataSets = function( set1, set2 ){
+  let index = 0;
+  return set1.map( element => element + set2[ index++ ] );
+}
+
 const insertHeaders = function( texts, headers, isEligible = identity ){
   let insertedHeaders = [];
   for( let index = 0; index < texts.length; index++){
@@ -103,5 +108,6 @@ exports.organizeInputs = organizeInputs;
 exports.identity = identity;
 exports.readFile = readFile;
 exports.readUserInputs = readUserInputs;
+exports.zipDataSets = zipDataSets;
 exports.formatText = formatText;
 exports.insertHeaders = insertHeaders;
