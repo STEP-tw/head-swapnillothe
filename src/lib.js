@@ -43,9 +43,14 @@ const insertHeaders = function( texts, headers, isEligible = identity ){
   return insertedHeaders;
 }
 
-const head = function( { action, files, headLineNumbers, filesName } ){
+const head = function( { action, files, headLineNumbers, filesName, fileExistenceChecker } ){
   let headFunc = action.bind( null, headLineNumbers );
   let requiredHead = files.map( headFunc );
+  for ( let index = 0; index < files.length; index++){
+    if( fileExistenceChecker && fileExistenceChecker( filesName[ index ]) ){
+      files[ index ] = headFunc( files[ index ] );
+    }
+  }
 
   if( (+headLineNumbers < 1 || isNaN( +headLineNumbers )) && action==getNHeadLines ){
     return `head: illegal line count -- ${ headLineNumbers }`;
