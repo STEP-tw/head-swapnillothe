@@ -9,7 +9,6 @@ const {
   identity,
   readFile,
   readUserInputs,
-  zipDataSets,
   formatText,
   insertHeaders
 } = require( '../src/lib.js' );
@@ -127,15 +126,6 @@ describe("readUserInputs",function() {
     it("should work for one arguments before file contents",function() {
       deepEqual( readUserInputs( [,,"-c3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 3, filesName: [ 'abc'],files : [ "abc" ], fileExistenceChecker: undefined } );
     });
-  });
-});
-
-describe("zipDataSets",function() {
-  it("should zip DataSets with same arity ",function() {
-    deepEqual( zipDataSets( [ "abc" ], [ "def" ] ), [ "abcdef" ] ); 
-  });
-  it("should resolve DataSets with different arity ",function() {
-    deepEqual( zipDataSets( [ "abc" ], [ "def", "zxy" ] ), [ "abcdef" ] ); 
   });
 });
 
