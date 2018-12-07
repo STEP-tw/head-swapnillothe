@@ -62,7 +62,7 @@ const head = function( { action, files, headLineNumbers, filesName } ){
 const readUserInputs = function( inputs, read = identity, fileExistenceChecker ){
   let { action, files, headLineNumbers, filesName } = organizeInputs( inputs );
   files = filesName.map( readFile.bind( null, read, fileExistenceChecker ) );
-  return { action, headLineNumbers, files, filesName };
+  return { action, headLineNumbers, files, filesName, fileExistenceChecker };
 }
 
 const extractFileContents = function( dataContents ){
