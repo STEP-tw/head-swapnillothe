@@ -47,15 +47,13 @@ const head = function( { action, files, headLineNumbers, filesName, fileExistenc
       files[ index ] = headFunc( files[ index ] );
     }
   }
+  requiredHead = files;
 
   if( (+headLineNumbers < 1 || isNaN( +headLineNumbers )) && action==getNHeadLines ){
     return `head: illegal line count -- ${ headLineNumbers }`;
   }
   if( ( isNaN( +headLineNumbers )) && action==getFirstNCharacters ){
     return `head: illegal byte count -- ${ headLineNumbers }`;
-  }
-  if( files.length > 1 ){
-    requiredHead = insertHeaders( requiredHead, filesName );
   }
   return requiredHead.join("\n");
 }
