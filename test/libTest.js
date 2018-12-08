@@ -55,6 +55,9 @@ describe("head",function() {
   it("should list the contents of the entire file if argument is greater than number of lines in file",function() {
     deepEqual( head( { action : getNHeadLines, files : [ "abc\ndef\nghi" ], headLineNumbers : 2, filesName : [ "abc\ndef\nghi" ] } ), "abc\ndef\nghi" );
   });
+  it("should handle byte count option",function() {
+    deepEqual( head( { action : getNHeadLines, files : [ "abc\ndef\nghi" ], headLineNumbers : '', filesName : [ "abc\ndef\nghi" ] } ), "head: illegal line count -- " );
+  });
 });
 
 describe("removeCharacters",function() {
@@ -76,38 +79,18 @@ describe("extractFileContents",function() {
   });
 });
 
-describe("organizeInputs",function() {
-
-  describe( "with getNHeadLines default function", function(){
-    it("should work for two arguments before file contents", function() {
-      deepEqual( organizeInputs( [,,"-n", "3", "abc" ] ), { action : getNHeadLines, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
-    });
-    it("should work for one arguments before file contents",function() {
-      deepEqual( organizeInputs( [,,"-n3", "abc" ] ), { action : getNHeadLines, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
-    });
-    it("should work for no argument before file contents",function() {
-      deepEqual( organizeInputs( [,, "abc" ] ), { action : getNHeadLines, headLineNumbers : 10, files : [ "abc" ], filesName : [ "abc" ] } );
-    });
-    it("should parse arguments with a space in betwen -n and the number",function() {
-      deepEqual( organizeInputs( [ ,,"-n","3","abc" ]), { action : getNHeadLines, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
-    });
-    it("should parse arguments with a space in betwen -c and the number",function() {
-      deepEqual( organizeInputs( [ ,,"-c","3","abc" ]), { action : getFirstNCharacters, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
-    });
+describe("formatText",function() {
+  it("should format text like this ==> text <==\n\n",function() {
+    deepEqual( formatText( "abcd" ),"==> abcd <==" );
   });
+});
 
-  describe( "with getFirstNCharacters function", function(){
-    it("should work for two arguments before file contents", function() {
-      deepEqual( organizeInputs( [,,"-c", "3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
-    });
-    it("should work for one arguments before file contents",function() {
-      deepEqual( organizeInputs( [,,"-c3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
-    });
+describe("insertHeaders",function() {
+  it("should work for single text and header",function() {
+    deepEqual( insertHeaders( [ "text1" ], [ "header1" ] ), [ '==> header1 <==\ntext1' ] );
   });
-  describe("with other general tests",function() {
-    it("should handle default argument as getNHeadLines for action",function() {
-      deepEqual( organizeInputs( [,, "abc" ] ), { action : getNHeadLines, headLineNumbers : 10, files : [ "abc"     ], filesName : [ "abc" ] } );
-    });
+  it("should work for multiple texts and headers",function() {
+    deepEqual( insertHeaders( [ "text1", "text2" ], [ "header1", "header2" ] ), [ '==> header1 <==\ntext1', '==> header2 <==\ntext2' ] );
   });
 });
 
@@ -147,17 +130,39 @@ describe("readUserInputs",function() {
   });
 });
 
-describe("formatText",function() {
-  it("should format text like this ==> text <==\n\n",function() {
-    deepEqual( formatText( "abcd" ),"==> abcd <==" );
+
+describe("organizeInputs",function() {
+
+  describe( "with getNHeadLines default function", function(){
+    it("should work for two arguments before file contents", function() {
+      deepEqual( organizeInputs( [,,"-n", "3", "abc" ] ), { action : getNHeadLines, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
+    });
+    it("should work for one arguments before file contents",function() {
+      deepEqual( organizeInputs( [,,"-n3", "abc" ] ), { action : getNHeadLines, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
+    });
+    it("should work for no argument before file contents",function() {
+      deepEqual( organizeInputs( [,, "abc" ] ), { action : getNHeadLines, headLineNumbers : 10, files : [ "abc" ], filesName : [ "abc" ] } );
+    });
+    it("should parse arguments with a space in betwen -n and the number",function() {
+      deepEqual( organizeInputs( [ ,,"-n","3","abc" ]), { action : getNHeadLines, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
+    });
+    it("should parse arguments with a space in betwen -c and the number",function() {
+      deepEqual( organizeInputs( [ ,,"-c","3","abc" ]), { action : getFirstNCharacters, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
+    });
+  });
+
+  describe( "with getFirstNCharacters function", function(){
+    it("should work for two arguments before file contents", function() {
+      deepEqual( organizeInputs( [,,"-c", "3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
+    });
+    it("should work for one arguments before file contents",function() {
+      deepEqual( organizeInputs( [,,"-c3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
+    });
+  });
+  describe("with other general tests",function() {
+    it("should handle default argument as getNHeadLines for action",function() {
+      deepEqual( organizeInputs( [,, "abc" ] ), { action : getNHeadLines, headLineNumbers : 10, files : [ "abc"     ], filesName : [ "abc" ] } );
+    });
   });
 });
 
-describe("insertHeaders",function() {
-  it("should work for single text and header",function() {
-    deepEqual( insertHeaders( [ "text1" ], [ "header1" ] ), [ '==> header1 <==\ntext1' ] );
-  });
-  it("should work for multiple texts and headers",function() {
-    deepEqual( insertHeaders( [ "text1", "text2" ], [ "header1", "header2" ] ), [ '==> header1 <==\ntext1', '==> header2 <==\ntext2' ] );
-  });
-});
