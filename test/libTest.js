@@ -163,6 +163,9 @@ describe("organizeInputs",function() {
     it("should handle default argument as getNHeadLines for action",function() {
       deepEqual( organizeInputs( [,, "abc" ] ), { action : getNHeadLines, headLineNumbers : 10, files : [ "abc"     ], filesName : [ "abc" ] } );
     });
+    it("should show an error for invalid headLineNumbers",function() {
+      deepEqual( organizeInputs( [,,"-c", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 'error', files : [ "abc"     ], filesName : [ "abc" ] } );
+    });
   });
 });
 
