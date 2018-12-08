@@ -49,6 +49,12 @@ describe("head",function() {
   it("should work for multiple files",function() {
     deepEqual( head( { action : getNHeadLines, files : [ "abc\nabc\nabc", "cba" ], filesName : [ "abc\nabc\nabc", "cba" ], headLineNumbers : 1 } ), "==> abc\nabc\nabc <==\nabc\nabc\nabc\n==> cba <==\ncba" );
   });
+  it("should return 0 as an illegal line count",function() {
+    deepEqual( head( { action : getNHeadLines, files : [ "abc" ], headLineNumbers : 0, filesName : [ "abc" ] } ), "head: illegal line count -- 0" );
+  });
+  it("should list the contents of the entire file if argument is greater than number of lines in file",function() {
+    deepEqual( head( { action : getNHeadLines, files : [ "abc\ndef\nghi" ], headLineNumbers : 2, filesName : [ "abc\ndef\nghi" ] } ), "abc\ndef\nghi" );
+  });
 });
 
 describe("removeCharacters",function() {
@@ -82,6 +88,12 @@ describe("organizeInputs",function() {
     it("should work for no argument before file contents",function() {
       deepEqual( organizeInputs( [,, "abc" ] ), { action : getNHeadLines, headLineNumbers : 10, files : [ "abc" ], filesName : [ "abc" ] } );
     });
+    it("should parse arguments with a space in betwen -n and the number",function() {
+      deepEqual( organizeInputs( [ ,,"-n","3","abc" ]), { action : getNHeadLines, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
+    });
+    it("should parse arguments with a space in betwen -c and the number",function() {
+      deepEqual( organizeInputs( [ ,,"-c","3","abc" ]), { action : getFirstNCharacters, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
+    });
   });
 
   describe( "with getFirstNCharacters function", function(){
@@ -90,6 +102,11 @@ describe("organizeInputs",function() {
     });
     it("should work for one arguments before file contents",function() {
       deepEqual( organizeInputs( [,,"-c3", "abc" ] ), { action : getFirstNCharacters, headLineNumbers : 3, files : [ "abc" ], filesName : [ "abc" ] } );
+    });
+  });
+  describe("with other general tests",function() {
+    it("should handle default argument as getNHeadLines for action",function() {
+      deepEqual( organizeInputs( [,, "abc" ] ), { action : getNHeadLines, headLineNumbers : 10, files : [ "abc"     ], filesName : [ "abc" ] } );
     });
   });
 });
