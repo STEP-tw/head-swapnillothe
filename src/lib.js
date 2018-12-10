@@ -39,15 +39,15 @@ const tail = function ({
   );
   if (
     (+count < 1 || isNaN(+count)) &&
-    action == getNHeadLines
+    action == getNTailLines
   ) {
     return `tail: illegal line count -- ${count}`;
   }
-  if (count == "error" && action == getFirstNCharacters) {
+  if (count == "error" && action == getLastNCharacters) {
     return `tail: illegal byte count -- ${filesName[0]}`;
   }
 
-  if (isNaN(+count) && action == getFirstNCharacters) {
+  if (isNaN(+count) && action == getLastNCharacters) {
     return `tail: illegal byte count -- ${count}`;
   }
 
