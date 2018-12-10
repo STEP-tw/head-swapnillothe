@@ -3,7 +3,8 @@ const {
   removeCharacter,
   getFirstNCharacters,
   getNHeadLines,
-  insertHeaders
+  insertHeaders,
+  applyActionIfExist
 } = require('./libUtil.js');
 
 
@@ -22,14 +23,7 @@ const head = function ({
   fileExistenceChecker
 }) {
   
-  for (let index = 0; index < files.length; index++) {
-    const doesFileExist = () =>
-      fileExistenceChecker && fileExistenceChecker(filesName[index]);
-    if (doesFileExist()) {
-      files[index] = action( headLineNumbers, files[index] );
-    }
-  }
-  let requiredHead = files;
+  let requiredHead = applyActionIfExist(action, headLineNumbers, files, filesName, fileExistenceChecker);
   if (
     (+headLineNumbers < 1 || isNaN(+headLineNumbers)) &&
     action == getNHeadLines
