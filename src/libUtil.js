@@ -17,11 +17,11 @@ const getFirstNCharacters = function (n, text) {
     return text.slice(0, n);
 };
 
-const getLastNCharacters = function (n, text){
-    return text.slice( -n );
+const getLastNCharacters = function (n, text) {
+    return text.slice(-n);
 }
- 
-const getNTailLines = function( n, text){
+
+const getNTailLines = function (n, text) {
     let tail = text.split('\n').slice(-n).join('\n');
     return tail;
 }
@@ -47,7 +47,7 @@ const applyActionIfExist = function (action, actionArg, objectsContent, objectsN
         const doesFileExist = () =>
             doesExists && doesExists(objectsName[index]);
         if (doesFileExist()) {
-            objectsContent[index] = action( actionArg, objectsContent[index]);
+            objectsContent[index] = action(actionArg, objectsContent[index]);
         }
     }
     return objectsContent;
@@ -60,5 +60,5 @@ exports.getFirstNCharacters = getFirstNCharacters;
 exports.getNHeadLines = getNHeadLines;
 exports.insertHeaders = insertHeaders;
 exports.applyActionIfExist = applyActionIfExist;
-exports.getNTailLines  = getNTailLines;
+exports.getNTailLines = getNTailLines;
 exports.getLastNCharacters = getLastNCharacters;

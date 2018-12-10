@@ -4,7 +4,9 @@ const {
   getFirstNCharacters,
   getNHeadLines,
   insertHeaders,
-  applyActionIfExist
+  applyActionIfExist,
+  getLastNCharacters,
+  getNTailLines
 } = require('./libUtil.js');
 
 
@@ -15,33 +17,73 @@ const readFile = function (reader, doesFileExist, file) {
   return reader(file, "utf8");
 };
 
+const tail = function ({
+  action,
+  files,
+  count,
+  filesName,
+  fileExistenceChecker
+}) {
+  if (action == getFirstNCharacters) {
+    action = getLastNCharacters;
+  } else {
+    action = getNTailLines;
+  }
+
+  let requiredTail = applyActionIfExist(
+    action,
+    count,
+    files,
+    filesName,
+    fileExistenceChecker
+  );
+  if (
+    (+count < 1 || isNaN(+count)) &&
+    action == getNHeadLines
+  ) {
+    return `tail: illegal line count -- ${count}`;
+  }
+  if (count == "error" && action == getFirstNCharacters) {
+    return `tail: illegal byte count -- ${filesName[0]}`;
+  }
+
+  if (isNaN(+count) && action == getFirstNCharacters) {
+    return `tail: illegal byte count -- ${count}`;
+  }
+
+  if (files.length > 1) {
+    requiredTail = insertHeaders(requiredTail, filesName, fileExistenceChecker);
+  }
+  return requiredTail.join('\n');
+}
+
 const head = function ({
   action,
   files,
-  headLineNumbers,
+  count,
   filesName,
   fileExistenceChecker
 }) {
   let requiredHead = applyActionIfExist(
     action,
-    headLineNumbers,
+    count,
     files,
     filesName,
     fileExistenceChecker
   );
 
   if (
-    (+headLineNumbers < 1 || isNaN(+headLineNumbers)) &&
+    (+count < 1 || isNaN(+count)) &&
     action == getNHeadLines
   ) {
-    return `head: illegal line count -- ${headLineNumbers}`;
+    return `head: illegal line count -- ${count}`;
   }
-  if (headLineNumbers == "error" && action == getFirstNCharacters) {
+  if (count == "error" && action == getFirstNCharacters) {
     return `head: illegal byte count -- ${filesName[0]}`;
   }
 
-  if (isNaN(+headLineNumbers) && action == getFirstNCharacters) {
-    return `head: illegal byte count -- ${headLineNumbers}`;
+  if (isNaN(+count) && action == getFirstNCharacters) {
+    return `head: illegal byte count -- ${count}`;
   }
   if (files.length > 1) {
     requiredHead = insertHeaders(requiredHead, filesName, fileExistenceChecker);
@@ -50,9 +92,9 @@ const head = function ({
 };
 
 const readUserInputs = function (inputs, read = identity, fileExistenceChecker) {
-  let { action, files, headLineNumbers, filesName } = organizeInputs(inputs);
+  let { action, files, count, filesName } = organizeInputs(inputs);
   files = filesName.map(readFile.bind(null, read, fileExistenceChecker));
-  return { action, headLineNumbers, files, filesName, fileExistenceChecker };
+  return { action, count, files, filesName, fileExistenceChecker };
 };
 
 const extractFileContents = function (dataContents) {
@@ -69,34 +111,36 @@ const organizeInputs = function (inputs) {
   let action = getNHeadLines;
   let actionSign = ["-", "n", "c"];
   let filesName = (files = extractFileContents(inputs));
-  let headLineNumbers = actionSign.reduce(removeCharacter, inputs[2]);
+  let count = actionSign.reduce(removeCharacter, inputs[2]);
 
   if (inputs.some(x => x.match("-c"))) {
     action = getFirstNCharacters;
   }
 
   if (inputs[2] == "-c" && isNaN(inputs[3])) {
-    headLineNumbers = "error";
-    return { action, headLineNumbers, files, filesName };
+    count = "error";
+    return { action, count, files, filesName };
   }
 
   if (
     (inputs[2].includes("-c") || inputs[2].includes("-n")) &&
     inputs[2].length != 2
   ) {
-    headLineNumbers = inputs[2].slice(2, inputs[2].length);
-    return { action, headLineNumbers, files, filesName };
+    count = inputs[2].slice(2, inputs[2].length);
+    return { action, count, files, filesName };
   }
 
-  if (headLineNumbers < 1 && headLineNumbers != "") {
-    return { action, headLineNumbers, files, filesName };
+  if (count < 1 && count != "") {
+    if (inputs[2] == 'head.js')
+      return { action, count, files, filesName };
   }
 
-  headLineNumbers = +headLineNumbers || +inputs[3] || 10;
-  return { action, headLineNumbers, files, filesName };
+  count = +count || +inputs[3] || 10;
+  return { action, count, files, filesName };
 };
 
 exports.head = head;
+exports.tail = tail;
 exports.extractFileContents = extractFileContents;
 exports.organizeInputs = organizeInputs;
 exports.readFile = readFile;
