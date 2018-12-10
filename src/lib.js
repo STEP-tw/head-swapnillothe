@@ -1,4 +1,4 @@
-const { 
+const {
   identity,
   removeCharacter,
   getFirstNCharacters,
@@ -21,12 +21,12 @@ const head = function ({
   filesName,
   fileExistenceChecker
 }) {
-  let headFunc = action.bind(null, headLineNumbers);
+  
   for (let index = 0; index < files.length; index++) {
     const doesFileExist = () =>
       fileExistenceChecker && fileExistenceChecker(filesName[index]);
     if (doesFileExist()) {
-      files[index] = headFunc(files[index]);
+      files[index] = action( headLineNumbers, files[index] );
     }
   }
   let requiredHead = files;

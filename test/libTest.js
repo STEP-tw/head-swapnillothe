@@ -54,22 +54,27 @@ describe("readUserInputs", function () {
 
   describe("with getNHeadLines default function", function () {
     it("should work for two arguments before file contents", function () {
-      deepEqual(readUserInputs([, , "-n", "3", "abc"]), { action: getNHeadLines, headLineNumbers: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
+      deepEqual(readUserInputs([,, "-n", "3", "abc"]), { action: getNHeadLines, headLineNumbers: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
     });
     it("should work for one arguments before file contents", function () {
-      deepEqual(readUserInputs([, , "-n3", "abc"]), { action: getNHeadLines, headLineNumbers: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
+      deepEqual(readUserInputs([,, "-n3", "abc"]), { action: getNHeadLines, headLineNumbers: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
     });
     it("should work for no argument before file contents", function () {
-      deepEqual(readUserInputs([, , "abc"]), { action: getNHeadLines, headLineNumbers: 10, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
+      deepEqual(readUserInputs([,, "abc"]), { action: getNHeadLines, headLineNumbers: 10, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
     });
   });
 
   describe("with getFirstNCharacters function", function () {
     it("should work for two arguments before file contents", function () {
-      deepEqual(readUserInputs([, , "-c", "3", "abc"]), { action: getFirstNCharacters, headLineNumbers: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
+      deepEqual(readUserInputs([,, "-c", "3", "abc"]), { action: getFirstNCharacters, headLineNumbers: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
     });
     it("should work for one arguments before file contents", function () {
-      deepEqual(readUserInputs([, , "-c3", "abc"]), { action: getFirstNCharacters, headLineNumbers: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
+      deepEqual(readUserInputs([,, "-c3", "abc"]), { action: getFirstNCharacters, headLineNumbers: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
+    });
+  });
+  describe( "for general test", function(){
+    it( "should retrieve default argument for if only fileName passing as argument", function(){
+  deepEqual( readUserInputs([,,"1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11"]), {action: getNHeadLines, headLineNumbers: 10, filesName:['1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11'],files:['1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11'], fileExistenceChecker: undefined });
     });
   });
 });
