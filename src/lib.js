@@ -1,43 +1,17 @@
-const identity = function (data) {
-  return data;
-};
+const { 
+  identity,
+  removeCharacter,
+  getFirstNCharacters,
+  getNHeadLines,
+  insertHeaders
+} = require('./libUtil.js');
 
-const formatText = function (text) {
-  return `==> ${text} <==`;
-};
 
 const readFile = function (reader, doesFileExist, file) {
   if (reader != identity && !doesFileExist(file)) {
     return `head: ${file}: No such file or directory`;
   }
   return reader(file, "utf8");
-};
-
-const getFirstNCharacters = function (n, text) {
-  return text.slice(0, n);
-};
-
-const removeCharacter = function (text, character) {
-  return text
-    .split("")
-    .filter(x => x != character)
-    .join("");
-};
-
-const getNHeadLines = function (n, text) {
-  let head = text.split("\n").filter((x, y) => y < n);
-  return head.join("\n");
-};
-
-const insertHeaders = function (texts, headers, isEligible = identity) {
-  let insertedHeaders = [];
-  for (let index = 0; index < texts.length; index++) {
-    insertedHeaders[index] = texts[index];
-    if (isEligible(headers[index])) {
-      insertedHeaders[index] = formatText(headers[index]) + "\n" + texts[index];
-    }
-  }
-  return insertedHeaders;
 };
 
 const head = function ({
@@ -122,14 +96,8 @@ const organizeInputs = function (inputs) {
   return { action, headLineNumbers, files, filesName };
 };
 
-exports.getFirstNCharacters = getFirstNCharacters;
-exports.getNHeadLines = getNHeadLines;
 exports.head = head;
-exports.removeCharacter = removeCharacter;
 exports.extractFileContents = extractFileContents;
 exports.organizeInputs = organizeInputs;
-exports.identity = identity;
 exports.readFile = readFile;
 exports.readUserInputs = readUserInputs;
-exports.formatText = formatText;
-exports.insertHeaders = insertHeaders;
