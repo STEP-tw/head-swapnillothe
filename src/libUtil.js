@@ -17,6 +17,15 @@ const getFirstNCharacters = function (n, text) {
     return text.slice(0, n);
 };
 
+const getLastNCharacters = function (n, text){
+    return text.slice( -n );
+}
+ 
+const getNTailLines = function( n, text){
+    let tail = text.split('\n').slice(-n).join('\n');
+    return tail;
+}
+
 const getNHeadLines = function (n, text) {
     let head = text.split("\n").filter((x, y) => y < n);
     return head.join("\n");
@@ -51,3 +60,5 @@ exports.getFirstNCharacters = getFirstNCharacters;
 exports.getNHeadLines = getNHeadLines;
 exports.insertHeaders = insertHeaders;
 exports.applyActionIfExist = applyActionIfExist;
+exports.getNTailLines  = getNTailLines;
+exports.getLastNCharacters = getLastNCharacters;

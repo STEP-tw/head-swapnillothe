@@ -22,8 +22,14 @@ const head = function ({
   filesName,
   fileExistenceChecker
 }) {
-  
-  let requiredHead = applyActionIfExist(action, headLineNumbers, files, filesName, fileExistenceChecker);
+  let requiredHead = applyActionIfExist(
+    action,
+    headLineNumbers,
+    files,
+    filesName,
+    fileExistenceChecker
+  );
+
   if (
     (+headLineNumbers < 1 || isNaN(+headLineNumbers)) &&
     action == getNHeadLines

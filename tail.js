@@ -13,6 +13,3 @@
   node ./tail.js -c5 file1 file2
   node ./tail.js -c 5 file1 file2
 */
-
-
-

@@ -7,7 +7,9 @@ const {
     getFirstNCharacters,
     getNHeadLines,
     insertHeaders,
-    applyActionIfExist
+    applyActionIfExist,
+    getNTailLines,
+    getLastNCharacters
 } = require('../src/libUtil');
 
 describe("identity", function () {
@@ -74,4 +76,28 @@ describe('applyActionIfExists', function () {
     it('should return as it is', function () {
         deepEqual(applyActionIfExist(add5, 5, [1, 2]), [1, 2]);
     })
+});
+
+describe('getNTailLines', function () {
+    it('should work for no text', function () {
+        deepEqual(getNTailLines(2, ''), '');
+    });
+    it("should work for single line", function () {
+        deepEqual(getNTailLines(1, 'a'), 'a');
+    });
+    it("should work for multiple lines", function () {
+        deepEqual(getNTailLines(2, 'a\nb\nc'), 'b\nc');
+    });
+    it("should work for less no of lines with more requirment of no of lines", function () {
+        deepEqual(getNTailLines(5, 'a\nb\nc'), 'a\nb\nc');
+    });
+});
+
+describe('getLastNCharacters', function () {
+    it('should works for single line', function () {
+        deepEqual(getLastNCharacters(2, 'abc'), 'bc');
+    });
+    it('should works for multiple lines', function () {
+        deepEqual(getLastNCharacters(2, 'abc\ndef'), 'ef');
+    });
 });
