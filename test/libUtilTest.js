@@ -6,7 +6,8 @@ const {
     removeCharacter,
     getFirstNCharacters,
     getNHeadLines,
-    insertHeaders
+    insertHeaders,
+    applyActionIfExist
 } = require('../src/libUtil');
 
 describe("identity", function () {
@@ -63,4 +64,14 @@ describe("getNHeadLines", function () {
     it("should work for less no of lines with more requirment of no of lines", function () {
         deepEqual(getNHeadLines(5, 'a\nb\nc'), 'a\nb\nc');
     });
-});  
+});
+
+describe('applyActionIfExists', function () {
+    const add5 = (x, y) => (x + y);
+    it('should work if object is present', function () {
+        deepEqual(applyActionIfExist(add5, 5, [1, 2], ['one', 'two'], identity), [6, 7]);
+    });
+    it('should return as it is', function () {
+        deepEqual(applyActionIfExist(add5, 5, [1, 2]), [1, 2]);
+    })
+});

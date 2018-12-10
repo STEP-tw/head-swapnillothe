@@ -33,9 +33,21 @@ const insertHeaders = function (texts, headers, isEligible = identity) {
     return insertedHeaders;
 };
 
+const applyActionIfExist = function (action, actionArg, objectsContent, objectsName, doesExists) {
+    for (let index = 0; index < objectsContent.length; index++) {
+        const doesFileExist = () =>
+            doesExists && doesExists(objectsName[index]);
+        if (doesFileExist()) {
+            objectsContent[index] = action( actionArg, objectsContent[index]);
+        }
+    }
+    return objectsContent;
+}
+
 exports.identity = identity;
 exports.formatText = formatText;
 exports.removeCharacter = removeCharacter;
 exports.getFirstNCharacters = getFirstNCharacters;
 exports.getNHeadLines = getNHeadLines;
-exports.insertHeaders = insertHeaders
+exports.insertHeaders = insertHeaders;
+exports.applyActionIfExist = applyActionIfExist;
