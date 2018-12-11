@@ -63,6 +63,11 @@ describe("readFile", function () {
   it("should read the text with given reader", function () {
     deepEqual(readFile(identity, undefined, "abc"), "abc");
   });
+  it("should error msg for file not exists", function () {
+    let doesExist = () => false;
+    let reader = x => x;
+    deepEqual(readFile(reader, doesExist, "abc"), "head: abc: No such file or directory");
+  });
 });
 
 describe("readUserInputs", function () {
@@ -114,7 +119,7 @@ describe("organizeInputs", function () {
       deepEqual(organizeInputs([, , "-c", "3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
     });
     it("should parse arguments with attached zero", function () {
-      deepEqual(organizeInputs([,"head.js","-n0", "abc"]), { action: getNHeadLines, count: '0', files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs([, "head.js", "-n0", "abc"]), { action: getNHeadLines, count: '0', files: ["abc"], filesName: ["abc"] });
     });
   });
 

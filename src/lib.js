@@ -41,14 +41,14 @@ const tail = function ({
     (+count < 1 || isNaN(+count)) &&
     action == getNTailLines
   ) {
-    return `tail: illegal line count -- ${count}`;
+    return `tail: illegal offset -- ${count}`;
   }
   if (count == "error" && action == getLastNCharacters) {
-    return `tail: illegal byte count -- ${filesName[0]}`;
+    return `tail: illegal offset -- ${filesName[0]}`;
   }
 
   if (isNaN(+count) && action == getLastNCharacters) {
-    return `tail: illegal byte count -- ${count}`;
+    return `tail: illegal offset -- ${count}`;
   }
 
   if (files.length > 1) {

@@ -34,9 +34,10 @@ const getNHeadLines = function (n, text) {
 const insertHeaders = function (texts, headers, isEligible = identity) {
     let insertedHeaders = [];
     for (let index = 0; index < texts.length; index++) {
-        insertedHeaders[index] = texts[index];
         if (isEligible(headers[index])) {
             insertedHeaders[index] = formatText(headers[index]) + "\n" + texts[index];
+        } else {
+            insertedHeaders[index] = texts[index];
         }
     }
     return insertedHeaders;
