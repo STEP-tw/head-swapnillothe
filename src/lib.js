@@ -139,11 +139,6 @@ const organizeInputs = function (inputs) {
     count = inputs[2].slice(2, inputs[2].length);
     return { action, count, files, filesName };
   }
-
-  if (count < 1 && count != "") {
-    return { action, count, files, filesName };
-  }
-
   count = +count || +inputs[3] || 10;
   return { action, count, files, filesName };
 };
