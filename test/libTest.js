@@ -45,6 +45,9 @@ describe("tail", function () {
   it("should list the contents of the entire file if argument is greater than number of lines in file", function () {
     deepEqual(tail({ action: getNTailLines, files: ["abc\ndef\nghi"], count: 2, filesName: ["abc\ndef\nghi"] }), "abc\ndef\nghi");
   });
+  it("should treat 0 as legal count", function () {
+    deepEqual(tail({ action: getNHeadLines, count: 0, filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'], fileExistenceChecker: undefined }),'');
+  });
 });
 
 describe("extractFileContents", function () {
@@ -96,6 +99,9 @@ describe("readUserInputs", function () {
     it("should retrieve default argument for if only fileName passing as argument", function () {
       deepEqual(readUserInputs(["node", "head.js", "1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11"]), { action: getNHeadLines, count: 10, filesName: ['1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11'], files: ['1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11'], fileExistenceChecker: undefined });
     });
+    it("should treat 0 as legal count", function () {
+      deepEqual(readUserInputs(["node", "tail.js", "-n0", "abc\ndef\nghi"]), { action: getNHeadLines, count: 0, filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'], fileExistenceChecker: undefined });
+    });
   });
 });
 
@@ -137,6 +143,9 @@ describe("organizeInputs", function () {
     });
     it("should show an error for invalid count", function () {
       deepEqual(organizeInputs([, , "-c", "abc"]), { action: getFirstNCharacters, count: 'error', files: ["abc"], filesName: ["abc"] });
+    });
+    it("should treat 0 as legal count", function () {
+      deepEqual(organizeInputs(["node", "tail.js","-n0","abc\ndef\nghi"]), { action: getNHeadLines, count: '0', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi']});
     });
   });
 });
