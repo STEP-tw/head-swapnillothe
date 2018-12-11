@@ -10,9 +10,9 @@ const {
 } = require('./libUtil.js');
 
 
-const readFile = function (reader, doesFileExist, file) {
+const readFile = function (reader, doesFileExist, title='head', file ) {
   if (reader != identity && !doesFileExist(file)) {
-    return `head: ${file}: No such file or directory`;
+    return `${title}: ${file}: No such file or directory`;
   }
   return reader(file, "utf8");
 };
@@ -93,7 +93,9 @@ const head = function ({
 
 const readUserInputs = function (inputs, read = identity, fileExistenceChecker) {
   let { action, files, count, filesName } = organizeInputs(inputs);
-  files = filesName.map(readFile.bind(null, read, fileExistenceChecker));
+  let title = 'head';
+  if(inputs[1].includes('tail.js')){title='tail'}
+  files = filesName.map(readFile.bind(null, read, fileExistenceChecker, title));
   return { action, count, files, filesName, fileExistenceChecker };
 };
 

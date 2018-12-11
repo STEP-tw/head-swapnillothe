@@ -61,12 +61,12 @@ describe("extractFileContents", function () {
 
 describe("readFile", function () {
   it("should read the text with given reader", function () {
-    deepEqual(readFile(identity, undefined, "abc"), "abc");
+    deepEqual(readFile(identity, undefined, "head", "abc"), "abc");
   });
   it("should error msg for file not exists", function () {
     let doesExist = () => false;
     let reader = x => x;
-    deepEqual(readFile(reader, doesExist, "abc"), "head: abc: No such file or directory");
+    deepEqual(readFile(reader, doesExist, "head", "abc"), "head: abc: No such file or directory");
   });
 });
 
@@ -74,27 +74,27 @@ describe("readUserInputs", function () {
 
   describe("with getNHeadLines default function", function () {
     it("should work for two arguments before file contents", function () {
-      deepEqual(readUserInputs([, , "-n", "3", "abc"]), { action: getNHeadLines, count: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
+      deepEqual(readUserInputs(["node", "head.js", "-n", "3", "abc"]), { action: getNHeadLines, count: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
     });
     it("should work for one arguments before file contents", function () {
-      deepEqual(readUserInputs([, , "-n3", "abc"]), { action: getNHeadLines, count: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
+      deepEqual(readUserInputs(["node", "head.js", "-n3", "abc"]), { action: getNHeadLines, count: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
     });
     it("should work for no argument before file contents", function () {
-      deepEqual(readUserInputs([, , "abc"]), { action: getNHeadLines, count: 10, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
+      deepEqual(readUserInputs(["node", "head.js", "abc"]), { action: getNHeadLines, count: 10, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
     });
   });
 
   describe("with getFirstNCharacters function", function () {
     it("should work for two arguments before file contents", function () {
-      deepEqual(readUserInputs([, , "-c", "3", "abc"]), { action: getFirstNCharacters, count: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
+      deepEqual(readUserInputs(["node", "head.js", "-c", "3", "abc"]), { action: getFirstNCharacters, count: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
     });
     it("should work for one arguments before file contents", function () {
-      deepEqual(readUserInputs([, , "-c3", "abc"]), { action: getFirstNCharacters, count: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
+      deepEqual(readUserInputs(["node", "head.js", "-c3", "abc"]), { action: getFirstNCharacters, count: 3, filesName: ['abc'], files: ["abc"], fileExistenceChecker: undefined });
     });
   });
   describe("for general test", function () {
     it("should retrieve default argument for if only fileName passing as argument", function () {
-      deepEqual(readUserInputs([, , "1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11"]), { action: getNHeadLines, count: 10, filesName: ['1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11'], files: ['1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11'], fileExistenceChecker: undefined });
+      deepEqual(readUserInputs(["node", "head.js", "1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11"]), { action: getNHeadLines, count: 10, filesName: ['1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11'], files: ['1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11'], fileExistenceChecker: undefined });
     });
   });
 });
