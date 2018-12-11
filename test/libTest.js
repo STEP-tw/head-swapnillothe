@@ -48,6 +48,9 @@ describe("tail", function () {
   it("should treat 0 as legal count", function () {
     deepEqual(tail({ action: getNHeadLines, count: 0, filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'], fileExistenceChecker: undefined }),'');
   });
+  it("should provide an error for invalid values for -n", function () {
+    deepEqual(tail({ action: getNHeadLines, count: '3t', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi']}),'tail: illegal offset -- 3t');
+  });
 });
 
 describe("extractFileContents", function () {

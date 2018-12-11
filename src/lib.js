@@ -37,12 +37,17 @@ const tail = function ({
     filesName,
     fileExistenceChecker
   );
+  const isNotZero = number => number != 0;
   if (
     (+count < 1 || isNaN(+count)) &&
     action == getNTailLines
   ) {
     requiredTail = files.map(files => '');
+    if (isNotZero(count)) {
+      return `tail: illegal offset -- ${count}`;
+    }
   }
+
   if (count == "error" && action == getLastNCharacters) {
     return `tail: illegal offset -- ${filesName[0]}`;
   }
