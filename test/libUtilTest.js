@@ -38,6 +38,10 @@ describe("insertHeaders", function () {
     it("should work for multiple texts and headers", function () {
         deepEqual(insertHeaders(["text1", "text2"], ["header1", "header2"]), ['==> header1 <==\ntext1', '==> header2 <==\ntext2']);
     });
+    it("should work for single text and header for when file text not eligible", function () {
+        const isEligible = () => false;
+        deepEqual(insertHeaders(["text1"], ["header1"], isEligible), ['text1']);
+    });
 });
 
 describe("getFirstNCharacters", function () {

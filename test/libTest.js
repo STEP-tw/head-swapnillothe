@@ -46,10 +46,13 @@ describe("tail", function () {
     deepEqual(tail({ action: getNTailLines, files: ["abc\ndef\nghi"], count: 2, filesName: ["abc\ndef\nghi"] }), "abc\ndef\nghi");
   });
   it("should treat 0 as legal count", function () {
-    deepEqual(tail({ action: getNHeadLines, count: 0, filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'], fileExistenceChecker: undefined }),'');
+    deepEqual(tail({ action: getNHeadLines, count: 0, filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'], fileExistenceChecker: undefined }), '');
   });
   it("should provide an error for invalid values for -n", function () {
-    deepEqual(tail({ action: getNHeadLines, count: '3t', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi']}),'tail: illegal offset -- 3t');
+    deepEqual(tail({ action: getNHeadLines, count: '3t', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'] }), 'tail: illegal offset -- 3t');
+  });
+  it("should provide an error for invalid values for -n for getFirstNCharacters", function () {
+    deepEqual(tail({ action: getFirstNCharacters, count: '3t', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'] }), 'tail: illegal offset -- 3t');
   });
 });
 
@@ -72,7 +75,9 @@ describe("readFile", function () {
   it("should error msg for file not exists", function () {
     let doesExist = () => false;
     let reader = x => x;
+    let read = readFile.bind(null, reader, doesExist, undefined);
     deepEqual(readFile(reader, doesExist, "head", "abc"), "head: abc: No such file or directory");
+    deepEqual(read("abc"), "head: abc: No such file or directory");
   });
 });
 
@@ -139,6 +144,9 @@ describe("organizeInputs", function () {
     it("should work for one arguments before file contents", function () {
       deepEqual(organizeInputs([, , "-c3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
     });
+    it("should test for 0 as count", function () {
+      deepEqual(organizeInputs(["node", "head.js", "-n0", "abc\ndef\nghi"]), { action: getNHeadLines, count: '0', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'] });
+    });
   });
   describe("with other general tests", function () {
     it("should handle default argument as getNHeadLines for action", function () {
@@ -148,7 +156,7 @@ describe("organizeInputs", function () {
       deepEqual(organizeInputs([, , "-c", "abc"]), { action: getFirstNCharacters, count: 'error', files: ["abc"], filesName: ["abc"] });
     });
     it("should treat 0 as legal count", function () {
-      deepEqual(organizeInputs(["node", "tail.js","-n0","abc\ndef\nghi"]), { action: getNHeadLines, count: '0', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi']});
+      deepEqual(organizeInputs(["node", "tail.js", "-n0", "abc\ndef\nghi"]), { action: getNHeadLines, count: '0', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'] });
     });
   });
 });

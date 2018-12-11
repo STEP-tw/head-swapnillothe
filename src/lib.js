@@ -98,9 +98,12 @@ const head = function ({
 
 const readUserInputs = function (inputs, read = identity, fileExistenceChecker) {
   let { action, files, count, filesName } = organizeInputs(inputs);
-  let title = 'head';
-  if (inputs[1].includes('tail.js')) { title = 'tail' }
-  files = filesName.map(readFile.bind(null, read, fileExistenceChecker, title));
+  files = filesName.map(
+    readFile.bind(null,
+      read,
+      fileExistenceChecker,
+      inputs[1].slice(0, 4))
+  );
   return { action, count, files, filesName, fileExistenceChecker };
 };
 
@@ -120,7 +123,7 @@ const organizeInputs = function (inputs) {
   let filesName = (files = extractFileContents(inputs));
   let count = actionSign.reduce(removeCharacter, inputs[2]);
 
-  if (inputs.some(x => x.match("-c"))) {
+  if (inputs.some(shouldActionChange => shouldActionChange.match("-c"))) {
     action = getFirstNCharacters;
   }
 
@@ -138,8 +141,7 @@ const organizeInputs = function (inputs) {
   }
 
   if (count < 1 && count != "") {
-    if (inputs[1] == 'head.js')
-      return { action, count, files, filesName };
+    return { action, count, files, filesName };
   }
 
   count = +count || +inputs[3] || 10;
