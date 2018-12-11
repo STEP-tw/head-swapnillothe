@@ -131,7 +131,7 @@ const organizeInputs = function (inputs) {
   }
 
   if (count < 1 && count != "") {
-    if (inputs[2] == 'head.js')
+    if (inputs[1] == 'head.js')
       return { action, count, files, filesName };
   }
 

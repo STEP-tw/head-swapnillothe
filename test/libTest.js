@@ -113,6 +113,9 @@ describe("organizeInputs", function () {
     it("should parse arguments with a space in betwen -c and the number", function () {
       deepEqual(organizeInputs([, , "-c", "3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
     });
+    it("should parse arguments with attached zero", function () {
+      deepEqual(organizeInputs([,"head.js","-n0", "abc"]), { action: getNHeadLines, count: '0', files: ["abc"], filesName: ["abc"] });
+    });
   });
 
   describe("with getFirstNCharacters function", function () {
