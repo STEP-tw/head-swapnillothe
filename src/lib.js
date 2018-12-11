@@ -10,7 +10,7 @@ const {
 } = require('./libUtil.js');
 
 
-const readFile = function (reader, doesFileExist, title='head', file ) {
+const readFile = function (reader, doesFileExist, title = 'head', file) {
   if (reader != identity && !doesFileExist(file)) {
     return `${title}: ${file}: No such file or directory`;
   }
@@ -41,7 +41,7 @@ const tail = function ({
     (+count < 1 || isNaN(+count)) &&
     action == getNTailLines
   ) {
-    return `tail: illegal offset -- ${count}`;
+    requiredTail = files.map(files => '');
   }
   if (count == "error" && action == getLastNCharacters) {
     return `tail: illegal offset -- ${filesName[0]}`;
@@ -94,7 +94,7 @@ const head = function ({
 const readUserInputs = function (inputs, read = identity, fileExistenceChecker) {
   let { action, files, count, filesName } = organizeInputs(inputs);
   let title = 'head';
-  if(inputs[1].includes('tail.js')){title='tail'}
+  if (inputs[1].includes('tail.js')) { title = 'tail' }
   files = filesName.map(readFile.bind(null, read, fileExistenceChecker, title));
   return { action, count, files, filesName, fileExistenceChecker };
 };
