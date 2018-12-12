@@ -102,7 +102,7 @@ const readUserInputs = function (inputs, read = identity, fileExistenceChecker) 
     readFile.bind(null,
       read,
       fileExistenceChecker,
-      inputs[1].slice(0, 4))
+      inputs[1].slice(inputs[1].length-7, inputs[1].length-3))
   );
   return { action, count, files, filesName, fileExistenceChecker };
 };
