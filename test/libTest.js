@@ -33,12 +33,6 @@ describe("head", function () {
   it("should handle byte count option", function () {
     deepEqual(head({ action: getNHeadLines, files: ["abc\ndef\nghi"], count: '', filesName: ["abc\ndef\nghi"] }), "head: illegal line count -- ");
   });
-  it("should handle byte count option with invalid count", function () {
-    deepEqual(head({ action: getFirstNCharacters, files: ["abc\ndef\nghi"], count: 't', filesName: ["abc\ndef\nghi"] }), "head: illegal byte count -- t");
-  });
-  it("should handle line count option with fileName", function () {
-    deepEqual(head({ action: getFirstNCharacters, files: ["abc\ndef\nghi"], count: 'error', filesName: ["abc\ndef\nghi"] }), "head: illegal byte count -- abc\ndef\nghi");
-  });
 });
 
 describe("tail", function () {

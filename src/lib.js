@@ -29,7 +29,6 @@ const tail = function ({
   } else {
     action = getNTailLines;
   }
-  console.log({action,files,count,filesName,fileExistenceChecker})
 
   let requiredTail = applyActionIfExist(
     action,
@@ -39,10 +38,6 @@ const tail = function ({
     fileExistenceChecker
   );
   const isNotZero = number => number != 0;
-  if (count == "error" && action == getLastNCharacters) {
-    return `tail: illegal offset -- ${filesName[0]}`;
-  }
-
   if (
     (+count < 1 || isNaN(+count)) &&
     action == getNTailLines
@@ -51,6 +46,10 @@ const tail = function ({
     if (isNotZero(count)) {
       return `tail: illegal offset -- ${count}`;
     }
+  }
+
+  if (count == "error" && action == getLastNCharacters) {
+    return `tail: illegal offset -- ${filesName[0]}`;
   }
 
   if (isNaN(+count) && action == getLastNCharacters) {
