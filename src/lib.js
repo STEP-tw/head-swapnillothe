@@ -43,7 +43,7 @@ const tail = function ({
   const error = getIfTailError({ count, action, filesName });
   const doesNeedHeaders = () => (files.length > 1);
   if (error) { return error };
-  if ((+count < 1 || isNaN(+count)) && action == getNTailLines) {
+  if ((+count < 1)) {
     requiredTail = files.map(files => '');
   }
   if (doesNeedHeaders()) {
