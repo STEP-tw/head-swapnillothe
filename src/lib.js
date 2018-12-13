@@ -6,7 +6,9 @@ const {
   insertHeaders,
   applyActionIfExist,
   getLastNCharacters,
-  getNTailLines
+  getNTailLines,
+  getIfHeadError,
+  getIfTailError
 } = require('./libUtil.js');
 
 
@@ -37,59 +39,23 @@ const tail = function ({
     filesName,
     fileExistenceChecker
   );
-  const isNotZero = number => number != 0;
-  if (
-    (+count < 1 || isNaN(+count)) &&
-    action == getNTailLines
-  ) {
+
+  const error = getIfTailError({ count, action, filesName });
+  const doesNeedHeaders = () => (files.length > 1);
+  if (error) { return error };
+  if ((+count < 1 || isNaN(+count)) && action == getNTailLines) {
     requiredTail = files.map(files => '');
-    if (isNotZero(count)) {
-      return `tail: illegal offset -- ${count}`;
-    }
   }
-
-  if (count == "error" && action == getLastNCharacters) {
-    return `tail: illegal offset -- ${filesName[0]}`;
-  }
-
-  if (isNaN(+count) && action == getLastNCharacters) {
-    return `tail: illegal offset -- ${count}`;
-  }
-
-  if (files.length > 1) {
+  if (doesNeedHeaders()) {
     requiredTail = insertHeaders(requiredTail, filesName, fileExistenceChecker);
   }
   return requiredTail.join('\n');
 }
 
-const head = function ({
-  action,
-  files,
-  count,
-  filesName,
-  fileExistenceChecker
-}) {
-  let requiredHead = applyActionIfExist(
-    action,
-    count,
-    files,
-    filesName,
-    fileExistenceChecker
-  );
-
-  if (
-    (+count < 1 || isNaN(+count)) &&
-    action == getNHeadLines
-  ) {
-    return `head: illegal line count -- ${count}`;
-  }
-  if (count == "error" && action == getFirstNCharacters) {
-    return `head: illegal byte count -- ${filesName[0]}`;
-  }
-
-  if (isNaN(+count) && action == getFirstNCharacters) {
-    return `head: illegal byte count -- ${count}`;
-  }
+const head = function ({ action, files, count, filesName, fileExistenceChecker }) {
+  let requiredHead = applyActionIfExist(action, count, files, filesName, fileExistenceChecker);
+  let error = getIfHeadError({ count, action, filesName });
+  if (error) { return error };
   if (files.length > 1) {
     requiredHead = insertHeaders(requiredHead, filesName, fileExistenceChecker);
   }
@@ -98,12 +64,8 @@ const head = function ({
 
 const readUserInputs = function (inputs, read = identity, fileExistenceChecker) {
   let { action, files, count, filesName } = organizeInputs(inputs);
-  files = filesName.map(
-    readFile.bind(null,
-      read,
-      fileExistenceChecker,
-      inputs[1].slice(inputs[1].length-7, inputs[1].length-3))
-  );
+  let command = inputs[1].slice(inputs[1].length - 7, inputs[1].length - 3);
+  files = filesName.map(readFile.bind(null, read, fileExistenceChecker, command));
   return { action, count, files, filesName, fileExistenceChecker };
 };
 

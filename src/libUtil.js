@@ -54,6 +54,37 @@ const applyActionIfExist = function (action, actionArg, objectsContent, objectsN
     return objectsContent;
 }
 
+const getIfHeadError = function ({ count, action, filesName }) {
+    if (
+        (+count < 1 || isNaN(+count)) &&
+        action == getNHeadLines
+    ) {
+        return `head: illegal line count -- ${count}`;
+    }
+    if (count == "error" && action == getFirstNCharacters) {
+        return `head: illegal byte count -- ${filesName[0]}`;
+    }
+
+    if (isNaN(+count) && action == getFirstNCharacters) {
+        return `head: illegal byte count -- ${count}`;
+    }
+    return;
+}
+
+const getIfTailError = function ({ count, action, filesName }) {
+    const isNotZero = number => number != 0;
+
+    if (count == "error" && action == getLastNCharacters) {
+        return `tail: illegal offset -- ${filesName[0]}`;
+    }
+    if ((+count < 1 && action == getNTailLines && isNotZero(count)) || isNaN(+count)) {
+        return `tail: illegal offset -- ${count}`;
+    }
+    return;
+}
+
+
+
 exports.identity = identity;
 exports.formatText = formatText;
 exports.removeCharacter = removeCharacter;
@@ -63,3 +94,5 @@ exports.insertHeaders = insertHeaders;
 exports.applyActionIfExist = applyActionIfExist;
 exports.getNTailLines = getNTailLines;
 exports.getLastNCharacters = getLastNCharacters;
+exports.getIfHeadError = getIfHeadError;
+exports.getIfTailError = getIfTailError;

@@ -9,7 +9,9 @@ const {
     insertHeaders,
     applyActionIfExist,
     getNTailLines,
-    getLastNCharacters
+    getLastNCharacters,
+    getIfHeadError,
+    getIfTailError
 } = require('../src/libUtil');
 
 describe("identity", function () {
@@ -104,4 +106,29 @@ describe('getLastNCharacters', function () {
     it('should works for multiple lines', function () {
         deepEqual(getLastNCharacters(2, 'abc\ndef'), 'ef');
     });
+});
+
+describe('getIfHeadError', function () {
+    it('should return illegal line count 0 error', function () {
+        deepEqual(getIfHeadError({ count: 0, action: getNHeadLines, filesName: ["abc"] }), 'head: illegal line count -- 0');
+    });
+    it("should return byte count option", function () {
+        deepEqual(getIfHeadError({ action: getNHeadLines, count: '', filesName: ["abc"] }), "head: illegal line count -- ");
+    });
+    it("should return byte count option with invalid count", function () {
+        deepEqual(getIfHeadError({ action: getFirstNCharacters, count: 't', filesName: ["abc"] }), "head: illegal byte count -- t");
+    });
+    it("should return line count option with fileName", function () {
+        deepEqual(getIfHeadError({ action: getFirstNCharacters, count: 'error', filesName: ["abc"] }), "head: illegal byte count -- abc");
+    });
+});
+
+describe('getIfTailError', function () {
+    it('should return an error for invalid values for -n', function () {
+        deepEqual(getIfTailError({ count: '3t', action: getNTailLines, filesName: ['abc'] }), 'tail: illegal offset -- 3t');
+    });
+    it('should return an error with file name for count error', function () {
+        deepEqual(getIfTailError({ count: 'error', action: getLastNCharacters, filesName: ['abc'] }), 'tail: illegal offset -- abc');
+    });
+
 });
