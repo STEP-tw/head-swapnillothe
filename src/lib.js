@@ -32,15 +32,10 @@ const tail = function ({
   filesName,
   fileExistenceChecker
 }) {
-  if (action == getFirstNCharacters) {
-    action = getLastNCharacters;
-  } else {
-    action = getNTailLines;
-  }
 
   let requiredTail = applyActionIfExist(action, count, files, filesName, fileExistenceChecker);
-
   const error = getIfTailError({ count, action, filesName });
+  
   if (error) { return error };
   if (isNotNatural(+count)) {
     requiredTail = files.map(files => '');
@@ -85,10 +80,10 @@ const extractAction = function (contents) {
   if (doesContainC(contents) && !isHead(contents[1])) {
     return getLastNCharacters;
   }
-  if (!doesContainC(contents) && !isHead(contents[1])){
+  if (!doesContainC(contents) && !isHead(contents[1])) {
     return getNTailLines;
   }
-    return getNHeadLines;
+  return getNHeadLines;
 }
 
 const correctCount = function (contents, count) {
