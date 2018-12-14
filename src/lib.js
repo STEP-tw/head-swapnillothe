@@ -14,7 +14,8 @@ const {
   doesAttachOption,
   doesNeedHeaders,
   isNotNatural,
-  sliceFrom
+  sliceFrom,
+  isHead
 } = require('./libUtil.js');
 
 const readFile = function (reader, doesFileExist, title = 'head', file) {
@@ -78,10 +79,16 @@ const extractFileContents = function (dataContents) {
 };
 
 const extractAction = function (contents) {
-  if (doesContainC(contents)) {
+  if (doesContainC(contents) && isHead(contents[1])) {
     return getFirstNCharacters;
   }
-  return getNHeadLines;
+  if (doesContainC(contents) && !isHead(contents[1])) {
+    return getLastNCharacters;
+  }
+  if (!doesContainC(contents) && !isHead(contents[1])){
+    return getNTailLines;
+  }
+    return getNHeadLines;
 }
 
 const correctCount = function (contents, count) {

@@ -57,13 +57,15 @@ const doesContainC = (contents) => contents.some(content => content.match('-c'))
 const isCountInvalid = (contents) => contents[2] == "-c" && isNaN(contents[3]);
 
 const doesAttachOption = (contents) => (contents.includes("-c") || contents.includes("-n")) &&
-  contents.length != 2;
+    contents.length != 2;
 
 const doesNeedHeaders = (files) => (files.length > 1);
 
 const isNotNatural = (number) => number < 1;
 
 const sliceFrom = (content, start) => content.slice(start, content.length);
+
+const isHead = (content)=>content.includes('head');
 
 const getIfHeadError = function ({ count, action, filesName }) {
     if (
@@ -113,3 +115,4 @@ exports.doesAttachOption = doesAttachOption;
 exports.sliceFrom = sliceFrom;
 exports.doesContainC = doesContainC;
 exports.isCountInvalid = isCountInvalid;
+exports.isHead = isHead;

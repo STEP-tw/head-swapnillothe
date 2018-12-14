@@ -114,7 +114,7 @@ describe("readUserInputs", function () {
       deepEqual(readUserInputs(["node", "head.js", "1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11"]), { action: getNHeadLines, count: 10, filesName: ['1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11'], files: ['1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11'], fileExistenceChecker: undefined });
     });
     it("should treat 0 as legal count", function () {
-      deepEqual(readUserInputs(["node", "tail.js", "-n0", "abc\ndef\nghi"]), { action: getNHeadLines, count: 0, filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'], fileExistenceChecker: undefined });
+      deepEqual(readUserInputs(["node", "head.js", "-n0", "abc\ndef\nghi"]), { action: getNHeadLines, count: 0, filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'], fileExistenceChecker: undefined });
     });
   });
 });
@@ -124,31 +124,31 @@ describe("organizeInputs", function () {
 
   describe("with getNHeadLines default function", function () {
     it("should work for two arguments before file contents", function () {
-      deepEqual(organizeInputs([, , "-n", "3", "abc"]), { action: getNHeadLines, count: 3, files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs(['node', 'head.js', "-n", "3", "abc"]), { action: getNHeadLines, count: 3, files: ["abc"], filesName: ["abc"] });
     });
     it("should work for one arguments before file contents", function () {
-      deepEqual(organizeInputs([, , "-n3", "abc"]), { action: getNHeadLines, count: 3, files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs(['node', 'head.js', "-n3", "abc"]), { action: getNHeadLines, count: 3, files: ["abc"], filesName: ["abc"] });
     });
     it("should work for no argument before file contents", function () {
-      deepEqual(organizeInputs([, , "abc"]), { action: getNHeadLines, count: 10, files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs(['node', 'head.js', "abc"]), { action: getNHeadLines, count: 10, files: ["abc"], filesName: ["abc"] });
     });
     it("should parse arguments with a space in betwen -n and the number", function () {
-      deepEqual(organizeInputs([, , "-n", "3", "abc"]), { action: getNHeadLines, count: 3, files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs(['node', 'head.js', "-n", "3", "abc"]), { action: getNHeadLines, count: 3, files: ["abc"], filesName: ["abc"] });
     });
     it("should parse arguments with a space in betwen -c and the number", function () {
-      deepEqual(organizeInputs([, , "-c", "3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs(['node', 'head.js', "-c", "3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
     });
     it("should parse arguments with attached zero", function () {
-      deepEqual(organizeInputs([, "head.js", "-n0", "abc"]), { action: getNHeadLines, count: '0', files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs(['node', "head.js", "-n0", "abc"]), { action: getNHeadLines, count: '0', files: ["abc"], filesName: ["abc"] });
     });
   });
 
   describe("with getFirstNCharacters function", function () {
     it("should work for two arguments before file contents", function () {
-      deepEqual(organizeInputs([, , "-c", "3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs(['node','head.js' , "-c", "3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
     });
     it("should work for one arguments before file contents", function () {
-      deepEqual(organizeInputs([, , "-c3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs(['node','head.js' , "-c3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
     });
     it("should test for 0 as count", function () {
       deepEqual(organizeInputs(["node", "head.js", "-n0", "abc\ndef\nghi"]), { action: getNHeadLines, count: '0', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'] });
@@ -156,13 +156,13 @@ describe("organizeInputs", function () {
   });
   describe("with other general tests", function () {
     it("should handle default argument as getNHeadLines for action", function () {
-      deepEqual(organizeInputs([, , "abc"]), { action: getNHeadLines, count: 10, files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs(['node', 'head.js', "abc"]), { action: getNHeadLines, count: 10, files: ["abc"], filesName: ["abc"] });
     });
     it("should show an error for invalid count", function () {
-      deepEqual(organizeInputs([, , "-c", "abc"]), { action: getFirstNCharacters, count: 'error', files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs(['node','head.js' , "-c", "abc"]), { action: getFirstNCharacters, count: 'error', files: ["abc"], filesName: ["abc"] });
     });
     it("should treat 0 as legal count", function () {
-      deepEqual(organizeInputs(["node", "tail.js", "-n0", "abc\ndef\nghi"]), { action: getNHeadLines, count: '0', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'] });
+      deepEqual(organizeInputs(["node", "head.js", "-n0", "abc\ndef\nghi"]), { action: getNHeadLines, count: '0', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'] });
     });
   });
 });
