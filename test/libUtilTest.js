@@ -11,7 +11,13 @@ const {
     getNTailLines,
     getLastNCharacters,
     getIfHeadError,
-    getIfTailError
+    getIfTailError,
+    isNotNatural,
+    doesAttachOption,
+    doesNeedHeaders,
+    doesContainC,
+    isCountInvalid,
+    sliceFrom
 } = require('../src/libUtil');
 
 describe("identity", function () {
@@ -131,4 +137,64 @@ describe('getIfTailError', function () {
         deepEqual(getIfTailError({ count: 'error', action: getLastNCharacters, filesName: ['abc'] }), 'tail: illegal offset -- abc');
     });
 
+});
+
+describe('isNotNatural', function () {
+    it('should return true for Natural number', function () {
+        deepEqual(isNotNatural(1), false);
+    });
+    it('should return false for non-natural number', function () {
+        deepEqual(isNotNatural(0), true);
+    });
+});
+
+describe('doesContainC', function () {
+    it('should return true when list contains -c', function () {
+        deepEqual(doesContainC(['-c', 'd', 'e']), true);
+    });
+    it('should return false when list does not contain -c', function () {
+        deepEqual(doesContainC(['t', 'd', 'e']), false);
+    });
+});
+
+describe('doesAttachOption', function () {
+    it('should return true if option is attached', function () {
+        deepEqual(doesAttachOption('-c4'), true);
+    });
+    it('should return false if option is not attached', function () {
+        deepEqual(doesAttachOption('-c'), false);
+    });
+});
+
+describe('doesNeedHeaders', function () {
+    it('should return true if no of files is more than 1', function () {
+        deepEqual(doesNeedHeaders(['abc', 'def']), true);
+    });
+    it('should return false if no of files is 1', function () {
+        deepEqual(doesNeedHeaders(['abc']), false);
+    });
+    it('should return false if no file is there', function () {
+        deepEqual(doesNeedHeaders([]), false);
+    });
+});
+
+describe('isCountInvalid', function () {
+    it('should return true if count is invalid', function () {
+        deepEqual(isCountInvalid(['node', 'head.js', '-c', 't']), true);
+    });
+    it('should return false if count is valid', function () {
+        deepEqual(isCountInvalid(['node', 'head.js', '-c', '4']), false);
+    });
+});
+
+describe('sliceFrom', function () {
+    it('should return as it is if start is zero', function () {
+        deepEqual(sliceFrom(['abc', 'def'], 0), ['abc', 'def']);
+    });
+    it('should work for any natural value of start', function () {
+        deepEqual(sliceFrom(['abc', 'def'], 1), ['def']);
+    });
+    it('should work for length of the content', function () {
+        deepEqual(sliceFrom(['abc', 'def'], 2), []);
+    });
 });

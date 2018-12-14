@@ -9,7 +9,7 @@ const formatText = function (text) {
 const removeCharacter = function (text, character) {
     return text
         .split("")
-        .filter(x => x != character)
+        .filter(charToRemove => charToRemove != character)
         .join("");
 };
 
@@ -22,8 +22,7 @@ const getLastNCharacters = function (n, text) {
 }
 
 const getNTailLines = function (n, text) {
-    let tail = text.split('\n').slice(-n).join('\n');
-    return tail;
+    return text.split('\n').slice(-n).join('\n');
 }
 
 const getNHeadLines = function (n, text) {
@@ -45,14 +44,26 @@ const insertHeaders = function (texts, headers, isEligible = identity) {
 
 const applyActionIfExist = function (action, actionArg, objectsContent, objectsName, doesExists) {
     for (let index = 0; index < objectsContent.length; index++) {
-        const doesFileExist = () =>
-            doesExists && doesExists(objectsName[index]);
+        const doesFileExist = () => doesExists && doesExists(objectsName[index]);
         if (doesFileExist()) {
             objectsContent[index] = action(actionArg, objectsContent[index]);
         }
     }
     return objectsContent;
 }
+
+const doesContainC = (contents) => contents.some(content => content.match('-c'));
+
+const isCountInvalid = (contents) => contents[2] == "-c" && isNaN(contents[3]);
+
+const doesAttachOption = (contents) => (contents.includes("-c") || contents.includes("-n")) &&
+  contents.length != 2;
+
+const doesNeedHeaders = (files) => (files.length > 1);
+
+const isNotNatural = (number) => number < 1;
+
+const sliceFrom = (content, start) => content.slice(start, content.length);
 
 const getIfHeadError = function ({ count, action, filesName }) {
     if (
@@ -96,3 +107,9 @@ exports.getNTailLines = getNTailLines;
 exports.getLastNCharacters = getLastNCharacters;
 exports.getIfHeadError = getIfHeadError;
 exports.getIfTailError = getIfTailError;
+exports.isNotNatural = isNotNatural;
+exports.doesNeedHeaders = doesNeedHeaders;
+exports.doesAttachOption = doesAttachOption;
+exports.sliceFrom = sliceFrom;
+exports.doesContainC = doesContainC;
+exports.isCountInvalid = isCountInvalid;

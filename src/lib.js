@@ -8,9 +8,14 @@ const {
   getLastNCharacters,
   getNTailLines,
   getIfHeadError,
-  getIfTailError
+  getIfTailError,
+  doesContainC,
+  isCountInvalid,
+  doesAttachOption,
+  doesNeedHeaders,
+  isNotNatural,
+  sliceFrom
 } = require('./libUtil.js');
-
 
 const readFile = function (reader, doesFileExist, title = 'head', file) {
   if (reader != identity && !doesFileExist(file)) {
@@ -32,21 +37,14 @@ const tail = function ({
     action = getNTailLines;
   }
 
-  let requiredTail = applyActionIfExist(
-    action,
-    count,
-    files,
-    filesName,
-    fileExistenceChecker
-  );
+  let requiredTail = applyActionIfExist(action, count, files, filesName, fileExistenceChecker);
 
   const error = getIfTailError({ count, action, filesName });
-  const doesNeedHeaders = () => (files.length > 1);
   if (error) { return error };
-  if ((+count < 1)) {
+  if (isNotNatural(+count)) {
     requiredTail = files.map(files => '');
   }
-  if (doesNeedHeaders()) {
+  if (doesNeedHeaders(files)) {
     requiredTail = insertHeaders(requiredTail, filesName, fileExistenceChecker);
   }
   return requiredTail.join('\n');
@@ -56,7 +54,7 @@ const head = function ({ action, files, count, filesName, fileExistenceChecker }
   let requiredHead = applyActionIfExist(action, count, files, filesName, fileExistenceChecker);
   let error = getIfHeadError({ count, action, filesName });
   if (error) { return error };
-  if (files.length > 1) {
+  if (doesNeedHeaders(files)) {
     requiredHead = insertHeaders(requiredHead, filesName, fileExistenceChecker);
   }
   return requiredHead.join("\n");
@@ -71,37 +69,37 @@ const readUserInputs = function (inputs, read = identity, fileExistenceChecker) 
 
 const extractFileContents = function (dataContents) {
   if (dataContents[2][0] != "-") {
-    return dataContents.slice(2, dataContents.length);
+    return sliceFrom(dataContents, 2);
   }
   if (+dataContents[3]) {
-    return dataContents.slice(4, dataContents.length);
+    return sliceFrom(dataContents, 4);
   }
-  return dataContents.slice(3, dataContents.length);
+  return sliceFrom(dataContents, 3);
 };
 
+const extractAction = function (contents) {
+  if (doesContainC(contents)) {
+    return getFirstNCharacters;
+  }
+  return getNHeadLines;
+}
+
+const correctCount = function (contents, count) {
+  if (isCountInvalid(contents)) {
+    return "error";
+  }
+  if (doesAttachOption(contents[2])) {
+    return contents[2].slice(2, contents[2].length);
+  }
+  return (+count || +contents[3] || 10);
+}
+
 const organizeInputs = function (inputs) {
-  let action = getNHeadLines;
+  let action = extractAction(inputs);
   let actionSign = ["-", "n", "c"];
   let filesName = (files = extractFileContents(inputs));
   let count = actionSign.reduce(removeCharacter, inputs[2]);
-
-  if (inputs.some(shouldActionChange => shouldActionChange.match("-c"))) {
-    action = getFirstNCharacters;
-  }
-
-  if (inputs[2] == "-c" && isNaN(inputs[3])) {
-    count = "error";
-    return { action, count, files, filesName };
-  }
-
-  if (
-    (inputs[2].includes("-c") || inputs[2].includes("-n")) &&
-    inputs[2].length != 2
-  ) {
-    count = inputs[2].slice(2, inputs[2].length);
-    return { action, count, files, filesName };
-  }
-  count = +count || +inputs[3] || 10;
+  count = correctCount(inputs, count);
   return { action, count, files, filesName };
 };
 
