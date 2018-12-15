@@ -19,7 +19,8 @@ const {
     isCountInvalid,
     sliceFrom,
     isHead,
-    extractCommand
+    extractCommand,
+    isNotZero
 } = require('../src/libUtil');
 
 describe("identity", function () {
@@ -138,7 +139,9 @@ describe('getIfTailError', function () {
     it('should return an error with file name for count error', function () {
         deepEqual(getIfTailError({ count: 'error', action: getLastNCharacters, filesName: ['abc'] }), 'tail: illegal offset -- abc');
     });
-
+    it('should return an error for count error', function () {
+        deepEqual(getIfTailError({ count: '-1', action: getNTailLines, filesName: ['abc'] }), 'tail: illegal offset -- -1');
+    });
 });
 
 describe('isNotNatural', function () {
@@ -217,5 +220,16 @@ describe('extractCommmand', function () {
     it('should extract command from given list of content', function () {
         deepEqual(extractCommand('src/head.js'), 'head');
         deepEqual(extractCommand('~/lswapnil/project/head/src/tail.js'), 'tail');
+    });
+});
+
+describe('isNotZero', function () {
+    it('should return true for non-zero value', function () {
+        deepEqual(isNotZero(1), true);
+        deepEqual(isNotZero(2), true);
+        deepEqual(isNotZero(3), true);
+    });
+    it('should return false for zero',function(){
+        deepEqual(isNotZero(0), false);
     });
 });

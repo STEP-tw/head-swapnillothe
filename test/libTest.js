@@ -5,7 +5,8 @@ const {
   extractFileContents,
   organizeInputs,
   readFile,
-  readUserInputs
+  readUserInputs,
+  extractAction
 } = require('../src/lib.js');
 
 const {
@@ -119,7 +120,6 @@ describe("readUserInputs", function () {
   });
 });
 
-
 describe("organizeInputs", function () {
 
   describe("with getNHeadLines default function", function () {
@@ -145,10 +145,10 @@ describe("organizeInputs", function () {
 
   describe("with getFirstNCharacters function", function () {
     it("should work for two arguments before file contents", function () {
-      deepEqual(organizeInputs(['node','head.js' , "-c", "3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs(['node', 'head.js', "-c", "3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
     });
     it("should work for one arguments before file contents", function () {
-      deepEqual(organizeInputs(['node','head.js' , "-c3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs(['node', 'head.js', "-c3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
     });
     it("should test for 0 as count", function () {
       deepEqual(organizeInputs(["node", "head.js", "-n0", "abc\ndef\nghi"]), { action: getNHeadLines, count: '0', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'] });
@@ -159,10 +159,22 @@ describe("organizeInputs", function () {
       deepEqual(organizeInputs(['node', 'head.js', "abc"]), { action: getNHeadLines, count: 10, files: ["abc"], filesName: ["abc"] });
     });
     it("should show an error for invalid count", function () {
-      deepEqual(organizeInputs(['node','head.js' , "-c", "abc"]), { action: getFirstNCharacters, count: 'error', files: ["abc"], filesName: ["abc"] });
+      deepEqual(organizeInputs(['node', 'head.js', "-c", "abc"]), { action: getFirstNCharacters, count: 'error', files: ["abc"], filesName: ["abc"] });
     });
     it("should treat 0 as legal count", function () {
       deepEqual(organizeInputs(["node", "head.js", "-n0", "abc\ndef\nghi"]), { action: getNHeadLines, count: '0', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'] });
     });
+  });
+});
+
+describe('extractAction', function () {
+  it('should return getFirstNCharacter for head and -c', function () {
+    deepEqual(extractAction(['node', 'head.js', '-c', '3', 'abc']), getFirstNCharacters);
+  });
+  it('should return getLastNCharacter for tail and -c', function () {
+    deepEqual(extractAction(['node', 'tail.js', '-c', '3', 'abc']), getLastNCharacters);
+  });
+  it('should return getNTailLines for tail and -n', function () {
+    deepEqual(extractAction(['node', 'tail.js', '-n', '3', 'abc']), getNTailLines);
   });
 });

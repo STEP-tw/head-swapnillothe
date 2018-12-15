@@ -83,9 +83,9 @@ const getIfHeadError = function ({ count, action, filesName }) {
     return;
 }
 
-const getIfTailError = function ({ count, action, filesName }) {
-    const isNotZero = number => number != 0;
+const isNotZero = number => number != 0;
 
+const getIfTailError = function ({ count, action, filesName }) {
     if (count == "error" && action == getLastNCharacters) {
         return `tail: illegal offset -- ${filesName[0]}`;
     }
@@ -118,3 +118,4 @@ exports.doesContainC = doesContainC;
 exports.isCountInvalid = isCountInvalid;
 exports.isHead = isHead;
 exports.extractCommand = extractCommand;
+exports.isNotZero = isNotZero;

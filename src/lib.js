@@ -104,3 +104,4 @@ exports.extractFileContents = extractFileContents;
 exports.organizeInputs = organizeInputs;
 exports.readFile = readFile;
 exports.readUserInputs = readUserInputs;
+exports.extractAction = extractAction;
