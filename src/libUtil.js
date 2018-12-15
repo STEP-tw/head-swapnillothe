@@ -33,10 +33,9 @@ const getNHeadLines = function (n, text) {
 const insertHeaders = function (texts, headers, isEligible = identity) {
     let insertedHeaders = [];
     for (let index = 0; index < texts.length; index++) {
+        insertedHeaders[index] = texts[index];
         if (isEligible(headers[index])) {
             insertedHeaders[index] = formatText(headers[index]) + "\n" + texts[index];
-        } else {
-            insertedHeaders[index] = texts[index];
         }
     }
     return insertedHeaders;
@@ -65,7 +64,7 @@ const isNotNatural = (number) => number < 1;
 
 const sliceFrom = (content, start) => content.slice(start, content.length);
 
-const isHead = (content)=>content.includes('head');
+const isHead = (content) => content.includes('head');
 
 const getIfHeadError = function ({ count, action, filesName }) {
     if (
@@ -96,6 +95,8 @@ const getIfTailError = function ({ count, action, filesName }) {
     return;
 }
 
+const extractCommand = (content)=>content.slice(content.length - 7, content.length - 3)
+
 
 
 exports.identity = identity;
@@ -116,3 +117,4 @@ exports.sliceFrom = sliceFrom;
 exports.doesContainC = doesContainC;
 exports.isCountInvalid = isCountInvalid;
 exports.isHead = isHead;
+exports.extractCommand = extractCommand;

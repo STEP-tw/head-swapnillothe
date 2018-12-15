@@ -18,7 +18,8 @@ const {
     doesContainC,
     isCountInvalid,
     sliceFrom,
-    isHead
+    isHead,
+    extractCommand
 } = require('../src/libUtil');
 
 describe("identity", function () {
@@ -209,5 +210,12 @@ describe('isHead', function () {
     });
     it('should return false if it has not head', function () {
         deepEqual(isHead('tail'), false);
+    });
+});
+
+describe('extractCommmand', function () {
+    it('should extract command from given list of content', function () {
+        deepEqual(extractCommand('src/head.js'), 'head');
+        deepEqual(extractCommand('~/lswapnil/project/head/src/tail.js'), 'tail');
     });
 });

@@ -15,7 +15,8 @@ const {
   doesNeedHeaders,
   isNotNatural,
   sliceFrom,
-  isHead
+  isHead,
+  extractCommand
 } = require('./libUtil.js');
 
 const readFile = function (reader, doesFileExist, title = 'head', file) {
@@ -25,17 +26,9 @@ const readFile = function (reader, doesFileExist, title = 'head', file) {
   return reader(file, "utf8");
 };
 
-const tail = function ({
-  action,
-  files,
-  count,
-  filesName,
-  fileExistenceChecker
-}) {
-
+const tail = function ({ action, files, count, filesName, fileExistenceChecker }) {
   let requiredTail = applyActionIfExist(action, count, files, filesName, fileExistenceChecker);
   const error = getIfTailError({ count, action, filesName });
-  
   if (error) { return error };
   if (isNotNatural(+count)) {
     requiredTail = files.map(files => '');
@@ -58,7 +51,7 @@ const head = function ({ action, files, count, filesName, fileExistenceChecker }
 
 const readUserInputs = function (inputs, read = identity, fileExistenceChecker) {
   let { action, files, count, filesName } = organizeInputs(inputs);
-  let command = inputs[1].slice(inputs[1].length - 7, inputs[1].length - 3);
+  let command = extractCommand(inputs[1]);
   files = filesName.map(readFile.bind(null, read, fileExistenceChecker, command));
   return { action, count, files, filesName, fileExistenceChecker };
 };
