@@ -66,17 +66,17 @@ const extractFileContents = function (dataContents) {
   return sliceFrom(dataContents, 3);
 };
 
+const action = {
+  'head': { 'n': getNHeadLines, 'c': getFirstNCharacters },
+  'tail': { 'n': getNTailLines, 'c': getLastNCharacters }
+}
+
 const extractAction = function (contents) {
-  if (doesContainC(contents) && isHead(contents[1])) {
-    return getFirstNCharacters;
+  let command = extractCommand(contents[1]);
+  if (doesContainC(contents)) {
+    return action[command]['c'];
   }
-  if (doesContainC(contents) && !isHead(contents[1])) {
-    return getLastNCharacters;
-  }
-  if (!doesContainC(contents) && !isHead(contents[1])) {
-    return getNTailLines;
-  }
-  return getNHeadLines;
+  return action[command]['n'];
 }
 
 const correctCount = function (contents, count) {
