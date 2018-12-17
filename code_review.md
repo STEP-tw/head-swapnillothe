@@ -27,4 +27,4 @@
 # -----------------test/libTest.js-----------------
     * Complexity in assert statement( usage of expectedOutput and actualOutput )
     * need more specification in it message 
-    * didn't use assert object
+    * didn't use assert object.
