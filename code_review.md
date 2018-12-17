@@ -3,7 +3,7 @@
 
 # -------------src/utilLib.js-------------------------
     * poor fileName
-    * poor idea to use index in filter in line 29
+    * poor idea to use index in filter in line 29.
     * Long argument list in line number 44
     * logical error * doesContainC function
     * Condition should extract into functions in getIfHeadError and      getIfTailError

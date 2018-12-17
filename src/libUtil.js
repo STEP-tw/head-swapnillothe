@@ -26,7 +26,7 @@ const getNTailLines = function (n, text) {
 }
 
 const getNHeadLines = function (n, text) {
-    let head = text.split("\n").filter((x, y) => y < n);
+    let head = text.split("\n").slice(0,n);
     return head.join("\n");
 };
 
