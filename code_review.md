@@ -13,7 +13,7 @@
 
 # ------------src/lib.js----------------------
     * Condition should extract into functions in readFile function
-    * Global object action
+    * Global object action.
     * extract function in line 88
     * Duplication of Exports
     * complicated Logic in parsing input
