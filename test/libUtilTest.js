@@ -10,8 +10,6 @@ const {
     applyActionIfExist,
     getNTailLines,
     getLastNCharacters,
-    getIfHeadError,
-    getIfTailError,
     isNotNatural,
     doesAttachOption,
     doesNeedHeaders,
@@ -112,33 +110,6 @@ describe('getLastNCharacters', function () {
     });
     it('should works for multiple lines', function () {
         assert.deepEqual(getLastNCharacters(2, 'abc\ndef'), 'ef');
-    });
-});
-
-describe('getIfHeadError', function () {
-    it('should return illegal line count 0 error', function () {
-        assert.deepEqual(getIfHeadError({ count: 0, action: getNHeadLines, filesName: ["abc"] }), 'head: illegal line count -- 0');
-    });
-    it("should return byte count option", function () {
-        assert.deepEqual(getIfHeadError({ action: getNHeadLines, count: '', filesName: ["abc"] }), "head: illegal line count -- ");
-    });
-    it("should return byte count option with invalid count", function () {
-        assert.deepEqual(getIfHeadError({ action: getFirstNCharacters, count: 't', filesName: ["abc"] }), "head: illegal byte count -- t");
-    });
-    it("should return line count option with fileName", function () {
-        assert.deepEqual(getIfHeadError({ action: getFirstNCharacters, count: 'error', filesName: ["abc"] }), "head: illegal byte count -- abc");
-    });
-});
-
-describe('getIfTailError', function () {
-    it('should return an error for invalid values for -n', function () {
-        assert.deepEqual(getIfTailError({ count: '3t', action: getNTailLines, filesName: ['abc'] }), 'tail: illegal offset -- 3t');
-    });
-    it('should return an error with file name for count error', function () {
-        assert.deepEqual(getIfTailError({ count: 'error', action: getLastNCharacters, filesName: ['abc'] }), 'tail: illegal offset -- abc');
-    });
-    it('should return an error for count error', function () {
-        assert.deepEqual(getIfTailError({ count: '-1', action: getNTailLines, filesName: ['abc'] }), 'tail: illegal offset -- -1');
     });
 });
 

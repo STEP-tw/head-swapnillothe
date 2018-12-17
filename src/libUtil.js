@@ -26,7 +26,7 @@ const getNTailLines = function (n, text) {
 }
 
 const getNHeadLines = function (n, text) {
-    let head = text.split("\n").slice(0,n);
+    let head = text.split("\n").slice(0, n);
     return head.join("\n");
 };
 
@@ -41,14 +41,20 @@ const insertHeaders = function (texts, headers, isEligible = identity) {
     return insertedHeaders;
 };
 
-const applyActionIfExist = function (action, actionArg, objectsContent, objectsName, doesExists) {
-    for (let index = 0; index < objectsContent.length; index++) {
-        const doesFileExist = () => doesExists && doesExists(objectsName[index]);
+const applyActionIfExist = function (
+    action,
+    actionArg,
+    objectContents,
+    objectNames,
+    doesExists
+) {
+    for (let index = 0; index < objectContents.length; index++) {
+        const doesFileExist = () => doesExists && doesExists(objectNames[index]);
         if (doesFileExist()) {
-            objectsContent[index] = action(actionArg, objectsContent[index]);
+            objectContents[index] = action(actionArg, objectContents[index]);
         }
     }
-    return objectsContent;
+    return objectContents;
 }
 
 const doesContainC = (contents) => contents.some(content => content.match('-c'));
@@ -64,40 +70,13 @@ const isNotNatural = (number) => number < 1;
 
 const sliceFrom = (content, start) => content.slice(start, content.length);
 
-const getIfHeadError = function ({ count, action, filesName }) {
-    if (
-        (+count < 1 || isNaN(+count)) &&
-        action == getNHeadLines
-    ) {
-        return `head: illegal line count -- ${count}`;
-    }
-    if (count == "error" && action == getFirstNCharacters) {
-        return `head: illegal byte count -- ${filesName[0]}`;
-    }
-
-    if (isNaN(+count) && action == getFirstNCharacters) {
-        return `head: illegal byte count -- ${count}`;
-    }
-    return;
-}
-
 const isNotZero = number => number != 0;
 
 const recorrectCount = function (contents, count) {
     return (+count || +contents[3] || 10);
 }
 
-const getIfTailError = function ({ count, action, filesName }) {
-    if (count == "error" && action == getLastNCharacters) {
-        return `tail: illegal offset -- ${filesName[0]}`;
-    }
-    if ((+count < 1 && action == getNTailLines && isNotZero(count)) || isNaN(+count)) {
-        return `tail: illegal offset -- ${count}`;
-    }
-    return;
-}
-
-const extractCommand = (content) => content.slice(content.length - 7, content.length - 3)
+ const extractCommand = (content) => content.slice(content.length - 7, content.length - 3)
 
 module.exports = {
     identity,
@@ -109,8 +88,6 @@ module.exports = {
     applyActionIfExist,
     getNTailLines,
     getLastNCharacters,
-    getIfHeadError,
-    getIfTailError,
     isNotNatural,
     doesNeedHeaders,
     doesAttachOption,

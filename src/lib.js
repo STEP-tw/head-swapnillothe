@@ -7,8 +7,6 @@ const {
   applyActionIfExist,
   getLastNCharacters,
   getNTailLines,
-  getIfHeadError,
-  getIfTailError,
   doesContainC,
   isCountInvalid,
   doesAttachOption,
@@ -19,6 +17,11 @@ const {
   recorrectCount
 } = require('./libUtil.js');
 
+const {
+  getIfHeadError,
+  getIfTailError
+} = require('./handleError.js');
+
 const readFile = function (reader, doesFileExist, title = 'head', file) {
   if (reader != identity && !doesFileExist(file)) {
     return `${title}: ${file}: No such file or directory`;
@@ -26,12 +29,26 @@ const readFile = function (reader, doesFileExist, title = 'head', file) {
   return reader(file, "utf8");
 };
 
-const tail = function ({ action, files, count, filesName, fileExistenceChecker }) {
-  let requiredTail = applyActionIfExist(action, count, files, filesName, fileExistenceChecker);
+const tail = function ({
+  action,
+  files,
+  count,
+  filesName,
+  fileExistenceChecker
+}) {
+  let requiredTail = applyActionIfExist(
+    action,
+    count,
+    files,
+    filesName,
+    fileExistenceChecker
+  );
+
   const error = getIfTailError({ count, action, filesName });
+
   if (error) { return error };
   if (isNotNatural(+count)) {
-    requiredTail = files.map(files => '');
+    requiredTail = files.map(() => '');
   }
   if (doesNeedHeaders(files)) {
     requiredTail = insertHeaders(requiredTail, filesName, fileExistenceChecker);
@@ -39,8 +56,20 @@ const tail = function ({ action, files, count, filesName, fileExistenceChecker }
   return requiredTail.join('\n');
 }
 
-const head = function ({ action, files, count, filesName, fileExistenceChecker }) {
-  let requiredHead = applyActionIfExist(action, count, files, filesName, fileExistenceChecker);
+const head = function ({
+  action,
+  files,
+  count,
+  filesName,
+  fileExistenceChecker
+}) {
+  let requiredHead = applyActionIfExist(action,
+    count,
+    files,
+    filesName,
+    fileExistenceChecker
+  );
+
   let error = getIfHeadError({ count, action, filesName });
   if (error) { return error };
   if (doesNeedHeaders(files)) {
@@ -85,7 +114,7 @@ const correctCount = function (contents, count) {
   if (doesAttachOption(contents[2])) {
     return sliceFrom(contents[2], 2);
   }
-  return recorrectCount(contents,count);
+  return recorrectCount(contents, count);
 }
 
 const organizeInputs = function (inputs) {

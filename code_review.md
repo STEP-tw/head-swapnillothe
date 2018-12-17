@@ -6,8 +6,8 @@
     * poor idea to use index in filter in line 29.
     * Long argument list in line number 44
     * logical error * doesContainC function
-    * Condition should extract into functions in getIfHeadError and      getIfTailError
-    * Duplication of Exports
+    * Condition should extract into functions in getIfHeadError and getIfTailError.
+    * Duplication of Exports.
     * Non utility function in util library
     * Bad idea of using identity function by default
 
@@ -22,9 +22,12 @@
     * Bad it message in line 32
     * Complexity in assert statement( usage of expectedOutput and actualOutput )
     * Readability in applyActionIfExists function testcases
-    * Duplication in test cases of isNotZero function
+    * Duplication in test cases of isNotZero function.
 
 # -----------------test/libTest.js-----------------
     * Complexity in assert statement( usage of expectedOutput and actualOutput )
     * need more specification in it message 
     * didn't use assert object.
+
+#------------------general------------------------
+    * Replace all +count as count
