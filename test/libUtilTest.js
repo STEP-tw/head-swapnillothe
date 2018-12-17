@@ -219,15 +219,15 @@ describe('isNotZero', function () {
 
 describe('recorrectCount', function () {
     it('should return 10 if count and third arg is NaN', function () {
-        let actualOutPut = recorrectCount(['node', 'head.js', 'file1','file2'], 'a1')
+        let actualOutPut = recorrectCount(['node', 'head.js', 'file1','file2'], 'a1');
         assert.deepEqual(actualOutPut, 10);
     });
     it('should return count if count is of number type', function () {
-        let actualOutPut = recorrectCount(['node', 'head.js', 'file1','file2'], '1')
+        let actualOutPut = recorrectCount(['node', 'head.js', 'file1','file2'], '1');
         assert.deepEqual(actualOutPut, 1);
     });
     it('should return count if count is of number type', function () {
-        let actualOutPut = recorrectCount(['node', 'head.js', 'file1','12'], 'a1')
+        let actualOutPut = recorrectCount(['node', 'head.js', 'file1','12'], 'a1');
         assert.deepEqual(actualOutPut, 12);
     });
 });

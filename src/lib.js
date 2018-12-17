@@ -97,10 +97,12 @@ const organizeInputs = function (inputs) {
   return { action, count, files, filesName };
 };
 
-exports.head = head;
-exports.tail = tail;
-exports.extractFileContents = extractFileContents;
-exports.organizeInputs = organizeInputs;
-exports.readFile = readFile;
-exports.readUserInputs = readUserInputs;
-exports.extractAction = extractAction;
+module.exports = {
+  head,
+  tail,
+  extractFileContents,
+  organizeInputs,
+  readFile,
+  readUserInputs,
+  extractAction
+};

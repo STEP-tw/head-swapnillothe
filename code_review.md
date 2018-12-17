@@ -15,7 +15,7 @@
     * Condition should extract into functions in readFile function
     * Global object action.
     * extract function in line 88.
-    * Duplication of Exports
+    * Duplication of Exports.
     * complicated Logic in parsing input
 
 # --------------test/libUtilTest.js-------------

@@ -99,25 +99,25 @@ const getIfTailError = function ({ count, action, filesName }) {
 
 const extractCommand = (content) => content.slice(content.length - 7, content.length - 3)
 
-
-
-exports.identity = identity;
-exports.formatText = formatText;
-exports.removeCharacter = removeCharacter;
-exports.getFirstNCharacters = getFirstNCharacters;
-exports.getNHeadLines = getNHeadLines;
-exports.insertHeaders = insertHeaders;
-exports.applyActionIfExist = applyActionIfExist;
-exports.getNTailLines = getNTailLines;
-exports.getLastNCharacters = getLastNCharacters;
-exports.getIfHeadError = getIfHeadError;
-exports.getIfTailError = getIfTailError;
-exports.isNotNatural = isNotNatural;
-exports.doesNeedHeaders = doesNeedHeaders;
-exports.doesAttachOption = doesAttachOption;
-exports.sliceFrom = sliceFrom;
-exports.doesContainC = doesContainC;
-exports.isCountInvalid = isCountInvalid;
-exports.extractCommand = extractCommand;
-exports.isNotZero = isNotZero;
-exports.recorrectCount = recorrectCount;
+module.exports = {
+    identity,
+    formatText,
+    removeCharacter,
+    getFirstNCharacters,
+    getNHeadLines,
+    insertHeaders,
+    applyActionIfExist,
+    getNTailLines,
+    getLastNCharacters,
+    getIfHeadError,
+    getIfTailError,
+    isNotNatural,
+    doesNeedHeaders,
+    doesAttachOption,
+    sliceFrom,
+    doesContainC,
+    isCountInvalid,
+    extractCommand,
+    isNotZero,
+    recorrectCount
+}
