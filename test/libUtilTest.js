@@ -18,7 +18,6 @@ const {
     doesContainC,
     isCountInvalid,
     sliceFrom,
-    isHead,
     extractCommand,
     isNotZero
 } = require('../src/libUtil');
@@ -201,18 +200,6 @@ describe('sliceFrom', function () {
     });
     it('should work for length of the content', function () {
         deepEqual(sliceFrom(['abc', 'def'], 2), []);
-    });
-});
-
-describe('isHead', function () {
-    it('should return true if it has head', function () {
-        deepEqual(isHead('head'), true);
-    });
-    it('should return true if it has head with something', function () {
-        deepEqual(isHead('headsomething123'), true);
-    });
-    it('should return false if it has not head', function () {
-        deepEqual(isHead('tail'), false);
     });
 });
 

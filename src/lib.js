@@ -15,7 +15,6 @@ const {
   doesNeedHeaders,
   isNotNatural,
   sliceFrom,
-  isHead,
   extractCommand
 } = require('./libUtil.js');
 
@@ -84,7 +83,7 @@ const correctCount = function (contents, count) {
     return "error";
   }
   if (doesAttachOption(contents[2])) {
-    return contents[2].slice(2, contents[2].length);
+    return sliceFrom(contents[2],2);
   }
   return (+count || +contents[3] || 10);
 }

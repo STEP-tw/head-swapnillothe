@@ -64,8 +64,6 @@ const isNotNatural = (number) => number < 1;
 
 const sliceFrom = (content, start) => content.slice(start, content.length);
 
-const isHead = (content) => content.includes('head');
-
 const getIfHeadError = function ({ count, action, filesName }) {
     if (
         (+count < 1 || isNaN(+count)) &&
@@ -116,6 +114,5 @@ exports.doesAttachOption = doesAttachOption;
 exports.sliceFrom = sliceFrom;
 exports.doesContainC = doesContainC;
 exports.isCountInvalid = isCountInvalid;
-exports.isHead = isHead;
 exports.extractCommand = extractCommand;
 exports.isNotZero = isNotZero;
