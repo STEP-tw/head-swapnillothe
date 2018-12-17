@@ -15,7 +15,8 @@ const {
   doesNeedHeaders,
   isNotNatural,
   sliceFrom,
-  extractCommand
+  extractCommand,
+  recorrectCount
 } = require('./libUtil.js');
 
 const readFile = function (reader, doesFileExist, title = 'head', file) {
@@ -84,7 +85,7 @@ const correctCount = function (contents, count) {
   if (doesAttachOption(contents[2])) {
     return sliceFrom(contents[2], 2);
   }
-  return (+count || +contents[3] || 10);
+  return recorrectCount(contents,count);
 }
 
 const organizeInputs = function (inputs) {

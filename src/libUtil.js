@@ -83,6 +83,10 @@ const getIfHeadError = function ({ count, action, filesName }) {
 
 const isNotZero = number => number != 0;
 
+const recorrectCount = function (contents, count) {
+    return (+count || +contents[3] || 10);
+}
+
 const getIfTailError = function ({ count, action, filesName }) {
     if (count == "error" && action == getLastNCharacters) {
         return `tail: illegal offset -- ${filesName[0]}`;
@@ -93,7 +97,7 @@ const getIfTailError = function ({ count, action, filesName }) {
     return;
 }
 
-const extractCommand = (content)=>content.slice(content.length - 7, content.length - 3)
+const extractCommand = (content) => content.slice(content.length - 7, content.length - 3)
 
 
 
@@ -116,3 +120,4 @@ exports.doesContainC = doesContainC;
 exports.isCountInvalid = isCountInvalid;
 exports.extractCommand = extractCommand;
 exports.isNotZero = isNotZero;
+exports.recorrectCount = recorrectCount;
