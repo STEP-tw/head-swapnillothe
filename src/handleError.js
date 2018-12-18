@@ -44,7 +44,6 @@ const getIfHeadError = function ({ count, action, filesName }) {
 }
 
 const getIfTailError = function ({ count, action, filesName }) {
-
     const tailErrors = {
         'errorWithFileName': `tail: illegal offset -- ${filesName[0]}`,
         'illegalCount': `tail: illegal offset -- ${count}`

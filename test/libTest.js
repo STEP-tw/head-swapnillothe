@@ -302,19 +302,6 @@ describe("for general test", function () {
     }
     assert.deepEqual(actualOutput, expectedOutput);
   });
-
-  it("should return count 0 if it is", function () {
-    let userInputs = ["node", "head.js", "-n0", "alphabets.txt"];
-    let actualOutput = readUserInputs(userInputs);
-    let expectedOutput = {
-      action: getNHeadLines,
-      count: 0,
-      filesName: ['alphabets.txt'],
-      files: ['alphabets.txt'],
-      fileExistenceChecker: undefined
-    }
-    assert.deepEqual(actualOutput, expectedOutput);
-  });
 });
 
 describe("organizeInputs", function () {
