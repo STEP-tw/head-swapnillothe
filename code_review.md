@@ -31,3 +31,4 @@
 
 #------------------general------------------------
     * Replace all +count as count
+    * Bad idea of count as error
