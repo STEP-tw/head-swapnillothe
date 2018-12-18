@@ -85,6 +85,7 @@ describe("head", function () {
     let expectedOutput = 'head: illegal byte count -- t';
     assert.deepEqual(actualOutput, expectedOutput);
   });
+
   it("should return line count error with fileName if count is error", function () {
     let actualOutput = head({
       action: getFirstNCharacters,
@@ -162,12 +163,15 @@ describe("tail", function () {
 });
 
 describe("extractFileContents", function () {
+
   it("should extract file contents for two args before file contents", function () {
     assert.deepEqual(extractFileContents([, , "-n", "3", "abc"]), ["abc"]);
   });
+
   it("should extract file contents for one arg before file contents", function () {
     assert.deepEqual(extractFileContents([, , "-n3", "abc"]), ["abc"]);
   });
+
   it("should extract file contents for no args before file contents", function () {
     assert.deepEqual(extractFileContents([, , "abc"]), ["abc"]);
   });
@@ -190,7 +194,9 @@ const readerCreater = function (expectedFile, expectedEncoding, expectedOutput) 
 }
 
 describe("readFile", function () {
+
   describe('readFile', function () {
+
     it('should return fileContent of given required file', function () {
       let errorMsg = 'head: alphabets.txt: No such file or directory';
       let reader = readerCreater('numbers.txt', 'utf8', 'one\ntwo\nthree\nfour');
@@ -216,6 +222,7 @@ describe("readFile", function () {
 describe("readUserInputs", function () {
 
   describe("with getNHeadLines function, should return parsed Inputs", function () {
+
     it("for separated count and option", function () {
       let actualOutput = readUserInputs(["node", "head.js", "-n", "3", "numbers.txt"]);
       let expectedOutput = {
@@ -227,6 +234,7 @@ describe("readUserInputs", function () {
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
+
     it("for attached count and option", function () {
       let actualOutput = readUserInputs(["node", "head.js", "-n3", "numbers.txt"]);
       let expectedOutput = {
@@ -238,6 +246,7 @@ describe("readUserInputs", function () {
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
+
     it("for no count and option", function () {
       let actualOutput = readUserInputs(["node", "head.js", "numbers.txt"]);
       let expectedOutput = {
@@ -323,6 +332,7 @@ describe("organizeInputs", function () {
       }
       assert.deepEqual(actualOutput, expectedOutput);
     });
+
     it("with attached count and option", function () {
       let inputs = ['node', 'head.js', '-n3', 'numbers.txt'];
       let actualOutput = organizeInputs(inputs);
@@ -334,6 +344,7 @@ describe("organizeInputs", function () {
       }
       assert.deepEqual(actualOutput, expectedOutput);
     });
+
     it("without count and option", function () {
       let inputs = ['node', 'head.js', 'numbers.txt'];
       let actualOutput = organizeInputs(inputs);
@@ -345,6 +356,7 @@ describe("organizeInputs", function () {
       }
       assert.deepEqual(actualOutput, expectedOutput);
     });
+
     it("with separated count c and option", function () {
       let inputs = ['node', 'head.js', '-c', '10', 'numbers.txt'];
       let actualOutput = organizeInputs(inputs);
@@ -356,6 +368,7 @@ describe("organizeInputs", function () {
       }
       assert.deepEqual(actualOutput, expectedOutput);
     });
+
     it("should parse arguments with attached zero", function () {
       let inputs = ['node', 'head.js', '-c0', 'numbers.txt'];
       let actualOutput = organizeInputs(inputs);
@@ -370,6 +383,7 @@ describe("organizeInputs", function () {
   });
 
   describe("with getFirstNCharacters function, should return organized input", function () {
+
     it("for separated count and option", function () {
       let input = ['node', 'head.js', '-c', '3', 'file'];
       let actualOutput = organizeInputs(input);
@@ -381,6 +395,7 @@ describe("organizeInputs", function () {
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
+
     it("for attched count and option", function () {
       let input = ['node', 'head.js', '-c3', 'file'];
       let actualOutput = organizeInputs(input);
@@ -392,6 +407,7 @@ describe("organizeInputs", function () {
       };
       assert.deepEqual(actualOutput, expectedOutput);
     });
+
     it("for count 0 and option", function () {
       let input = ['node', 'head.js', '-c0', 'file'];
       let actualOutput = organizeInputs(input);
@@ -406,6 +422,7 @@ describe("organizeInputs", function () {
   });
 
   describe("with other general tests", function () {
+
     it("should handle default argument as getNHeadLines for action", function () {
       let input = ['node', 'head.js', 'file'];
       let actualOutput = organizeInputs(input);
@@ -417,6 +434,7 @@ describe("organizeInputs", function () {
       }
       assert.deepEqual(actualOutput, expectedOutput);
     });
+
     it("should show an error for invalid count", function () {
       let input = ['node', 'head.js', '-c', 'file'];
       let actualOutput = organizeInputs(input);
@@ -428,6 +446,7 @@ describe("organizeInputs", function () {
       }
       assert.deepEqual(actualOutput, expectedOutput);
     });
+
     it("should treat 0 as legal count", function () {
       let input = ['node', 'head.js', '-c0', 'file'];
       let actualOutput = organizeInputs(input);
@@ -443,16 +462,19 @@ describe("organizeInputs", function () {
 });
 
 describe('extractAction', function () {
+
   it('should return getFirstNCharacter for head and -c', function () {
     let actualAction = extractAction(['node', 'head.js', '-c', '3', 'abc']);
     let expectedAction = getFirstNCharacters;
     assert.deepEqual(actualAction, expectedAction);
   });
+
   it('should return getLastNCharacter for tail and -c', function () {
     let actualAction = extractAction(['node', 'tail.js', '-c', '3', 'file']);
     let expectedAction = getLastNCharacters;
     assert.deepEqual(actualAction, expectedAction);
   });
+  
   it('should return getNTailLines for tail and -n', function () {
     let actualAction = extractAction(['node', 'tail.js', '-n', '3', 'file'])
     let expectedAction = getNTailLines;
