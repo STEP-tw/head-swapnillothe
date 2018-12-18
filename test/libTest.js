@@ -15,7 +15,7 @@ const {
   getNTailLines,
   getLastNCharacters,
   identity
-} = require('../src/libUtil.js');
+} = require('../src/util/libUtil');
 
 
 describe("head", function () {

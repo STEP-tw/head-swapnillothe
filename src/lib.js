@@ -15,7 +15,7 @@ const {
   sliceFrom,
   extractCommand,
   recorrectCount
-} = require('./libUtil.js');
+} = require('./util/libUtil');
 
 const {
   getIfHeadError,

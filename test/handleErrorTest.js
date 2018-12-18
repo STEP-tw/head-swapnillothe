@@ -9,7 +9,7 @@ const {
     getNTailLines,
     getFirstNCharacters,
     getLastNCharacters
-} = require('../src/libUtil');
+} = require('../src/util/libUtil');
 
 describe('getIfHeadError', function () {
     it('should return illegal line count error for count 0', function () {

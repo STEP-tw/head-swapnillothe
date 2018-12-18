@@ -4,7 +4,7 @@ const {
     getFirstNCharacters,
     getLastNCharacters,
     isNotZero
-} = require('../src/libUtil');
+} = require('../src/util/libUtil');
 
 const headLineCountError = function (count, action) {
     return (count < 1 || isNaN(count)) && action == getNHeadLines;
