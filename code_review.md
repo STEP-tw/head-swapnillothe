@@ -9,7 +9,7 @@
     * Condition should extract into functions in getIfHeadError and getIfTailError.
     * Duplication of Exports.
     * Non utility function in util library
-    * Bad idea of using identity function by default
+    * Bad idea of using identity function by default.
 
 # ------------src/lib.js----------------------
     * Condition should extract into functions in readFile function

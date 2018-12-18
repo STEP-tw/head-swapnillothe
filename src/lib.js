@@ -22,7 +22,7 @@ const {
   getIfTailError
 } = require('./handleError.js');
 
-const readFile = function (reader, doesFileExist, title = 'head', file) {
+const readFile = function (reader, doesFileExist, title, file) {
   if (reader != identity && !doesFileExist(file)) {
     return `${title}: ${file}: No such file or directory`;
   }

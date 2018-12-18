@@ -75,17 +75,44 @@ describe("extractFileContents", function () {
   });
 });
 
+const mockFileExistSync = function (expectedFile,
+  expectedEncoding,
+  actualEncoding,
+  actaulFile
+) {
+  return expectedEncoding == actualEncoding && expectedFile == actaulFile
+}
+
+const readerCreater = function (expectedFile, expectedEncoding, expectedOutput) {
+  return function (fileToRead, encoding) {
+    if (mockFileExistSync(expectedFile, expectedEncoding, encoding, fileToRead)) {
+      return expectedOutput;
+    }
+  }
+}
+
 describe("readFile", function () {
-  it("should read the text with given reader", function () {
-    assert.deepEqual(readFile(identity, undefined, "head", "abc"), "abc");
+  describe('readFile', function () {
+    it('should return fileContent of file', function () {
+      let errorMsg = 'head: alphabets.txt: No such file or directory';
+      let reader = readerCreater('numbers.txt', 'utf8', 'one\ntwo\nthree\nfour');
+      let existSync = mockFileExistSync.bind(null, 'numbers.txt', 'utf8', 'utf8');
+
+      let actualOutput = readFile(reader, existSync, 'head', 'alphabets.txt');
+
+      assert.deepEqual(actualOutput, errorMsg);
+    });
   });
-  it("should error msg for file not exists", function () {
-    let doesExist = () => false;
-    let reader = x => x;
-    let read = readFile.bind(null, reader, doesExist, undefined);
-    assert.deepEqual(readFile(reader, doesExist, "head", "abc"), "head: abc: No such file or directory");
-    assert.deepEqual(read("abc"), "head: abc: No such file or directory");
-  });
+
+  it('should return the file contents for exists required file', function () {
+    let reader = readerCreater('numbers.txt', 'utf8', 'one\ntwo\nthree\nfour');
+    let existSync = mockFileExistSync.bind(null, 'numbers.txt', 'utf8', 'utf8');
+
+    let actualOutput = readFile(reader, existSync, 'head', 'numbers.txt');
+    let expectedOutput = 'one\ntwo\nthree\nfour';
+
+    assert.deepEqual(actualOutput, expectedOutput);
+  })
 });
 
 describe("readUserInputs", function () {
