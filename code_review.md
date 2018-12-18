@@ -19,7 +19,7 @@
     * complicated Logic in parsing input
 
 # --------------test/libUtilTest.js-------------
-    * Bad it message in line 32
+    * Bad it message in line 32.
     * Complexity in assert statement( usage of expectedOutput and actualOutput )
     * Readability in applyActionIfExists function testcases
     * Duplication in test cases of isNotZero function.

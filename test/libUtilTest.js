@@ -29,7 +29,8 @@ describe("identity", function () {
 
 describe("removeCharacters", function () {
     it("should remove characters from the given text", function () {
-        assert.deepEqual(removeCharacter("abcdefghi", "a"), "bcdefghi");
+        let actualOutPut = removeCharacter("abcdefghi", "a");
+        assert.deepEqual(actualOutPut, "bcdefghi");
     });
 });
 
@@ -41,14 +42,25 @@ describe("formatText", function () {
 
 describe("insertHeaders", function () {
     it("should insertHeaders for single text and header", function () {
-        assert.deepEqual(insertHeaders(["text1"], ["header1"]), ['==> header1 <==\ntext1']);
+        let actualOutPut = insertHeaders(["text1"], ["header1"]);
+        let expectedOutput = ['==> header1 <==\ntext1'];
+        assert.deepEqual(actualOutPut, expectedOutput);
     });
     it("should insertHeaders for multiple texts and headers", function () {
-        assert.deepEqual(insertHeaders(["text1", "text2"], ["header1", "header2"]), ['==> header1 <==\ntext1', '==> header2 <==\ntext2']);
+        let actualOutPut = insertHeaders(
+            ["text1", "text2"],
+            ["header1", "header2"]
+        );
+        let expectedOutput = [
+            '==> header1 <==\ntext1',
+            '==> header2 <==\ntext2'
+        ];
+        assert.deepEqual(actualOutPut, expectedOutput);
     });
     it("should insertHeaders for single text and header for when file text not eligible", function () {
         const isEligible = () => false;
-        assert.deepEqual(insertHeaders(["text1"], ["header1"], isEligible), ['text1']);
+        let actualOutPut = insertHeaders(["text1"], ["header1"], isEligible);
+        assert.deepEqual(actualOutPut, ['text1']);
     });
 });
 
@@ -165,19 +177,26 @@ describe('isCountInvalid', function () {
 
 describe('sliceFrom', function () {
     it('should return as it is if start is zero', function () {
-        assert.deepEqual(sliceFrom(['abc', 'def'], 0), ['abc', 'def']);
+        let actualOutPut = sliceFrom(['firstElement', 'secondElement'], 0);
+        let expectedOutput = ['firstElement', 'secondElement'];
+        assert.deepEqual(actualOutPut, expectedOutput);
     });
     it('should work for any natural value of start', function () {
-        assert.deepEqual(sliceFrom(['abc', 'def'], 1), ['def']);
+        let actualOutPut = sliceFrom(['firstElement', 'secondElement'], 1);
+        let expectedOutput = ['secondElement'];
+        assert.deepEqual(actualOutPut, expectedOutput);
     });
     it('should work for length of the content', function () {
-        assert.deepEqual(sliceFrom(['abc', 'def'], 2), []);
+        let actualOutPut = sliceFrom(['firstElement', 'secondElement'], 2);
+        let expectedOutput = [];
+        assert.deepEqual(actualOutPut, expectedOutput);
     });
 });
 
 describe('extractCommmand', function () {
     it('should extract command from given list of content', function () {
-        assert.deepEqual(extractCommand('~/lswapnil/project/head/src/tail.js'), 'tail');
+        let path = '~/lswapnil/project/head/src/tail.js';
+        assert.deepEqual(extractCommand(path), 'tail');
     });
 });
 
@@ -192,15 +211,18 @@ describe('isNotZero', function () {
 
 describe('recorrectCount', function () {
     it('should return 10 if count and third arg is NaN', function () {
-        let actualOutPut = recorrectCount(['node', 'head.js', 'file1', 'file2'], 'a1');
+        let arg1 = ['node', 'head.js', 'file1', 'file2'];
+        let actualOutPut = recorrectCount(arg1, 'a1');
         assert.deepEqual(actualOutPut, 10);
     });
     it('should return count if count is of number type', function () {
-        let actualOutPut = recorrectCount(['node', 'head.js', 'file1', 'file2'], '1');
+        let arg1 = ['node', 'head.js', 'file1', 'file2'];
+        let actualOutPut = recorrectCount(arg1, '1');
         assert.deepEqual(actualOutPut, 1);
     });
     it('should return count if count is of number type', function () {
-        let actualOutPut = recorrectCount(['node', 'head.js', 'file1', '12'], 'a1');
+        let arg1 = ['node', 'head.js', 'file1', '12'];
+        let actualOutPut = recorrectCount(arg1, 'a1');
         assert.deepEqual(actualOutPut, 12);
     });
 });
