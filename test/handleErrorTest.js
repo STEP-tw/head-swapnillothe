@@ -12,7 +12,7 @@ const {
 } = require('../src/libUtil');
 
 describe('getIfHeadError', function () {
-    it('should return illegal line count 0 for count 0', function () {
+    it('should return illegal line count error for count 0', function () {
         let actualOutput = getIfHeadError({
             count: 0,
             action: getNHeadLines,
@@ -51,7 +51,7 @@ describe('getIfHeadError', function () {
 });
 
 describe('getIfTailError', function () {
-    it('should return an std error for invalid values for count', function () {
+    it('should return an std error for invalid count for count', function () {
         let actualOutput = getIfTailError({
             count: '3t',
             action: getNTailLines,

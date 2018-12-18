@@ -111,7 +111,7 @@ describe("tail", function () {
     assert.deepEqual(actualOutput, expectedOutput);
   });
 
-  it("should tail for multiple files and more than one count", function () {
+  it("should tail for multiple files and count more than one", function () {
     let actualOutput = tail({
       action: getNTailLines,
       files: ['1\n2\n3\n4', 'a\nb\nc\nd'],
@@ -136,7 +136,7 @@ describe("tail", function () {
     assert.deepEqual(actualOutput, expectedOutput);
   });
 
-  it("should treat 0 as legal count", function () {
+  it("should treat 0 as legal count and return nothing", function () {
     let actualOutput = tail({
       action: getNTailLines,
       files: ['1\n2\n3\n4'],
@@ -162,13 +162,13 @@ describe("tail", function () {
 });
 
 describe("extractFileContents", function () {
-  it("should work for two args before file contents", function () {
+  it("should extract file contents for two args before file contents", function () {
     assert.deepEqual(extractFileContents([, , "-n", "3", "abc"]), ["abc"]);
   });
-  it("should work for one arg before file contents", function () {
+  it("should extract file contents for one arg before file contents", function () {
     assert.deepEqual(extractFileContents([, , "-n3", "abc"]), ["abc"]);
   });
-  it("should work for no args before file contents", function () {
+  it("should extract file contents for no args before file contents", function () {
     assert.deepEqual(extractFileContents([, , "abc"]), ["abc"]);
   });
 });
@@ -191,7 +191,7 @@ const readerCreater = function (expectedFile, expectedEncoding, expectedOutput) 
 
 describe("readFile", function () {
   describe('readFile', function () {
-    it('should return fileContent of file', function () {
+    it('should return fileContent of given required file', function () {
       let errorMsg = 'head: alphabets.txt: No such file or directory';
       let reader = readerCreater('numbers.txt', 'utf8', 'one\ntwo\nthree\nfour');
       let existSync = mockFileExistSync.bind(null, 'numbers.txt', 'utf8', 'utf8');
@@ -201,7 +201,7 @@ describe("readFile", function () {
       assert.deepEqual(actualOutput, errorMsg);
     });
 
-    it('should return the file contents for exists required file', function () {
+    it('should return the file contents for exists and required file', function () {
       let reader = readerCreater('numbers.txt', 'utf8', 'one\ntwo\nthree\nfour');
       let existSync = mockFileExistSync.bind(null, 'numbers.txt', 'utf8', 'utf8');
 
@@ -215,7 +215,7 @@ describe("readFile", function () {
 
 describe("readUserInputs", function () {
 
-  describe("with getNHeadLines default function, should return parsed Inputs", function () {
+  describe("with getNHeadLines function, should return parsed Inputs", function () {
     it("for separated count and option", function () {
       let actualOutput = readUserInputs(["node", "head.js", "-n", "3", "numbers.txt"]);
       let expectedOutput = {
@@ -282,68 +282,180 @@ describe("with getFirstNCharacters function should return parsed Inputs", functi
 
 describe("for general test", function () {
   it("should retrieve default argument for if only fileName passing as argument", function () {
-    assert.deepEqual(readUserInputs(["node", "head.js", "1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11"]), { action: getNHeadLines, count: 10, filesName: ['1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11'], files: ['1\n2\3\n4\n5\n6\n7\n8\n9\n10\n11'], fileExistenceChecker: undefined });
+    let userInputs = ["node", "head.js", "numbers.txt"];
+    let actualOutput = readUserInputs(userInputs);
+    let expectedOutput = {
+      action: getNHeadLines,
+      count: 10,
+      filesName: ['numbers.txt'],
+      files: ['numbers.txt'],
+      fileExistenceChecker: undefined
+    }
+    assert.deepEqual(actualOutput, expectedOutput);
   });
-  it("should treat 0 as legal count", function () {
-    assert.deepEqual(readUserInputs(["node", "head.js", "-n0", "abc\ndef\nghi"]), { action: getNHeadLines, count: 0, filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'], fileExistenceChecker: undefined });
+
+  it("should return count 0 if it is", function () {
+    let userInputs = ["node", "head.js", "-n0", "alphabets.txt"];
+    let actualOutput = readUserInputs(userInputs);
+    let expectedOutput = {
+      action: getNHeadLines,
+      count: 0,
+      filesName: ['alphabets.txt'],
+      files: ['alphabets.txt'],
+      fileExistenceChecker: undefined
+    }
+    assert.deepEqual(actualOutput, expectedOutput);
   });
 });
 
 describe("organizeInputs", function () {
 
-  describe("with getNHeadLines default function", function () {
-    it("should work for two arguments before file contents", function () {
-      assert.deepEqual(organizeInputs(['node', 'head.js', "-n", "3", "abc"]), { action: getNHeadLines, count: 3, files: ["abc"], filesName: ["abc"] });
+  describe("with getNHeadLines function, return well organized input", function () {
+
+    it("with separated count and option", function () {
+      let inputs = ['node', 'head.js', '-n', '3', 'numbers.txt'];
+      let actualOutput = organizeInputs(inputs);
+      let expectedOutput = {
+        action: getNHeadLines,
+        count: 3,
+        files: ['numbers.txt'],
+        filesName: ['numbers.txt']
+      }
+      assert.deepEqual(actualOutput, expectedOutput);
     });
-    it("should work for one arguments before file contents", function () {
-      assert.deepEqual(organizeInputs(['node', 'head.js', "-n3", "abc"]), { action: getNHeadLines, count: 3, files: ["abc"], filesName: ["abc"] });
+    it("with attached count and option", function () {
+      let inputs = ['node', 'head.js', '-n3', 'numbers.txt'];
+      let actualOutput = organizeInputs(inputs);
+      let expectedOutput = {
+        action: getNHeadLines,
+        count: 3,
+        files: ['numbers.txt'],
+        filesName: ['numbers.txt']
+      }
+      assert.deepEqual(actualOutput, expectedOutput);
     });
-    it("should work for no argument before file contents", function () {
-      assert.deepEqual(organizeInputs(['node', 'head.js', "abc"]), { action: getNHeadLines, count: 10, files: ["abc"], filesName: ["abc"] });
+    it("without count and option", function () {
+      let inputs = ['node', 'head.js', 'numbers.txt'];
+      let actualOutput = organizeInputs(inputs);
+      let expectedOutput = {
+        action: getNHeadLines,
+        count: 10,
+        files: ['numbers.txt'],
+        filesName: ['numbers.txt']
+      }
+      assert.deepEqual(actualOutput, expectedOutput);
     });
-    it("should parse arguments with a space in betwen -n and the number", function () {
-      assert.deepEqual(organizeInputs(['node', 'head.js', "-n", "3", "abc"]), { action: getNHeadLines, count: 3, files: ["abc"], filesName: ["abc"] });
-    });
-    it("should parse arguments with a space in betwen -c and the number", function () {
-      assert.deepEqual(organizeInputs(['node', 'head.js', "-c", "3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
+    it("with separated count c and option", function () {
+      let inputs = ['node', 'head.js', '-c', '10', 'numbers.txt'];
+      let actualOutput = organizeInputs(inputs);
+      let expectedOutput = {
+        action: getFirstNCharacters,
+        count: 10,
+        files: ['numbers.txt'],
+        filesName: ['numbers.txt']
+      }
+      assert.deepEqual(actualOutput, expectedOutput);
     });
     it("should parse arguments with attached zero", function () {
-      assert.deepEqual(organizeInputs(['node', "head.js", "-n0", "abc"]), { action: getNHeadLines, count: '0', files: ["abc"], filesName: ["abc"] });
+      let inputs = ['node', 'head.js', '-c0', 'numbers.txt'];
+      let actualOutput = organizeInputs(inputs);
+      let expectedOutput = {
+        action: getFirstNCharacters,
+        count: 0,
+        files: ['numbers.txt'],
+        filesName: ['numbers.txt']
+      }
+      assert.deepEqual(actualOutput, expectedOutput);
     });
   });
 
-  describe("with getFirstNCharacters function", function () {
-    it("should work for two arguments before file contents", function () {
-      assert.deepEqual(organizeInputs(['node', 'head.js', "-c", "3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
+  describe("with getFirstNCharacters function, should return organized input", function () {
+    it("for separated count and option", function () {
+      let input = ['node', 'head.js', '-c', '3', 'file'];
+      let actualOutput = organizeInputs(input);
+      let expectedOutput = {
+        action: getFirstNCharacters,
+        count: 3,
+        files: ['file'],
+        filesName: ['file']
+      };
+      assert.deepEqual(actualOutput, expectedOutput);
     });
-    it("should work for one arguments before file contents", function () {
-      assert.deepEqual(organizeInputs(['node', 'head.js', "-c3", "abc"]), { action: getFirstNCharacters, count: 3, files: ["abc"], filesName: ["abc"] });
+    it("for attched count and option", function () {
+      let input = ['node', 'head.js', '-c3', 'file'];
+      let actualOutput = organizeInputs(input);
+      let expectedOutput = {
+        action: getFirstNCharacters,
+        count: 3,
+        files: ['file'],
+        filesName: ['file']
+      };
+      assert.deepEqual(actualOutput, expectedOutput);
     });
-    it("should test for 0 as count", function () {
-      assert.deepEqual(organizeInputs(["node", "head.js", "-n0", "abc\ndef\nghi"]), { action: getNHeadLines, count: '0', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'] });
+    it("for count 0 and option", function () {
+      let input = ['node', 'head.js', '-c0', 'file'];
+      let actualOutput = organizeInputs(input);
+      let expectedOutput = {
+        action: getFirstNCharacters,
+        count: 0,
+        files: ['file'],
+        filesName: ['file']
+      };
+      assert.deepEqual(actualOutput, expectedOutput);
     });
   });
+
   describe("with other general tests", function () {
     it("should handle default argument as getNHeadLines for action", function () {
-      assert.deepEqual(organizeInputs(['node', 'head.js', "abc"]), { action: getNHeadLines, count: 10, files: ["abc"], filesName: ["abc"] });
+      let input = ['node', 'head.js', 'file'];
+      let actualOutput = organizeInputs(input);
+      let expectedOutput = {
+        action: getNHeadLines,
+        count: 10,
+        files: ['file'],
+        filesName: ['file']
+      }
+      assert.deepEqual(actualOutput, expectedOutput);
     });
     it("should show an error for invalid count", function () {
-      assert.deepEqual(organizeInputs(['node', 'head.js', "-c", "abc"]), { action: getFirstNCharacters, count: 'error', files: ["abc"], filesName: ["abc"] });
+      let input = ['node', 'head.js', '-c', 'file'];
+      let actualOutput = organizeInputs(input);
+      let expectedOutput = {
+        action: getFirstNCharacters,
+        count: 'error',
+        files: ['file'],
+        filesName: ['file']
+      }
+      assert.deepEqual(actualOutput, expectedOutput);
     });
     it("should treat 0 as legal count", function () {
-      assert.deepEqual(organizeInputs(["node", "head.js", "-n0", "abc\ndef\nghi"]), { action: getNHeadLines, count: '0', filesName: ['abc\ndef\nghi'], files: ['abc\ndef\nghi'] });
+      let input = ['node', 'head.js', '-c0', 'file'];
+      let actualOutput = organizeInputs(input);
+      let expectedOutput = {
+        action: getFirstNCharacters,
+        count: '0',
+        files: ['file'],
+        filesName: ['file']
+      }
+      assert.deepEqual(actualOutput, expectedOutput);
     });
   });
 });
 
 describe('extractAction', function () {
   it('should return getFirstNCharacter for head and -c', function () {
-    assert.deepEqual(extractAction(['node', 'head.js', '-c', '3', 'abc']), getFirstNCharacters);
+    let actualAction = extractAction(['node', 'head.js', '-c', '3', 'abc']);
+    let expectedAction = getFirstNCharacters;
+    assert.deepEqual(actualAction, expectedAction);
   });
   it('should return getLastNCharacter for tail and -c', function () {
-    assert.deepEqual(extractAction(['node', 'tail.js', '-c', '3', 'abc']), getLastNCharacters);
+    let actualAction = extractAction(['node', 'tail.js', '-c', '3', 'file']);
+    let expectedAction = getLastNCharacters;
+    assert.deepEqual(actualAction, expectedAction);
   });
   it('should return getNTailLines for tail and -n', function () {
-    assert.deepEqual(extractAction(['node', 'tail.js', '-n', '3', 'abc']), getNTailLines);
+    let actualAction = extractAction(['node', 'tail.js', '-n', '3', 'file'])
+    let expectedAction = getNTailLines;
+    assert.deepEqual(actualAction, expectedAction);
   });
 });

@@ -28,7 +28,7 @@ describe("identity", function () {
 });
 
 describe("removeCharacters", function () {
-    it("should work", function () {
+    it("should remove characters from the given text", function () {
         assert.deepEqual(removeCharacter("abcdefghi", "a"), "bcdefghi");
     });
 });
@@ -40,23 +40,23 @@ describe("formatText", function () {
 });
 
 describe("insertHeaders", function () {
-    it("should work for single text and header", function () {
+    it("should insertHeaders for single text and header", function () {
         assert.deepEqual(insertHeaders(["text1"], ["header1"]), ['==> header1 <==\ntext1']);
     });
-    it("should work for multiple texts and headers", function () {
+    it("should insertHeaders for multiple texts and headers", function () {
         assert.deepEqual(insertHeaders(["text1", "text2"], ["header1", "header2"]), ['==> header1 <==\ntext1', '==> header2 <==\ntext2']);
     });
-    it("should work for single text and header for when file text not eligible", function () {
+    it("should insertHeaders for single text and header for when file text not eligible", function () {
         const isEligible = () => false;
         assert.deepEqual(insertHeaders(["text1"], ["header1"], isEligible), ['text1']);
     });
 });
 
 describe("getFirstNCharacters", function () {
-    it("should work for single line", function () {
+    it("should get first required n charcters for single line", function () {
         assert.deepEqual(getFirstNCharacters(2, "abc"), "ab");
     });
-    it("should work for multiple lines", function () {
+    it("should get first required n charcters for multiple lines", function () {
         assert.deepEqual(getFirstNCharacters(5, "abc\nabc"), "abc\na");
     });
     it("should return empty string for zero character requirement", function () {
@@ -65,26 +65,28 @@ describe("getFirstNCharacters", function () {
 });
 
 describe("getNHeadLines", function () {
-    it("should work for no line", function () {
+    it("should return empty string for empty file", function () {
         assert.deepEqual(getNHeadLines(0, ''), '');
     });
-    it("should work for single line", function () {
-        assert.deepEqual(getNHeadLines(1, 'a'), 'a');
-    });
-    it("should work for multiple lines", function () {
+    it("should return required first n required lines for non-empty file", function () {
         assert.deepEqual(getNHeadLines(2, 'a\nb\nc'), 'a\nb');
     });
-    it("should work for less no of lines with more requirment of no of lines", function () {
+    it("should return at least whole file with more requirment of no of lines", function () {
         assert.deepEqual(getNHeadLines(5, 'a\nb\nc'), 'a\nb\nc');
     });
 });
 
 describe('applyActionIfExists', function () {
     const add = (x, y) => (x + y);
+    let action = add;
+    let actionArgs = [1, 2];
+    let content = ['one', 'two'];
+    let expected = [6, 7];
+
     it('should work if object is present', function () {
-        assert.deepEqual(applyActionIfExist(add, 5, [1, 2], ['one', 'two'], identity), [6, 7]);
+        assert.deepEqual(applyActionIfExist(action, 5, actionArgs, content, identity), [6, 7]);
     });
-    it('should return as it is', function () {
+    it('should return as it is if content is not present', function () {
         assert.deepEqual(applyActionIfExist(add, 5, [1, 2]), [1, 2]);
     })
 });
@@ -190,15 +192,15 @@ describe('isNotZero', function () {
 
 describe('recorrectCount', function () {
     it('should return 10 if count and third arg is NaN', function () {
-        let actualOutPut = recorrectCount(['node', 'head.js', 'file1','file2'], 'a1');
+        let actualOutPut = recorrectCount(['node', 'head.js', 'file1', 'file2'], 'a1');
         assert.deepEqual(actualOutPut, 10);
     });
     it('should return count if count is of number type', function () {
-        let actualOutPut = recorrectCount(['node', 'head.js', 'file1','file2'], '1');
+        let actualOutPut = recorrectCount(['node', 'head.js', 'file1', 'file2'], '1');
         assert.deepEqual(actualOutPut, 1);
     });
     it('should return count if count is of number type', function () {
-        let actualOutPut = recorrectCount(['node', 'head.js', 'file1','12'], 'a1');
+        let actualOutPut = recorrectCount(['node', 'head.js', 'file1', '12'], 'a1');
         assert.deepEqual(actualOutPut, 12);
     });
 });
