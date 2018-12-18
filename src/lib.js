@@ -1,6 +1,5 @@
 const {
   identity,
-  removeCharacter,
   getFirstNCharacters,
   getNHeadLines,
   insertHeaders,
@@ -16,6 +15,10 @@ const {
   extractCommand,
   recorrectCount
 } = require('./util/libUtil');
+
+const {
+  removeCharacter
+} = require('./util/string.js');
 
 const {
   getIfHeadError,

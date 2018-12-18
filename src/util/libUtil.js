@@ -6,13 +6,6 @@ const formatText = function (text) {
     return `==> ${text} <==`;
 };
 
-const removeCharacter = function (text, character) {
-    return text
-        .split("")
-        .filter(charToRemove => charToRemove != character)
-        .join("");
-};
-
 const getFirstNCharacters = function (n, text) {
     return text.slice(0, n);
 };
@@ -81,7 +74,6 @@ const recorrectCount = function (contents, count) {
 module.exports = {
     identity,
     formatText,
-    removeCharacter,
     getFirstNCharacters,
     getNHeadLines,
     insertHeaders,

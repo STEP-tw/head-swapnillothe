@@ -3,7 +3,6 @@ const assert = require('assert');
 const {
     identity,
     formatText,
-    removeCharacter,
     getFirstNCharacters,
     getNHeadLines,
     insertHeaders,
@@ -19,18 +18,11 @@ const {
     extractCommand,
     isNotZero,
     recorrectCount
-} = require('../src/libUtil');
+} = require('../../src/util/libUtil.js');
 
 describe("identity", function () {
     it("should return same as given", function () {
         assert.deepEqual(identity("x"), "x");
-    });
-});
-
-describe("removeCharacters", function () {
-    it("should remove characters from the given text", function () {
-        let actualOutPut = removeCharacter("abcdefghi", "a");
-        assert.deepEqual(actualOutPut, "bcdefghi");
     });
 });
 
