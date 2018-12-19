@@ -2,3 +2,4 @@
 .*swo
 .nyc_output
 converage
+node_modules/
