@@ -11,7 +11,6 @@ const {
     getLastNCharacters,
     doesAttachOption,
     doesNeedHeaders,
-    doesContainC,
     isCountInvalid,
     extractCommand,
 } = require('../../src/util/libUtil.js');
@@ -129,18 +128,6 @@ describe('getLastNCharacters', function () {
 
     it('should works for multiple lines', function () {
         assert.deepEqual(getLastNCharacters(2, 'abc\ndef'), 'ef');
-    });
-});
-
-
-describe('doesContainC', function () {
-
-    it('should return true when list contains -c', function () {
-        assert.deepEqual(doesContainC(['-c', 'd', 'e']), true);
-    });
-
-    it('should return false when list does not contain -c', function () {
-        assert.deepEqual(doesContainC(['t', 'd', 'e']), false);
     });
 });
 

@@ -6,9 +6,7 @@ const {
   applyActionIfExist,
   getLastNCharacters,
   getNTailLines,
-  doesContainC,
   doesNeedHeaders,
-  extractCommand,
 } = require('./util/libUtil');
 
 const {
@@ -95,22 +93,11 @@ const getAction = function (command, option) {
   return action[command][option];
 }
 
-const extractAction = function (contents) {
-  let command = extractCommand(contents[1]);
-  const action = {
-    'head': { 'n': getNHeadLines, 'c': getFirstNCharacters },
-    'tail': { 'n': getNTailLines, 'c': getLastNCharacters }
-  }
-  if (doesContainC(contents)) {
-    return action[command]['c'];
-  }
-  return action[command]['n'];
-}
 
 module.exports = {
   head,
   tail,
   readFile,
   readUserInputs,
-  extractAction
+  getAction
 };

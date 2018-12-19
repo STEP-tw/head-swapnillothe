@@ -4,7 +4,8 @@ const {
   tail,
   readFile,
   readUserInputs,
-  extractAction
+  extractAction,
+  getAction
 } = require('../src/lib.js');
 
 const {
@@ -286,23 +287,22 @@ describe("for general test", function () {
   });
 });
 
-
-describe('extractAction', function () {
+describe('getAction', function () {
 
   it('should return getFirstNCharacter for head and -c', function () {
-    let actualAction = extractAction(['node', 'head.js', '-c', '3', 'abc']);
+    let actualAction = getAction('head','c');
     let expectedAction = getFirstNCharacters;
     assert.deepEqual(actualAction, expectedAction);
   });
 
   it('should return getLastNCharacter for tail and -c', function () {
-    let actualAction = extractAction(['node', 'tail.js', '-c', '3', 'file']);
+    let actualAction = getAction('tail','c');
     let expectedAction = getLastNCharacters;
     assert.deepEqual(actualAction, expectedAction);
   });
   
   it('should return getNTailLines for tail and -n', function () {
-    let actualAction = extractAction(['node', 'tail.js', '-n', '3', 'file'])
+    let actualAction = getAction('tail','n');
     let expectedAction = getNTailLines;
     assert.deepEqual(actualAction, expectedAction);
   });

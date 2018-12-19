@@ -50,8 +50,6 @@ const applyActionIfExist = function (
     return objectContents;
 }
 
-const doesContainC = (contents) => contents.some(content => content.match('-c'));
-
 const isCountInvalid = (contents) => contents[2] == "-c" && isNaN(contents[3]);
 
 const doesAttachOption = (contents) => (contents.includes("-c") || contents.includes("-n")) &&
@@ -72,7 +70,6 @@ module.exports = {
     getLastNCharacters,
     doesNeedHeaders,
     doesAttachOption,
-    doesContainC,
     isCountInvalid,
     extractCommand,
 }
