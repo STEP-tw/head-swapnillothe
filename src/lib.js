@@ -88,16 +88,6 @@ const head = function ({
   return requiredHead.join("\n");
 };
 
-const extractFileContents = function (dataContents) {
-  if (dataContents[2][0] != "-") {
-    return sliceFrom(dataContents, 2);
-  }
-  if (+dataContents[3]) {
-    return sliceFrom(dataContents, 4);
-  }
-  return sliceFrom(dataContents, 3);
-};
-
 const readUserInputs = function (inputs, read = identity, fileExistenceChecker) {
   let { command, option, count, fileNames } = parseInput(inputs);
   let action = getAction(command, option);
@@ -125,20 +115,9 @@ const extractAction = function (contents) {
   return action[command]['n'];
 }
 
-const correctCount = function (contents, count) {
-  if (isCountInvalid(contents)) {
-    return contents[3];
-  }
-  if (doesAttachOption(contents[2])) {
-    return sliceFrom(contents[2], 2);
-  }
-  return recorrectCount(contents, count);
-}
-
 module.exports = {
   head,
   tail,
-  extractFileContents,
   readFile,
   readUserInputs,
   extractAction

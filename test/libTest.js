@@ -2,7 +2,6 @@ const assert = require('assert');
 const {
   head,
   tail,
-  extractFileContents,
   readFile,
   readUserInputs,
   extractAction
@@ -157,21 +156,6 @@ describe("tail", function () {
     });
     let expectedOutput = 'tail: illegal offset -- 3t';
     assert.deepEqual(actualOutput, expectedOutput);
-  });
-});
-
-describe("extractFileContents", function () {
-
-  it("should extract file contents for two args before file contents", function () {
-    assert.deepEqual(extractFileContents([, , "-n", "3", "abc"]), ["abc"]);
-  });
-
-  it("should extract file contents for one arg before file contents", function () {
-    assert.deepEqual(extractFileContents([, , "-n3", "abc"]), ["abc"]);
-  });
-
-  it("should extract file contents for no args before file contents", function () {
-    assert.deepEqual(extractFileContents([, , "abc"]), ["abc"]);
   });
 });
 
