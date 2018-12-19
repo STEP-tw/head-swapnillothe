@@ -1,8 +1,8 @@
-const isNotNatural = (number) => number < 1;
+const isNatural = (number) => number > 0;
 
 const isNotZero = number => number != 0;
 
 module.exports = {
-    isNotNatural,
+    isNatural,
     isNotZero
 }

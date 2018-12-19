@@ -25,7 +25,7 @@ const {
 } = require('./handleError.js');
 
 const {
-  isNotNatural,
+  isNatural,
 } = require('../src/util/numbers.js');
 
 const readFile = function (reader, doesFileExist, title, file) {
@@ -53,7 +53,7 @@ const tail = function ({
   const error = getIfTailError({ count, action, filesName });
 
   if (error) { return error };
-  if (isNotNatural(+count)) {
+  if (!isNatural(+count)) {
     requiredTail = files.map(() => '');
   }
   if (doesNeedHeaders(files)) {

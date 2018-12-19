@@ -34,3 +34,4 @@
     * Bad idea of count as error
     * refactor the applyActionIfExist
     * getIfHeadError => unnecessary object and files case error in byte count error
+    * isNotNatural -> isNatural

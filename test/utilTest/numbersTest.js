@@ -1,6 +1,6 @@
 const {
     isNotZero,
-    isNotNatural
+    isNatural
 } = require('../../src/util/numbers.js');
 
 const assert = require('assert');
@@ -16,13 +16,13 @@ describe('isNotZero', function () {
     });
 });
 
-describe('isNotNatural', function () {
+describe('isNatural', function () {
 
     it('should return true for Natural number', function () {
-        assert.deepEqual(isNotNatural(1), false);
+        assert.deepEqual(isNatural(1), true);
     });
 
-    it('should return false for non-natural number', function () {
-        assert.deepEqual(isNotNatural(0), true);
+    it('should return true for non-natural number', function () {
+        assert.deepEqual(isNatural(0), false);
     });
 });
