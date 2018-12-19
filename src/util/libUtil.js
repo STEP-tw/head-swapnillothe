@@ -59,10 +59,6 @@ const doesAttachOption = (contents) => (contents.includes("-c") || contents.incl
 
 const doesNeedHeaders = (files) => (files.length > 1);
 
-const isNotNatural = (number) => number < 1;
-
-const isNotZero = number => number != 0;
-
 const recorrectCount = function (contents, count) {
     return (+count || +contents[3] || 10);
 }
@@ -78,12 +74,10 @@ module.exports = {
     applyActionIfExist,
     getNTailLines,
     getLastNCharacters,
-    isNotNatural,
     doesNeedHeaders,
     doesAttachOption,
     doesContainC,
     isCountInvalid,
     extractCommand,
-    isNotZero,
     recorrectCount
 }

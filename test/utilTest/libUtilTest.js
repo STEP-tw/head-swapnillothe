@@ -15,7 +15,6 @@ const {
     doesContainC,
     isCountInvalid,
     extractCommand,
-    isNotZero,
     recorrectCount
 } = require('../../src/util/libUtil.js');
 
@@ -135,16 +134,6 @@ describe('getLastNCharacters', function () {
     });
 });
 
-describe('isNotNatural', function () {
-
-    it('should return true for Natural number', function () {
-        assert.deepEqual(isNotNatural(1), false);
-    });
-
-    it('should return false for non-natural number', function () {
-        assert.deepEqual(isNotNatural(0), true);
-    });
-});
 
 describe('doesContainC', function () {
 
@@ -199,17 +188,6 @@ describe('extractCommmand', function () {
     it('should extract command from given list of content', function () {
         let path = '~/lswapnil/project/head/src/tail.js';
         assert.deepEqual(extractCommand(path), 'tail');
-    });
-});
-
-describe('isNotZero', function () {
-
-    it('should return true for non-zero value', function () {
-        assert.deepEqual(isNotZero(1), true);
-    });
-
-    it('should return false for zero', function () {
-        assert.deepEqual(isNotZero(0), false);
     });
 });
 

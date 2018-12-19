@@ -10,7 +10,6 @@ const {
   isCountInvalid,
   doesAttachOption,
   doesNeedHeaders,
-  isNotNatural,
   extractCommand,
   recorrectCount
 } = require('./util/libUtil');
@@ -24,6 +23,10 @@ const {
   getIfHeadError,
   getIfTailError
 } = require('./handleError.js');
+
+const {
+  isNotNatural,
+} = require('../src/util/numbers.js');
 
 const readFile = function (reader, doesFileExist, title, file) {
   if (reader != identity && !doesFileExist(file)) {

@@ -2,8 +2,11 @@ const {
     getNHeadLines,
     getNTailLines,
     getFirstNCharacters,
-    isNotZero
 } = require('../src/util/libUtil');
+
+const {
+    isNotZero
+} = require('./util/numbers.js')
 
 const headLineCountError = function (count, action) {
     return (count < 1 || isNaN(count)) && action == getNHeadLines;
