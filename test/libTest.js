@@ -3,7 +3,6 @@ const {
   head,
   tail,
   extractFileContents,
-  organizeInputs,
   readFile,
   readUserInputs,
   extractAction
@@ -14,7 +13,6 @@ const {
   getNHeadLines,
   getNTailLines,
   getLastNCharacters,
-  identity
 } = require('../src/util/libUtil');
 
 
@@ -304,138 +302,6 @@ describe("for general test", function () {
   });
 });
 
-describe("organizeInputs", function () {
-
-  describe("with getNHeadLines function, return well organized input", function () {
-
-    it("with separated count and option", function () {
-      let inputs = ['node', 'head.js', '-n', '3', 'numbers.txt'];
-      let actualOutput = organizeInputs(inputs);
-      let expectedOutput = {
-        action: getNHeadLines,
-        count: 3,
-        fileNames: ['numbers.txt']
-      }
-      assert.deepEqual(actualOutput, expectedOutput);
-    });
-
-    it("with attached count and option", function () {
-      let inputs = ['node', 'head.js', '-n3', 'numbers.txt'];
-      let actualOutput = organizeInputs(inputs);
-      let expectedOutput = {
-        action: getNHeadLines,
-        count: 3,
-        fileNames: ['numbers.txt']
-      }
-      assert.deepEqual(actualOutput, expectedOutput);
-    });
-
-    it("without count and option", function () {
-      let inputs = ['node', 'head.js', 'numbers.txt'];
-      let actualOutput = organizeInputs(inputs);
-      let expectedOutput = {
-        action: getNHeadLines,
-        count: 10,
-        fileNames: ['numbers.txt']
-      }
-      assert.deepEqual(actualOutput, expectedOutput);
-    });
-
-    it("with separated count c and option", function () {
-      let inputs = ['node', 'head.js', '-c', '10', 'numbers.txt'];
-      let actualOutput = organizeInputs(inputs);
-      let expectedOutput = {
-        action: getFirstNCharacters,
-        count: 10,
-        fileNames: ['numbers.txt']
-      }
-      assert.deepEqual(actualOutput, expectedOutput);
-    });
-
-    it("should parse arguments with attached zero", function () {
-      let inputs = ['node', 'head.js', '-c0', 'numbers.txt'];
-      let actualOutput = organizeInputs(inputs);
-      let expectedOutput = {
-        action: getFirstNCharacters,
-        count: 0,
-        fileNames: ['numbers.txt']
-      }
-      assert.deepEqual(actualOutput, expectedOutput);
-    });
-  });
-
-  describe("with getFirstNCharacters function, should return organized input", function () {
-
-    it("for separated count and option", function () {
-      let input = ['node', 'head.js', '-c', '3', 'file'];
-      let actualOutput = organizeInputs(input);
-      let expectedOutput = {
-        action: getFirstNCharacters,
-        count: 3,
-        fileNames: ['file']
-      };
-      assert.deepEqual(actualOutput, expectedOutput);
-    });
-
-    it("for attched count and option", function () {
-      let input = ['node', 'head.js', '-c3', 'file'];
-      let actualOutput = organizeInputs(input);
-      let expectedOutput = {
-        action: getFirstNCharacters,
-        count: 3,
-        fileNames: ['file']
-      };
-      assert.deepEqual(actualOutput, expectedOutput);
-    });
-
-    it("for count 0 and option", function () {
-      let input = ['node', 'head.js', '-c0', 'file'];
-      let actualOutput = organizeInputs(input);
-      let expectedOutput = {
-        action: getFirstNCharacters,
-        count: 0,
-        fileNames: ['file']
-      };
-      assert.deepEqual(actualOutput, expectedOutput);
-    });
-  });
-
-  describe("with other general tests", function () {
-
-    it("should handle default argument as getNHeadLines for action", function () {
-      let input = ['node', 'head.js', 'file'];
-      let actualOutput = organizeInputs(input);
-      let expectedOutput = {
-        action: getNHeadLines,
-        count: 10,
-        fileNames: ['file']
-      }
-      assert.deepEqual(actualOutput, expectedOutput);
-    });
-
-    it("should show an error for invalid count", function () {
-      let input = ['node', 'head.js', '-c', 'file'];
-      let actualOutput = organizeInputs(input);
-      let expectedOutput = {
-        action: getFirstNCharacters,
-        count: 'file',
-        fileNames: ['file']
-      }
-      assert.deepEqual(actualOutput, expectedOutput);
-    });
-
-    it("should treat 0 as legal count", function () {
-      let input = ['node', 'head.js', '-c0', 'file'];
-      let actualOutput = organizeInputs(input);
-      let expectedOutput = {
-        action: getFirstNCharacters,
-        count: '0',
-        fileNames: ['file']
-      }
-      assert.deepEqual(actualOutput, expectedOutput);
-    });
-  });
-});
 
 describe('extractAction', function () {
 

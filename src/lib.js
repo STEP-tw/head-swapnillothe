@@ -135,20 +135,10 @@ const correctCount = function (contents, count) {
   return recorrectCount(contents, count);
 }
 
-const organizeInputs = function (inputs) {
-  let action = extractAction(inputs);
-  let actionSign = ["-", "n", "c"];
-  let fileNames = extractFileContents(inputs);
-  let count = actionSign.reduce(removeCharacter, inputs[2]);
-  count = correctCount(inputs, count);
-  return { action, count, fileNames };
-};
-
 module.exports = {
   head,
   tail,
   extractFileContents,
-  organizeInputs,
   readFile,
   readUserInputs,
   extractAction
