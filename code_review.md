@@ -5,10 +5,10 @@
     * poor fileName
     * poor idea to use index in filter in line 29.
     * Long argument list in line number 44.
-    * logical error * doesContainC function
+    * logical error * doesContainC function.
     * Condition should extract into functions in getIfHeadError and getIfTailError.
     * Duplication of Exports.
-    * Non utility function in util library
+    * Non utility function in util library.
     * Bad idea of using identity function by default.
 
 # ------------src/lib.js----------------------
@@ -16,22 +16,22 @@
     * Global object action.
     * extract function in line 88.
     * Duplication of Exports.
-    * complicated Logic in parsing input
+    * complicated Logic in parsing input.
 
 # --------------test/libUtilTest.js-------------
     * Bad it message in line 32.
-    * Complexity in assert statement( usage of expectedOutput and actualOutput )
+    * Complexity in assert statement( usage of expectedOutput and actualOutput ).
     * Readability in applyActionIfExists function testcases.
     * Duplication in test cases of isNotZero function.
 
 # -----------------test/libTest.js-----------------
-    * Complexity in assert statement( usage of expectedOutput and actualOutput )
+    * Complexity in assert statement( usage of expectedOutput and actualOutput ).
     * need more specification in it message.
     * didn't use assert object.
 
 #------------------general------------------------
     * Replace all +count as count
-    * Bad idea of count as error
+    * Bad idea of count as error.
     * refactor the applyActionIfExist
-    * getIfHeadError => unnecessary object and files case error in byte count error
-    * isNotNatural -> isNatural
+    * getIfHeadError => unnecessary object and files case error in byte count error.
+    * isNotNatural -> isNatural.

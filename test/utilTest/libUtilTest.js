@@ -6,7 +6,7 @@ const {
     getFirstNCharacters,
     getNHeadLines,
     insertHeaders,
-    applyActionIfExist,
+    applyAction,
     getNTailLines,
     getLastNCharacters,
     doesAttachOption,
@@ -84,7 +84,7 @@ describe("getNHeadLines", function () {
     });
 });
 
-describe('applyActionIfExists', function () {
+describe('applyAction', function () {
     const add = (number1, number2) => (number1 + number2);
     let action = add;
     let actionArgs = [1, 2];
@@ -92,12 +92,12 @@ describe('applyActionIfExists', function () {
     let expected = [6, 7];
 
     it('should work if object is present', function () {
-        let actualOutPut = applyActionIfExist(action, 5, actionArgs, content, identity);
+        let actualOutPut = applyAction(action, 5, actionArgs, content, identity);
         assert.deepEqual(actualOutPut, expected);
     });
 
     it('should return as it is if content is not present', function () {
-        assert.deepEqual(applyActionIfExist(add, 5, [1, 2]), [1, 2]);
+        assert.deepEqual(applyAction(add, 5, [1, 2]), [1, 2]);
     })
 });
 

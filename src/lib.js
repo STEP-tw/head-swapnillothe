@@ -3,7 +3,7 @@ const {
   getFirstNCharacters,
   getNHeadLines,
   insertHeaders,
-  applyActionIfExist,
+  applyAction,
   getLastNCharacters,
   getNTailLines,
   doesNeedHeaders,
@@ -15,7 +15,7 @@ const {
 } = require('./handleError.js');
 
 const {
-  isNatural,
+  isNatural
 } = require('../src/util/numbers.js');
 
 const {
@@ -29,6 +29,21 @@ const readFile = function (reader, doesFileExist, title, file) {
   return reader(file, "utf8");
 };
 
+const readUserInputs = function (inputs, read = identity, fileExistenceChecker) {
+  let { command, option, count, fileNames } = parseInput(inputs);
+  let action = getAction(command, option);
+  let files = fileNames.map(readFile.bind(null, read, fileExistenceChecker, command));
+  return { action, count, files, fileNames, fileExistenceChecker };
+};
+
+const getAction = function (command, option) {
+  const action = {
+    'head': { 'n': getNHeadLines, 'c': getFirstNCharacters },
+    'tail': { 'n': getNTailLines, 'c': getLastNCharacters }
+  }
+  return action[command][option];
+}
+
 const tail = function ({
   action,
   files,
@@ -36,7 +51,7 @@ const tail = function ({
   fileNames,
   fileExistenceChecker
 }) {
-  let requiredTail = applyActionIfExist(
+  let requiredTail = applyAction(
     action,
     count,
     files,
@@ -63,7 +78,7 @@ const head = function ({
   fileNames,
   fileExistenceChecker
 }) {
-  let requiredHead = applyActionIfExist(action,
+  let requiredHead = applyAction(action,
     count,
     files,
     fileNames,
@@ -77,22 +92,6 @@ const head = function ({
   }
   return requiredHead.join("\n");
 };
-
-const readUserInputs = function (inputs, read = identity, fileExistenceChecker) {
-  let { command, option, count, fileNames } = parseInput(inputs);
-  let action = getAction(command, option);
-  let files = fileNames.map(readFile.bind(null, read, fileExistenceChecker, command));
-  return { action, count, files, fileNames, fileExistenceChecker };
-};
-
-const getAction = function (command, option) {
-  const action = {
-    'head': { 'n': getNHeadLines, 'c': getFirstNCharacters },
-    'tail': { 'n': getNTailLines, 'c': getLastNCharacters }
-  }
-  return action[command][option];
-}
-
 
 module.exports = {
   head,

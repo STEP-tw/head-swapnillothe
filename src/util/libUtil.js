@@ -34,7 +34,7 @@ const insertHeaders = function (texts, headers, isEligible = identity) {
     return insertedHeaders;
 };
 
-const applyActionIfExist = function (
+const applyAction = function (
     action,
     actionArg,
     objectContents,
@@ -65,7 +65,7 @@ module.exports = {
     getFirstNCharacters,
     getNHeadLines,
     insertHeaders,
-    applyActionIfExist,
+    applyAction,
     getNTailLines,
     getLastNCharacters,
     doesNeedHeaders,
