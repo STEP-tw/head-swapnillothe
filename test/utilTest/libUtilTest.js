@@ -9,13 +9,11 @@ const {
     applyActionIfExist,
     getNTailLines,
     getLastNCharacters,
-    isNotNatural,
     doesAttachOption,
     doesNeedHeaders,
     doesContainC,
     isCountInvalid,
     extractCommand,
-    recorrectCount
 } = require('../../src/util/libUtil.js');
 
 describe("identity", function () {
@@ -188,26 +186,5 @@ describe('extractCommmand', function () {
     it('should extract command from given list of content', function () {
         let path = '~/lswapnil/project/head/src/tail.js';
         assert.deepEqual(extractCommand(path), 'tail');
-    });
-});
-
-describe('recorrectCount', function () {
-
-    it('should return 10 if count and third arg is NaN', function () {
-        let arg1 = ['node', 'head.js', 'file1', 'file2'];
-        let actualOutPut = recorrectCount(arg1, 'a1');
-        assert.deepEqual(actualOutPut, 10);
-    });
-
-    it('should return count if count is of number type', function () {
-        let arg1 = ['node', 'head.js', 'file1', 'file2'];
-        let actualOutPut = recorrectCount(arg1, '1');
-        assert.deepEqual(actualOutPut, 1);
-    });
-
-    it('should return count if count is of number type', function () {
-        let arg1 = ['node', 'head.js', 'file1', '12'];
-        let actualOutPut = recorrectCount(arg1, 'a1');
-        assert.deepEqual(actualOutPut, 12);
     });
 });

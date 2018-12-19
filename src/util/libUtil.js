@@ -59,11 +59,7 @@ const doesAttachOption = (contents) => (contents.includes("-c") || contents.incl
 
 const doesNeedHeaders = (files) => (files.length > 1);
 
-const recorrectCount = function (contents, count) {
-    return (+count || +contents[3] || 10);
-}
-
- const extractCommand = (content) => content.slice(content.length - 7, content.length - 3)
+const extractCommand = (content) => content.slice(content.length - 7, content.length - 3)
 
 module.exports = {
     identity,
@@ -79,5 +75,4 @@ module.exports = {
     doesContainC,
     isCountInvalid,
     extractCommand,
-    recorrectCount
 }

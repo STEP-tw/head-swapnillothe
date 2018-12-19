@@ -7,17 +7,9 @@ const {
   getLastNCharacters,
   getNTailLines,
   doesContainC,
-  isCountInvalid,
-  doesAttachOption,
   doesNeedHeaders,
   extractCommand,
-  recorrectCount
 } = require('./util/libUtil');
-
-const {
-  removeCharacter,
-  sliceFrom
-} = require('./util/string.js');
 
 const {
   getIfHeadError,
