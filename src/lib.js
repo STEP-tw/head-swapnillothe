@@ -39,25 +39,25 @@ const tail = function ({
   action,
   files,
   count,
-  filesName,
+  fileNames,
   fileExistenceChecker
 }) {
   let requiredTail = applyActionIfExist(
     action,
     count,
     files,
-    filesName,
+    fileNames,
     fileExistenceChecker
   );
 
-  const error = getIfTailError({ count, action, filesName });
+  const error = getIfTailError({ count, action, fileNames });
 
   if (error) { return error };
   if (!isNatural(+count)) {
     requiredTail = files.map(() => '');
   }
   if (doesNeedHeaders(files)) {
-    requiredTail = insertHeaders(requiredTail, filesName, fileExistenceChecker);
+    requiredTail = insertHeaders(requiredTail, fileNames, fileExistenceChecker);
   }
   return requiredTail.join('\n');
 }
@@ -66,29 +66,29 @@ const head = function ({
   action,
   files,
   count,
-  filesName,
+  fileNames,
   fileExistenceChecker
 }) {
   let requiredHead = applyActionIfExist(action,
     count,
     files,
-    filesName,
+    fileNames,
     fileExistenceChecker
   );
 
-  let error = getIfHeadError({ count, action, filesName });
+  let error = getIfHeadError({ count, action, fileNames });
   if (error) { return error };
   if (doesNeedHeaders(files)) {
-    requiredHead = insertHeaders(requiredHead, filesName, fileExistenceChecker);
+    requiredHead = insertHeaders(requiredHead, fileNames, fileExistenceChecker);
   }
   return requiredHead.join("\n");
 };
 
 const readUserInputs = function (inputs, read = identity, fileExistenceChecker) {
-  let { action, count, filesName } = organizeInputs(inputs);
+  let { action, count, fileNames } = organizeInputs(inputs);
   let command = extractCommand(inputs[1]);
-  let files = filesName.map(readFile.bind(null, read, fileExistenceChecker, command));
-  return { action, count, files, filesName, fileExistenceChecker };
+  let files = fileNames.map(readFile.bind(null, read, fileExistenceChecker, command));
+  return { action, count, files, fileNames, fileExistenceChecker };
 };
 
 const extractFileContents = function (dataContents) {
@@ -126,10 +126,10 @@ const correctCount = function (contents, count) {
 const organizeInputs = function (inputs) {
   let action = extractAction(inputs);
   let actionSign = ["-", "n", "c"];
-  let filesName = extractFileContents(inputs);
+  let fileNames = extractFileContents(inputs);
   let count = actionSign.reduce(removeCharacter, inputs[2]);
   count = correctCount(inputs, count);
-  return { action, count, filesName };
+  return { action, count, fileNames };
 };
 
 module.exports = {
