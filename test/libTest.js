@@ -90,7 +90,7 @@ describe("head", function () {
     let actualOutput = head({
       action: getFirstNCharacters,
       files: ['1\n2\n3\n4\n5'],
-      count: 'error',
+      count: 'numbers.txt',
       filesName: ['numbers.txt']
     });
     let expectedOutput = 'head: illegal byte count -- numbers.txt';
@@ -418,7 +418,7 @@ describe("organizeInputs", function () {
       let actualOutput = organizeInputs(input);
       let expectedOutput = {
         action: getFirstNCharacters,
-        count: 'error',
+        count: 'file',
         filesName: ['file']
       }
       assert.deepEqual(actualOutput, expectedOutput);

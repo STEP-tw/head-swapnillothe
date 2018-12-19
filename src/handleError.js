@@ -34,9 +34,6 @@ const getIfHeadError = function ({ count, action, filesName }) {
     if (headLineCountError(count, action)) {
         return headErrors['lineCountError'];
     }
-    if (headByteError(count, action)) {
-        return headErrors['errorWithFileName'];
-    }
     if (headCharCountError(count, action)) {
         return headErrors['byteCountError']
     }
@@ -49,9 +46,9 @@ const getIfTailError = function ({ count, action, filesName }) {
         'illegalCount': `tail: illegal offset -- ${count}`
     };
 
-    if (count == "error" && action == getLastNCharacters) {
-        return tailErrors['errorWithFileName'];
-    }
+    // if (count == "error" && action == getLastNCharacters) {
+    //     return tailErrors['errorWithFileName'];
+    // }
     if (illegalCount(count, action)) {
         return tailErrors['illegalCount'];
     }

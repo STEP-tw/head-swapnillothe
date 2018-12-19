@@ -112,7 +112,7 @@ const extractAction = function (contents) {
 
 const correctCount = function (contents, count) {
   if (isCountInvalid(contents)) {
-    return "error";
+    return contents[3];
   }
   if (doesAttachOption(contents[2])) {
     return sliceFrom(contents[2], 2);

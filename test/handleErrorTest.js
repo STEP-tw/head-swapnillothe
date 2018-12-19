@@ -41,7 +41,7 @@ describe('getIfHeadError', function () {
     });
     it('should return line count option with fileName if count is error', function () {
         let actualOutput = getIfHeadError({
-            count: 'error',
+            count: 'fileName',
             action: getFirstNCharacters,
             filesName: ['fileName']
         });
@@ -62,7 +62,7 @@ describe('getIfTailError', function () {
     });
     it('should return an error with file name for count error', function () {
         let actualOutput = getIfTailError({
-            count: 'error',
+            count: 'fileName',
             action: getLastNCharacters,
             filesName: ['fileName']
         });
