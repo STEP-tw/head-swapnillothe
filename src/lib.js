@@ -28,6 +28,10 @@ const {
   isNatural,
 } = require('../src/util/numbers.js');
 
+const {
+  parseInput
+} = require('../src/parseInput.js');
+
 const readFile = function (reader, doesFileExist, title, file) {
   if (reader != identity && !doesFileExist(file)) {
     return `${title}: ${file}: No such file or directory`;
@@ -84,13 +88,6 @@ const head = function ({
   return requiredHead.join("\n");
 };
 
-const readUserInputs = function (inputs, read = identity, fileExistenceChecker) {
-  let { action, count, fileNames } = organizeInputs(inputs);
-  let command = extractCommand(inputs[1]);
-  let files = fileNames.map(readFile.bind(null, read, fileExistenceChecker, command));
-  return { action, count, files, fileNames, fileExistenceChecker };
-};
-
 const extractFileContents = function (dataContents) {
   if (dataContents[2][0] != "-") {
     return sliceFrom(dataContents, 2);
@@ -100,6 +97,21 @@ const extractFileContents = function (dataContents) {
   }
   return sliceFrom(dataContents, 3);
 };
+
+const readUserInputs = function (inputs, read = identity, fileExistenceChecker) {
+  let { command, option, count, fileNames } = parseInput(inputs);
+  let action = getAction(command, option);
+  let files = fileNames.map(readFile.bind(null, read, fileExistenceChecker, command));
+  return { action, count, files, fileNames, fileExistenceChecker };
+};
+
+const getAction = function (command, option) {
+  const action = {
+    'head': { 'n': getNHeadLines, 'c': getFirstNCharacters },
+    'tail': { 'n': getNTailLines, 'c': getLastNCharacters }
+  }
+  return action[command][option];
+}
 
 const extractAction = function (contents) {
   let command = extractCommand(contents[1]);
