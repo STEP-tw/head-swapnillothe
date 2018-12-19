@@ -8,19 +8,19 @@ const assert = require('assert');
 describe("classifyInput", function () {
 
     describe("should return classifiedInputs contains option, numberOfLines, command and file names", function () {
-        
+
         it("if only count and file is given", () => {
             let actualOutput = classifyInput(["node", "head.js", "-5", "file.txt"]);
             let expectedOutput = {
                 command: "head",
                 option: "n",
                 numberOfLines: 5,
-                files: ["file.txt"]
+                fileNames: ["file.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
 
-        it("if only count and multiple files are given", function () {
+        it("if only count and multiple fileNames are given", function () {
             let actualOutput = classifyInput(["node", "head.js",
                 "-10",
                 "file.txt",
@@ -31,7 +31,7 @@ describe("classifyInput", function () {
                 command: "head",
                 option: "n",
                 numberOfLines: 10,
-                files: ["file.txt", "file2.txt", "file3.txt"]
+                fileNames: ["file.txt", "file2.txt", "file3.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
@@ -42,7 +42,7 @@ describe("classifyInput", function () {
                 command: "head",
                 option: "n",
                 numberOfLines: 2,
-                files: ["file.txt"]
+                fileNames: ["file.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
@@ -53,18 +53,18 @@ describe("classifyInput", function () {
                 command: "head",
                 option: "n",
                 numberOfLines: 10,
-                files: ["file.txt"]
+                fileNames: ["file.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
 
-        it("all means files, count and option are given separately", function () {
+        it("all means fileNames, count and option are given separately", function () {
             let actualOutput = classifyInput(["node", "head.js", "-n", "-1", "file.txt", "file2.txt"]);
             let expectedOutput = {
                 command: "head",
                 option: "n",
                 numberOfLines: -1,
-                files: ["file.txt", "file2.txt"]
+                fileNames: ["file.txt", "file2.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
@@ -75,7 +75,7 @@ describe("classifyInput", function () {
                 command: "head",
                 option: "c",
                 numberOfLines: 1,
-                files: ["file.txt", "file2.txt"]
+                fileNames: ["file.txt", "file2.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
@@ -86,18 +86,18 @@ describe("classifyInput", function () {
                 command: "head",
                 option: "c",
                 numberOfLines: 1,
-                files: ["file.txt"]
+                fileNames: ["file.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
 
-        it("for separated c option and count for multiple files", function () {
+        it("for separated c option and count for multiple fileNames", function () {
             let actualOutput = classifyInput(["node", "head.js", "-c", "1", "file.txt", "file2.txt"]);
             let expectedOutput = {
                 command: "head",
                 option: "c",
                 numberOfLines: 1,
-                files: ["file.txt", "file2.txt"]
+                fileNames: ["file.txt", "file2.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
@@ -114,18 +114,18 @@ describe("parseInput", function () {
                 command: "head",
                 option: "n",
                 numberOfLines: 10,
-                files: ["file.txt"]
+                fileNames: ["file.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
 
-        it("if only multiple files are given", function () {
+        it("if only multiple fileNames are given", function () {
             let actualOutput = parseInput(["node", "head.js", "file.txt", "file2.txt"]);
             let expectedOutput = {
                 command: "head",
                 option: "n",
                 numberOfLines: 10,
-                files: ["file.txt", "file2.txt"]
+                fileNames: ["file.txt", "file2.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
@@ -136,12 +136,12 @@ describe("parseInput", function () {
                 command: "head",
                 option: "n",
                 numberOfLines: 5,
-                files: ["file.txt"]
+                fileNames: ["file.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
 
-        it("if only count and multiple files are given", function () {
+        it("if only count and multiple fileNames are given", function () {
             let actualOutput = parseInput(["node", "head.js",
                 "-10",
                 "file.txt",
@@ -152,7 +152,7 @@ describe("parseInput", function () {
                 command: "head",
                 option: "n",
                 numberOfLines: 10,
-                files: ["file.txt", "file2.txt", "file3.txt"]
+                fileNames: ["file.txt", "file2.txt", "file3.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
@@ -163,7 +163,7 @@ describe("parseInput", function () {
                 command: "head",
                 option: "n",
                 numberOfLines: 1,
-                files: ["file.txt"]
+                fileNames: ["file.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
@@ -174,7 +174,7 @@ describe("parseInput", function () {
                 command: "head",
                 option: "n",
                 numberOfLines: 10,
-                files: ["file.txt"]
+                fileNames: ["file.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
@@ -185,7 +185,7 @@ describe("parseInput", function () {
                 command: "head",
                 option: "n",
                 numberOfLines: -1,
-                files: ["file.txt", "file2.txt"]
+                fileNames: ["file.txt", "file2.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
@@ -196,7 +196,7 @@ describe("parseInput", function () {
                 command: "head",
                 option: "c",
                 numberOfLines: 1,
-                files: ["file.txt", "file2.txt"]
+                fileNames: ["file.txt", "file2.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
@@ -207,18 +207,18 @@ describe("parseInput", function () {
                 command: "head",
                 option: "c",
                 numberOfLines: 1,
-                files: ["file.txt"]
+                fileNames: ["file.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });
 
-        it("if option 'c' and count are given with multiple files", function () {
+        it("if option 'c' and count are given with multiple fileNames", function () {
             let actualOutput = parseInput(["node", "head.js", "-c", "1", "file.txt", "file2.txt"]);
             let expectedOutput = {
                 command: "head",
                 option: "c",
                 numberOfLines: 1,
-                files: ["file.txt", "file2.txt"]
+                fileNames: ["file.txt", "file2.txt"]
             };
             assert.deepEqual(actualOutput, expectedOutput);
         });

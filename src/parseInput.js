@@ -11,7 +11,7 @@ const classifyInput = function (input) {
         return {
             option: "n",
             numberOfLines: input[2].slice(1),
-            files: input.slice(3),
+            fileNames: input.slice(3),
             command: extractCommand(input[1])
         };
     }
@@ -20,14 +20,14 @@ const classifyInput = function (input) {
         return {
             option: input[2][1],
             numberOfLines: input[3],
-            files: input.slice(4),
+            fileNames: input.slice(4),
             command: extractCommand(input[1])
         };
     }
     return {
         option: input[2][1],
         numberOfLines: input[2].slice(2),
-        files: input.slice(3),
+        fileNames: input.slice(3),
         command: extractCommand(input[1])
     };
 };
@@ -39,7 +39,7 @@ const parseInput = function (input) {
     return {
         option: "n",
         numberOfLines: 10,
-        files: input.slice(2),
+        fileNames: input.slice(2),
         command: extractCommand(input[1])
     };
 };
