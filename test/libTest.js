@@ -314,7 +314,6 @@ describe("organizeInputs", function () {
       let expectedOutput = {
         action: getNHeadLines,
         count: 3,
-        files: ['numbers.txt'],
         filesName: ['numbers.txt']
       }
       assert.deepEqual(actualOutput, expectedOutput);
@@ -326,7 +325,6 @@ describe("organizeInputs", function () {
       let expectedOutput = {
         action: getNHeadLines,
         count: 3,
-        files: ['numbers.txt'],
         filesName: ['numbers.txt']
       }
       assert.deepEqual(actualOutput, expectedOutput);
@@ -338,7 +336,6 @@ describe("organizeInputs", function () {
       let expectedOutput = {
         action: getNHeadLines,
         count: 10,
-        files: ['numbers.txt'],
         filesName: ['numbers.txt']
       }
       assert.deepEqual(actualOutput, expectedOutput);
@@ -350,7 +347,6 @@ describe("organizeInputs", function () {
       let expectedOutput = {
         action: getFirstNCharacters,
         count: 10,
-        files: ['numbers.txt'],
         filesName: ['numbers.txt']
       }
       assert.deepEqual(actualOutput, expectedOutput);
@@ -362,7 +358,6 @@ describe("organizeInputs", function () {
       let expectedOutput = {
         action: getFirstNCharacters,
         count: 0,
-        files: ['numbers.txt'],
         filesName: ['numbers.txt']
       }
       assert.deepEqual(actualOutput, expectedOutput);
@@ -377,7 +372,6 @@ describe("organizeInputs", function () {
       let expectedOutput = {
         action: getFirstNCharacters,
         count: 3,
-        files: ['file'],
         filesName: ['file']
       };
       assert.deepEqual(actualOutput, expectedOutput);
@@ -389,7 +383,6 @@ describe("organizeInputs", function () {
       let expectedOutput = {
         action: getFirstNCharacters,
         count: 3,
-        files: ['file'],
         filesName: ['file']
       };
       assert.deepEqual(actualOutput, expectedOutput);
@@ -401,7 +394,6 @@ describe("organizeInputs", function () {
       let expectedOutput = {
         action: getFirstNCharacters,
         count: 0,
-        files: ['file'],
         filesName: ['file']
       };
       assert.deepEqual(actualOutput, expectedOutput);
@@ -416,7 +408,6 @@ describe("organizeInputs", function () {
       let expectedOutput = {
         action: getNHeadLines,
         count: 10,
-        files: ['file'],
         filesName: ['file']
       }
       assert.deepEqual(actualOutput, expectedOutput);
@@ -428,7 +419,6 @@ describe("organizeInputs", function () {
       let expectedOutput = {
         action: getFirstNCharacters,
         count: 'error',
-        files: ['file'],
         filesName: ['file']
       }
       assert.deepEqual(actualOutput, expectedOutput);
@@ -440,7 +430,6 @@ describe("organizeInputs", function () {
       let expectedOutput = {
         action: getFirstNCharacters,
         count: '0',
-        files: ['file'],
         filesName: ['file']
       }
       assert.deepEqual(actualOutput, expectedOutput);

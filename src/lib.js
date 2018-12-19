@@ -82,9 +82,9 @@ const head = function ({
 };
 
 const readUserInputs = function (inputs, read = identity, fileExistenceChecker) {
-  let { action, files, count, filesName } = organizeInputs(inputs);
+  let { action, count, filesName } = organizeInputs(inputs);
   let command = extractCommand(inputs[1]);
-  files = filesName.map(readFile.bind(null, read, fileExistenceChecker, command));
+  let files = filesName.map(readFile.bind(null, read, fileExistenceChecker, command));
   return { action, count, files, filesName, fileExistenceChecker };
 };
 
@@ -123,10 +123,10 @@ const correctCount = function (contents, count) {
 const organizeInputs = function (inputs) {
   let action = extractAction(inputs);
   let actionSign = ["-", "n", "c"];
-  let filesName = (files = extractFileContents(inputs));
+  let filesName = extractFileContents(inputs);
   let count = actionSign.reduce(removeCharacter, inputs[2]);
   count = correctCount(inputs, count);
-  return { action, count, files, filesName };
+  return { action, count, filesName };
 };
 
 module.exports = {
