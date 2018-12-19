@@ -2,16 +2,11 @@ const {
     getNHeadLines,
     getNTailLines,
     getFirstNCharacters,
-    getLastNCharacters,
     isNotZero
 } = require('../src/util/libUtil');
 
 const headLineCountError = function (count, action) {
     return (count < 1 || isNaN(count)) && action == getNHeadLines;
-}
-
-const headByteError = function (count, action) {
-    return count == "error" && action == getFirstNCharacters;
 }
 
 const headCharCountError = function (count, action) {
@@ -24,33 +19,22 @@ const illegalCount = function (count, action) {
 }
 
 const getIfHeadError = function ({ count, action, filesName }) {
-
-    const headErrors = {
-        'lineCountError': `head: illegal line count -- ${count}`,
-        'byteCountError': `head: illegal byte count -- ${count}`,
-        'errorWithFileName': `head: illegal byte count -- ${filesName[0]}`
-    };
+    let lineCountError = `head: illegal line count -- ${count}`
+    let byteCountError = `head: illegal byte count -- ${count}`
 
     if (headLineCountError(count, action)) {
-        return headErrors['lineCountError'];
+        return lineCountError;
     }
     if (headCharCountError(count, action)) {
-        return headErrors['byteCountError']
+        return byteCountError;
     }
     return '';
 }
 
-const getIfTailError = function ({ count, action, filesName }) {
-    const tailErrors = {
-        'errorWithFileName': `tail: illegal offset -- ${filesName[0]}`,
-        'illegalCount': `tail: illegal offset -- ${count}`
-    };
-
-    // if (count == "error" && action == getLastNCharacters) {
-    //     return tailErrors['errorWithFileName'];
-    // }
+const getIfTailError = function ({ count, action }) {
+    let illegalCountError = `tail: illegal offset -- ${count}`
     if (illegalCount(count, action)) {
-        return tailErrors['illegalCount'];
+        return illegalCountError;
     }
     return '';
 }
