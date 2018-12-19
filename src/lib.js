@@ -11,13 +11,13 @@ const {
   doesAttachOption,
   doesNeedHeaders,
   isNotNatural,
-  sliceFrom,
   extractCommand,
   recorrectCount
 } = require('./util/libUtil');
 
 const {
-  removeCharacter
+  removeCharacter,
+  sliceFrom
 } = require('./util/string.js');
 
 const {

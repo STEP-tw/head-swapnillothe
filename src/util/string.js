@@ -5,6 +5,9 @@ const removeCharacter = function (text, character) {
         .join("");
 };
 
+const sliceFrom = (content, start) => content.slice(start, content.length);
+
 module.exports = {
-    removeCharacter
+    removeCharacter,
+    sliceFrom
 }

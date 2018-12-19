@@ -14,7 +14,6 @@ const {
     doesNeedHeaders,
     doesContainC,
     isCountInvalid,
-    sliceFrom,
     extractCommand,
     isNotZero,
     recorrectCount
@@ -192,27 +191,6 @@ describe('isCountInvalid', function () {
 
     it('should return false if count is valid', function () {
         assert.deepEqual(isCountInvalid(['node', 'head.js', '-c', '4']), false);
-    });
-});
-
-describe('sliceFrom', function () {
-
-    it('should return as it is if start is zero', function () {
-        let actualOutPut = sliceFrom(['firstElement', 'secondElement'], 0);
-        let expectedOutput = ['firstElement', 'secondElement'];
-        assert.deepEqual(actualOutPut, expectedOutput);
-    });
-
-    it('should work for any natural value of start', function () {
-        let actualOutPut = sliceFrom(['firstElement', 'secondElement'], 1);
-        let expectedOutput = ['secondElement'];
-        assert.deepEqual(actualOutPut, expectedOutput);
-    });
-
-    it('should work for length of the content', function () {
-        let actualOutPut = sliceFrom(['firstElement', 'secondElement'], 2);
-        let expectedOutput = [];
-        assert.deepEqual(actualOutPut, expectedOutput);
     });
 });
 

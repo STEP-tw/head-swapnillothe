@@ -61,8 +61,6 @@ const doesNeedHeaders = (files) => (files.length > 1);
 
 const isNotNatural = (number) => number < 1;
 
-const sliceFrom = (content, start) => content.slice(start, content.length);
-
 const isNotZero = number => number != 0;
 
 const recorrectCount = function (contents, count) {
@@ -83,7 +81,6 @@ module.exports = {
     isNotNatural,
     doesNeedHeaders,
     doesAttachOption,
-    sliceFrom,
     doesContainC,
     isCountInvalid,
     extractCommand,
