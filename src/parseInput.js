@@ -10,34 +10,30 @@ const createClassifiedArgs = function (option, count, fileNames, command) {
     return { option, count, fileNames, command };
 }
 
-const classifyInput = function (args, countOrOption, fileNames, option, command) {
-    let possibleOptionOrCount = countOrOption[1];
-    let count = countOrOption.slice(2);
-
-    if (isSeparateCountOption(countOrOption)) {
-        count = args[3];
-        return createClassifiedArgs(option, count, fileNames, command);
-    }
-
-    if (isNatural(possibleOptionOrCount)) {
-        count = countOrOption.slice(1);
-        return createClassifiedArgs(option, count, fileNames, command);
-    }
-    return createClassifiedArgs(option, count, fileNames, command);
-};
-
 const parseInput = function (args) {
     let countOrOption = args[2];
     let fileIndexStarter = getFileIndex(countOrOption);
     let fileNames = args.slice(fileIndexStarter);
     let command = extractCommand(args[1]);
     let option = getOption(args);
-    let count = 10;
-    if (hasDash(countOrOption)) {
-        return classifyInput(args, countOrOption, fileNames, option, command);
-    }
+    let count = getCount(args);
     return createClassifiedArgs(option, count, fileNames, command);
 };
+
+let getCount = function (args) {
+    let countOrOption = args[2];
+    let count = countOrOption.slice(2);
+    if (isSeparateCountOption(countOrOption)) {
+        return args[3];
+    }
+    if (isNatural(countOrOption[1])) {
+        return countOrOption.slice(1);
+    }
+    if (!hasDash(countOrOption)) {
+        return 10;
+    }
+    return count
+}
 
 const getOption = function (args) {
     let countOrOption = args[2];
@@ -65,6 +61,5 @@ const isTwo = (number) => number == 2;
 const isSeparateCountOption = (content) => isTwo(content.length) && isNaN(content[1]);
 
 module.exports = {
-    parseInput,
-    classifyInput
+    parseInput
 }
