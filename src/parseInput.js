@@ -12,19 +12,19 @@ const createClassifiedArgs = function (option, count, fileNames, command) {
 
 const parseInput = function (args) {
     let countOrOption = args[2];
+    let probableCount = args[3];
     let fileIndexStarter = getFileIndex(countOrOption);
     let fileNames = args.slice(fileIndexStarter);
     let command = extractCommand(args[1]);
-    let option = getOption(args);
-    let count = getCount(args);
+    let option = getOption(countOrOption);
+    let count = getCount(countOrOption, probableCount);
     return createClassifiedArgs(option, count, fileNames, command);
 };
 
-let getCount = function (args) {
-    let countOrOption = args[2];
-    let count = countOrOption.slice(2);
+let getCount = function (countOrOption, probableCount) {
+    let defaultCount = countOrOption.slice(2);
     if (isSeparateCountOption(countOrOption)) {
-        return args[3];
+        return probableCount;
     }
     if (isNatural(countOrOption[1])) {
         return countOrOption.slice(1);
@@ -32,17 +32,14 @@ let getCount = function (args) {
     if (!hasDash(countOrOption)) {
         return 10;
     }
-    return count
+    return defaultCount
 }
 
-const getOption = function (args) {
-    let countOrOption = args[2];
-    let possibleOptionOrCount = countOrOption[1];
-    let option = countOrOption[1];
-    if (isOptionN(countOrOption, possibleOptionOrCount)) {
+const getOption = function (countOrOption) {
+    if (isOptionN(countOrOption, countOrOption[1])) {
         return 'n';
     }
-    return option;
+    return countOrOption[1];
 }
 
 const getFileIndex = (countOrOption) => {
@@ -55,6 +52,7 @@ const getFileIndex = (countOrOption) => {
     return 2;
 };
 
+const isTrue = (value)=>value==true;
 const isOptionN = (option, count) => (!hasDash(option) || isNatural(count));
 const hasDash = (text) => text.startsWith('-');
 const isTwo = (number) => number == 2;
