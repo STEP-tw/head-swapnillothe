@@ -6,47 +6,63 @@ const {
     isNatural
 } = require('./util/numbers.js');
 
-const classifyInput = function (input) {
-    if (isNatural(input[2][1])) {
-        return {
-            option: "n",
-            count: input[2].slice(1),
-            fileNames: input.slice(3),
-            command: extractCommand(input[1])
-        };
+const createClassifiedArgs = function (option, count, fileNames, command) {
+    return { option, count, fileNames, command };
+}
+
+const classifyInput = function (args, countOrOption, fileNames, option, command) {
+    let possibleOptionOrCount = countOrOption[1];
+    let count = countOrOption.slice(2);
+
+    if (isSeparateCountOption(countOrOption)) {
+        count = args[3];
+        return createClassifiedArgs(option, count, fileNames, command);
     }
 
-    if (isSeparateCountOption(input)) {
-        return {
-            option: input[2][1],
-            count: input[3],
-            fileNames: input.slice(4),
-            command: extractCommand(input[1])
-        };
+    if (isNatural(possibleOptionOrCount)) {
+        count = countOrOption.slice(1);
+        return createClassifiedArgs(option, count, fileNames, command);
     }
-    return {
-        option: input[2][1],
-        count: input[2].slice(2),
-        fileNames: input.slice(3),
-        command: extractCommand(input[1])
-    };
+    return createClassifiedArgs(option, count, fileNames, command);
 };
 
-const parseInput = function (input) {
-    if (hasDash(input[2])) {
-        return classifyInput(input);
+const parseInput = function (args) {
+    let countOrOption = args[2];
+    let fileIndexStarter = getFileIndex(countOrOption);
+    let fileNames = args.slice(fileIndexStarter);
+    let command = extractCommand(args[1]);
+    let option = getOption(args);
+    let count = 10;
+    if (hasDash(countOrOption)) {
+        return classifyInput(args, countOrOption, fileNames, option, command);
     }
-    return {
-        option: "n",
-        count: 10,
-        fileNames: input.slice(2),
-        command: extractCommand(input[1])
-    };
+    return createClassifiedArgs(option, count, fileNames, command);
 };
 
-const hasDash = (text) => text.includes('-');
+const getOption = function (args) {
+    let countOrOption = args[2];
+    let possibleOptionOrCount = countOrOption[1];
+    let option = countOrOption[1];
+    if (isOptionN(countOrOption, possibleOptionOrCount)) {
+        return 'n';
+    }
+    return option;
+}
+
+const getFileIndex = (countOrOption) => {
+    if (isSeparateCountOption(countOrOption)) {
+        return 4;
+    }
+    if (hasDash(countOrOption)) {
+        return 3;
+    }
+    return 2;
+};
+
+const isOptionN = (option, count) => (!hasDash(option) || isNatural(count));
+const hasDash = (text) => text.startsWith('-');
 const isTwo = (number) => number == 2;
-const isSeparateCountOption = (input) => isTwo(input[2].length) && isNaN(input[2][1]);
+const isSeparateCountOption = (content) => isTwo(content.length) && isNaN(content[1]);
 
 module.exports = {
     parseInput,

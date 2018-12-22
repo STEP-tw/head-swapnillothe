@@ -10,7 +10,13 @@ describe("classifyInput", function () {
     describe("should return classifiedInputs contains option, count, command and file names", function () {
 
         it("if only count and file is given", () => {
-            let actualOutput = classifyInput(["node", "head.js", "-5", "file.txt"]);
+            let actualOutput = classifyInput(
+                ["node", "head.js", "-5", "file.txt"],
+                 "-5",
+                  ["file.txt"],
+                  "n",
+                  "head"
+                  );
             let expectedOutput = {
                 command: "head",
                 option: "n",
@@ -25,8 +31,14 @@ describe("classifyInput", function () {
                 "-10",
                 "file.txt",
                 "file2.txt",
-                "file3.txt"
-            ]);
+                "file3.txt"],
+                "-10",
+                [
+                    "file.txt", "file2.txt", "file3.txt"
+                ],
+                "n",
+                "head"
+            );
             let expectedOutput = {
                 command: "head",
                 option: "n",
@@ -37,7 +49,13 @@ describe("classifyInput", function () {
         });
 
         it("if option with attachment of count is given ", function () {
-            let actualOutput = classifyInput(["node", "head.js", "-n2", "file.txt"]);
+            let actualOutput = classifyInput(
+                ["node", "head.js", "-n2", "file.txt"],
+                "-n2",
+                ["file.txt"],
+                "n",
+                "head"
+            );
             let expectedOutput = {
                 command: "head",
                 option: "n",
@@ -48,7 +66,13 @@ describe("classifyInput", function () {
         });
 
         it("for separated count and option", function () {
-            let actualOutput = classifyInput(["node", "head.js", "-n", "10", "file.txt"]);
+            let actualOutput = classifyInput(
+                ["node", "head.js", "-n", "10", "file.txt"],
+                "-n",
+                ["file.txt"],
+                "n",
+                "head"
+            );
             let expectedOutput = {
                 command: "head",
                 option: "n",
@@ -59,7 +83,13 @@ describe("classifyInput", function () {
         });
 
         it("all means fileNames, count and option are given separately", function () {
-            let actualOutput = classifyInput(["node", "head.js", "-n", "-1", "file.txt", "file2.txt"]);
+            let actualOutput = classifyInput(
+                ["node", "head.js", "-n", "-1", "file.txt", "file2.txt"],
+                "-n",
+                ["file.txt", "file2.txt"],
+                "n",
+                "head"
+            );
             let expectedOutput = {
                 command: "head",
                 option: "n",
@@ -70,7 +100,13 @@ describe("classifyInput", function () {
         });
 
         it("if option 'c' and count are given together", function () {
-            let actualOutput = classifyInput(["node", "head.js", "-c1", "file.txt", "file2.txt"]);
+            let actualOutput = classifyInput(
+                ["node", "head.js", "-c1", "file.txt", "file2.txt"],
+                "-c1",
+                ["file.txt", "file2.txt"],
+                "c",
+                "head"
+            );
             let expectedOutput = {
                 command: "head",
                 option: "c",
@@ -81,7 +117,13 @@ describe("classifyInput", function () {
         });
 
         it("if option 'c' and count are given seperately for single file", function () {
-            let actualOutput = classifyInput(["node", "head.js", "-c", "1", "file.txt"]);
+            let actualOutput = classifyInput(
+                ["node", "head.js", "-c", "1", "file.txt"],
+                "-c",
+                ["file.txt"],
+                "c",
+                "head"
+            );
             let expectedOutput = {
                 command: "head",
                 option: "c",
@@ -92,7 +134,13 @@ describe("classifyInput", function () {
         });
 
         it("for separated c option and count for multiple fileNames", function () {
-            let actualOutput = classifyInput(["node", "head.js", "-c", "1", "file.txt", "file2.txt"]);
+            let actualOutput = classifyInput(
+                ["node", "head.js", "-c", "1", "file.txt", "file2.txt"],
+                "-c",
+                ["file.txt", "file2.txt"],
+                "c",
+                "head"
+            );
             let expectedOutput = {
                 command: "head",
                 option: "c",
