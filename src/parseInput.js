@@ -52,7 +52,6 @@ const getFileIndex = (countOrOption) => {
     return 2;
 };
 
-const isTrue = (value)=>value==true;
 const isOptionN = (option, count) => (!hasDash(option) || isNatural(count));
 const hasDash = (text) => text.startsWith('-');
 const isTwo = (number) => number == 2;

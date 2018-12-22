@@ -52,8 +52,7 @@ const applyAction = function (
 
 const isCountInvalid = (contents) => contents[2] == "-c" && isNaN(contents[3]);
 
-const doesAttachOption = (contents) => (contents.includes("-c") || contents.includes("-n")) &&
-    contents.length != 2;
+const doesAttachOption = (contents) => contents.length>2;
 
 const doesNeedHeaders = (files) => (files.length > 1);
 

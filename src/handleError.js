@@ -1,46 +1,51 @@
 const {
     getNHeadLines,
-    getNTailLines,
     getFirstNCharacters,
 } = require('../src/util/libUtil');
 
 const {
-    isNotZero
+    isNatural
 } = require('./util/numbers.js')
 
+const getIfHeadError = function ({ count, action }) {
+    if (headLineCountError(count, action)) {
+        return lineCountError(count);
+    }
+    if (headCharCountError(count, action)) {
+        return byteCountError(count);
+    }
+    return '';
+}
+
+const getIfTailError = function ({ count }) {
+    if (illegalCount(count)) {
+        return createTailCountError(count);
+    }
+    return '';
+}
+
 const headLineCountError = function (count, action) {
-    return (count < 1 || isNaN(count)) && action == getNHeadLines;
+    return (!isNatural(count)) && action == getNHeadLines;
 }
 
 const headCharCountError = function (count, action) {
     return isNaN(count) && action == getFirstNCharacters;
 }
 
-const illegalCount = function (count, action) {
-    return (count < 1 && action == getNTailLines
-        && isNotZero(count)) || isNaN(count);
+const illegalCount = function (count) {
+    return (count < 0) || isNaN(count);
 }
 
-const getIfHeadError = function ({ count, action, filesName }) {
-    let lineCountError = `head: illegal line count -- ${count}`
-    let byteCountError = `head: illegal byte count -- ${count}`
-
-    if (headLineCountError(count, action)) {
-        return lineCountError;
-    }
-    if (headCharCountError(count, action)) {
-        return byteCountError;
-    }
-    return '';
+const createTailCountError = function (count) {
+    return `tail: illegal offset -- ${count}`;
 }
 
-const getIfTailError = function ({ count, action }) {
-    let illegalCountError = `tail: illegal offset -- ${count}`
-    if (illegalCount(count, action)) {
-        return illegalCountError;
-    }
-    return '';
+const createHeadCountError = function (lineOrByte, count) {
+    return `head: illegal ${lineOrByte} count -- ${count}`
 }
+
+const lineCountError = createHeadCountError.bind(null, 'line');
+const byteCountError = createHeadCountError.bind(null, 'byte');
 
 module.exports = {
     getIfHeadError,
